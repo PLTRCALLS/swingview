@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef } from "react";
 
 const COLORS = {
-  black: "#0a0f0d",
-  dark: "#0f1714",
-  darkGray: "#151f1b",
-  midGray: "#1e2e28",
-  textMuted: "#7a9489",
-  textLight: "#a8c4b8",
-  white: "#f0f5f2",
-  cream: "#dce8e1",
-  accent: "#3ecf8e",
-  accentDark: "#2ba86e",
+  black: "#0a0a0a",
+  dark: "#141414",
+  darkGray: "#1c1c1c",
+  midGray: "#2a2a2a",
+  textMuted: "#8a8a8a",
+  textLight: "#b0b0b0",
+  white: "#f5f5f0",
+  cream: "#e8e4db",
+  accent: "#c8ff00",
+  accentDark: "#a8d600",
   gold: "#c9a84c",
 };
 
@@ -59,9 +59,9 @@ const Nav = () => {
   return (
     <header style={{
       position: "fixed", top: 0, left: 0, right: 0, zIndex: 1000,
-      background: scrolled ? "rgba(10,15,13,0.95)" : "transparent",
+      background: scrolled ? "rgba(10,10,10,0.95)" : "transparent",
       backdropFilter: scrolled ? "blur(20px)" : "none",
-      borderBottom: scrolled ? "1px solid rgba(62,207,142,0.1)" : "none",
+      borderBottom: scrolled ? "1px solid rgba(200,255,0,0.08)" : "none",
       transition: "all 0.4s ease", padding: "16px 0",
     }}>
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
@@ -140,8 +140,8 @@ const Hero = () => {
   return (
     <section style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: `radial-gradient(ellipse at 30% 20%, rgba(62,207,142,0.06) 0%, transparent 50%), 
-                   radial-gradient(ellipse at 70% 80%, rgba(201,168,76,0.04) 0%, transparent 50%),
+      background: `radial-gradient(ellipse at 30% 20%, rgba(200,255,0,0.04) 0%, transparent 50%), 
+                   radial-gradient(ellipse at 70% 80%, rgba(200,255,0,0.03) 0%, transparent 50%),
                    ${COLORS.black}`,
       position: "relative", overflow: "hidden", padding: "120px 24px 80px",
     }}>
@@ -644,7 +644,7 @@ const FAQ = () => {
 const AppPromo = () => (
   <section style={{
     padding: "120px 24px", position: "relative", overflow: "hidden",
-    background: `radial-gradient(ellipse at 50% 0%, rgba(62,207,142,0.08) 0%, transparent 60%), ${COLORS.black}`,
+    background: `radial-gradient(ellipse at 50% 0%, rgba(200,255,0,0.05) 0%, transparent 60%), ${COLORS.black}`,
   }}>
     <div style={{ maxWidth: 1100, margin: "0 auto" }}>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 60, alignItems: "center" }}>
