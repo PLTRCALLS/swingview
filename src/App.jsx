@@ -572,9 +572,9 @@ export default function App() {
 
       {/* NAV */}
       <nav>
-        <a href="#" className="nav-logo">
+        <a href="#" className="nav-logo" style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div className="nav-logo-mark">⛳</div>
-          SWINGVIEW AI
+          <span style={{ fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif", fontSize: 17, fontWeight: 900, color: "#FFFFFF", letterSpacing: 0.5 }}>SwingView</span>
         </a>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <span style={{ fontFamily: "'DM Mono'", fontSize: 11, color: C.muted, letterSpacing: 1 }}>
