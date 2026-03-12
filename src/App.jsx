@@ -507,12 +507,21 @@ export default function App() {
   const [submitted, setSubmitted] = useState(false);
   const [count, setCount] = useState(247);
 
-  const handleWaitlist = (e) => {
-    e.preventDefault();
-    if (!email) return;
-    setSubmitted(true);
-    setCount(c => c + 1);
-  };
+  const handleWaitlist = async (e) => {
+  e.preventDefault();
+  if (!email) return;
+  try {
+    await fetch("https://formspree.io/f/mqeybpyn", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+  } catch (err) {
+    console.error(err);
+  }
+  setSubmitted(true);
+  setCount(c => c + 1);
+};
 
   const features = [
     {
