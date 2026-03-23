@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwingView AI — Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface-2: #1c1c1c;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --text-secondary: #999999;
+    --accent: #c8ff00;
+    --accent-dim: rgba(200, 255, 0, 0.08);
+    --gold: #c9a84c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .header-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    background: var(--surface-2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  .page-title {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .effective-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-size: 15.5px;
+  }
+
+  .callout {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+  }
+
+  .callout p {
+    color: var(--text);
+    margin-bottom: 0;
+    font-size: 15px;
+  }
+
+  .callout strong {
+    color: var(--accent);
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .data-table .label {
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  ul {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  li {
+    color: var(--text-secondary);
+    font-size: 15.5px;
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+
+  li::marker {
+    color: var(--accent);
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 24px;
+  }
+
+  .contact-card p {
+    margin-bottom: 8px;
+  }
+
+  .contact-card a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .contact-card a:hover {
+    text-decoration: underline;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 48px 0;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  @media (max-width: 600px) {
+    .page-title { font-size: 32px; }
+    .container { padding: 40px 20px 80px; }
+    .data-table { font-size: 13px; }
+    .data-table th, .data-table td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <a href="https://swingview.ai" class="logo">SwingView <span>AI</span></a>
+    <span class="header-badge">Privacy Policy</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <h1 class="page-title">Privacy Policy</h1>
+  <p class="effective-date">Effective Date: March 23, 2026 &nbsp;·&nbsp; Last Updated: March 23, 2026</p>
+
+  <!-- SECTION 1 -->
+  <div class="section">
+    <span class="section-number">01</span>
+    <h2>Introduction</h2>
+    <p>SwingView AI ("SwingView," "we," "us," or "our") is operated by Predictive Growth Labs, a sole proprietorship registered in Ontario, Canada. This Privacy Policy explains how we collect, use, store, and protect your information when you use the SwingView iOS application and related services.</p>
+    <p>We are committed to protecting your privacy and complying with Canada's Personal Information Protection and Electronic Documents Act (PIPEDA), Apple's App Store Review Guidelines, the European Union's General Data Protection Regulation (GDPR), and the California Consumer Privacy Act (CCPA/CPRA).</p>
+  </div>
+
+  <!-- SECTION 2 -->
+  <div class="section">
+    <span class="section-number">02</span>
+    <h2>Information We Collect</h2>
+
+    <h3>2.1 Information You Provide</h3>
+    <ul>
+      <li>Account or contact information submitted through our waitlist or booking form (name, email address)</li>
+      <li>Self-reported skill level (beginner, intermediate, advanced) selected during app setup</li>
+      <li>Your preferences and settings within the app</li>
+    </ul>
+
+    <h3>2.2 Information Collected Automatically</h3>
+    <ul>
+      <li>Device information (device model, operating system version, app version)</li>
+      <li>Usage data (session frequency, swing count, feature usage)</li>
+      <li>Crash logs and diagnostic data</li>
+    </ul>
+
+    <h3>2.3 Swing Data (With Your Explicit Consent)</h3>
+    <p>If you opt in to our Data Contribution Program, SwingView collects the following data during your practice sessions to improve our AI swing analysis model:</p>
+
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Data Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label">Swing Video Clips</td>
+          <td>Short clips (2–5 seconds) of detected swings, captured at 720p resolution. Faces are automatically blurred on your device before any data is transmitted.</td>
+        </tr>
+        <tr>
+          <td class="label">Body Pose Landmarks</td>
+          <td>Skeletal joint position data (x, y coordinates and confidence scores) extracted by Apple's Vision framework during swing analysis.</td>
+        </tr>
+        <tr>
+          <td class="label">Swing Phase Labels</td>
+          <td>Automated labels identifying swing phases (address, backswing, downswing, impact, follow-through, finish).</td>
+        </tr>
+        <tr>
+          <td class="label">Tempo Data</td>
+          <td>Timing measurements across swing phases (backswing duration, downswing duration, tempo ratio).</td>
+        </tr>
+        <tr>
+          <td class="label">Device &amp; Environment Metadata</td>
+          <td>Device model, camera position, video resolution, and estimated lighting conditions. No location data is collected.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <p><strong>Important:</strong> All swing video is anonymized on your device before it leaves your phone. Face detection and blurring is performed locally using Apple's Vision framework. No identifiable facial imagery is ever transmitted or stored on our servers. No names, email addresses, or account identifiers are attached to contributed swing data.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 3 -->
+  <div class="section">
+    <span class="section-number">03</span>
+    <h2>How We Use Your Information</h2>
+
+    <h3>3.1 Core App Functionality</h3>
+    <ul>
+      <li>To provide real-time golf swing analysis and AI coaching feedback</li>
+      <li>To generate session reports, history, and progress tracking</li>
+      <li>To deliver voice coaching through AirPods or device speakers</li>
+    </ul>
+
+    <h3>3.2 AI Model Training (Consent Required)</h3>
+    <p>With your explicit opt-in consent, anonymized swing data is used solely to train and improve SwingView's proprietary golf swing analysis AI model. This data helps us build more accurate swing detection, better coaching recommendations, and improved analysis for all SwingView users.</p>
+    <p>We do not use contributed swing data for any purpose other than improving SwingView's AI model. We do not sell swing data to third parties. We do not share swing data with advertisers.</p>
+
+    <h3>3.3 Communications</h3>
+    <ul>
+      <li>To respond to your inquiries or booking requests</li>
+      <li>To send service-related notifications (with your permission)</li>
+    </ul>
+  </div>
+
+  <!-- SECTION 4 -->
+  <div class="section">
+    <span class="section-number">04</span>
+    <h2>Consent and Your Choices</h2>
+
+    <h3>4.1 Data Contribution Is Voluntary</h3>
+    <p>Participation in the Data Contribution Program is entirely optional. You are asked for your explicit consent during your first use of the app through a dedicated onboarding screen. No data is collected or uploaded without your affirmative action. There are no pre-checked boxes.</p>
+
+    <h3>4.2 What You Get</h3>
+    <p>Users who opt in to data contribution receive access to unlimited swing analysis and the AI coaching chat feature. Users who decline can still use SwingView with basic analysis features.</p>
+
+    <h3>4.3 Changing Your Mind</h3>
+    <p>You can withdraw your consent at any time by going to Settings → Privacy → Data Contribution in the app and toggling off "Contribute Swing Data." When you withdraw consent, all pending uploads are immediately cancelled and no further data is collected.</p>
+
+    <h3>4.4 Data Deletion</h3>
+    <p>You can request deletion of all previously contributed swing data at any time through the app (Settings → Privacy → Request Data Deletion) or by contacting us at the email address listed below. All deletion requests are processed within 30 days, consistent with PIPEDA and GDPR requirements.</p>
+  </div>
+
+  <!-- SECTION 5 -->
+  <div class="section">
+    <span class="section-number">05</span>
+    <h2>Data Storage and Security</h2>
+
+    <h3>5.1 On-Device Processing</h3>
+    <p>Swing analysis, pose estimation, and face detection/blurring all occur on your device using Apple's Vision framework and on-device processing. Your camera feed is not streamed to any server.</p>
+
+    <h3>5.2 Cloud Storage</h3>
+    <p>Contributed swing data (anonymized video clips and metadata) is stored in Cloudflare R2 object storage with the following security measures:</p>
+    <ul>
+      <li>Encryption in transit via TLS 1.3</li>
+      <li>Encryption at rest via AES-256</li>
+      <li>Access restricted to SwingView (Predictive Growth Labs) personnel only</li>
+      <li>Upload authorization via HMAC-signed, time-limited tokens</li>
+    </ul>
+
+    <h3>5.3 Data Retention</h3>
+    <p>Contributed swing data is retained for as long as SwingView's AI model is in active development and improvement. You may request deletion at any time (see Section 4.4). Account and contact information is retained until you request its removal.</p>
+  </div>
+
+  <!-- SECTION 6 -->
+  <div class="section">
+    <span class="section-number">06</span>
+    <h2>Third-Party Services</h2>
+    <p>SwingView uses the following third-party services:</p>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Purpose</th>
+          <th>Data Shared</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="label">Anthropic (Claude API)</td>
+          <td>AI coaching feedback generation</td>
+          <td>Swing angle measurements only (no video, no PII)</td>
+        </tr>
+        <tr>
+          <td class="label">Cloudflare Workers</td>
+          <td>API proxy and backend processing</td>
+          <td>API requests, IP address (for rate limiting only)</td>
+        </tr>
+        <tr>
+          <td class="label">Cloudflare R2</td>
+          <td>Anonymized swing data storage</td>
+          <td>Anonymized video clips and metadata (no PII)</td>
+        </tr>
+        <tr>
+          <td class="label">Formspree</td>
+          <td>Waitlist and booking form</td>
+          <td>Name and email (only if you submit the form)</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>We require all third-party service providers to protect your data to the same standard described in this policy. We do not sell, rent, or share your personal information with advertisers or data brokers.</p>
+  </div>
+
+  <!-- SECTION 7 -->
+  <div class="section">
+    <span class="section-number">07</span>
+    <h2>Your Rights</h2>
+
+    <h3>Under PIPEDA (Canada)</h3>
+    <p>You have the right to access, correct, and request deletion of your personal information. You have the right to withdraw consent for data collection at any time. You have the right to file a complaint with the Office of the Privacy Commissioner of Canada.</p>
+
+    <h3>Under GDPR (European Union)</h3>
+    <p>If you are located in the EU, you have the right to access your data, rectify inaccuracies, request erasure, restrict processing, data portability, and object to processing. Our lawful basis for processing contributed swing data is your explicit consent (Article 6(1)(a) GDPR).</p>
+
+    <h3>Under CCPA/CPRA (California)</h3>
+    <p>California residents have the right to know what personal information is collected, request deletion, and opt out of the sale of personal information. SwingView does not sell personal information.</p>
+
+    <p>To exercise any of these rights, use the in-app settings or contact us at the email address below.</p>
+  </div>
+
+  <!-- SECTION 8 -->
+  <div class="section">
+    <span class="section-number">08</span>
+    <h2>Children's Privacy</h2>
+    <p>SwingView is not directed at children under the age of 13 (or 16 in the EU). We do not knowingly collect personal information from children. If we become aware that we have collected data from a child, we will delete it promptly. If you believe a child has provided us with personal information, please contact us immediately.</p>
+  </div>
+
+  <!-- SECTION 9 -->
+  <div class="section">
+    <span class="section-number">09</span>
+    <h2>Changes to This Policy</h2>
+    <p>We may update this Privacy Policy from time to time. If we make material changes — particularly to how contributed swing data is used — we will notify you through the app and, where required by law, request your consent again. The "Last Updated" date at the top of this page reflects the most recent revision.</p>
+    <p>If SwingView changes the scope of data collection for the Data Contribution Program, the app's consent version will be incremented and you will be re-prompted for consent before any new data practices take effect.</p>
+  </div>
+
+  <!-- SECTION 10 -->
+  <div class="section">
+    <span class="section-number">10</span>
+    <h2>Contact Us</h2>
+    <p>If you have questions about this Privacy Policy, want to exercise your data rights, or need to report a privacy concern, contact us:</p>
+
+    <div class="contact-card">
+      <p><strong style="color: var(--text);">Predictive Growth Labs</strong></p>
+      <p>SwingView AI — Privacy Inquiries</p>
+      <p>Mississauga, Ontario, Canada</p>
+      <p>Email: <a href="mailto:privacy@swingview.ai">privacy@swingview.ai</a></p>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>&copy; 2026 Predictive Growth Labs. All rights reserved. &nbsp;·&nbsp; <a href="https://swingview.ai">swingview.ai</a></p>
+</div>
+
+</body>
+</html>
