@@ -14,8 +14,8 @@
     --border: #2a2a2a;
     --text: #e8e8e8;
     --text-secondary: #999999;
-    --accent: #c8ff00;
-    --accent-dim: rgba(200, 255, 0, 0.08);
+    --accent: #34C759;
+    --accent-dim: rgba(52, 199, 89, 0.10);
     --gold: #c9a84c;
   }
 
@@ -263,219 +263,126 @@
 <div class="container">
 
   <h1 class="page-title">Privacy Policy</h1>
-  <p class="effective-date">Effective Date: March 23, 2026 &nbsp;·&nbsp; Last Updated: March 23, 2026</p>
+  <p class="effective-date">Effective: September 29, 2026 &nbsp;·&nbsp; Last Updated: September 29, 2026</p>
 
-  <!-- SECTION 1 -->
   <div class="section">
     <span class="section-number">01</span>
     <h2>Introduction</h2>
-    <p>SwingView AI ("SwingView," "we," "us," or "our") is operated by Predictive Growth Labs, a sole proprietorship registered in Ontario, Canada. This Privacy Policy explains how we collect, use, store, and protect your information when you use the SwingView iOS application and related services.</p>
-    <p>We are committed to protecting your privacy and complying with Canada's Personal Information Protection and Electronic Documents Act (PIPEDA), Apple's App Store Review Guidelines, the European Union's General Data Protection Regulation (GDPR), and the California Consumer Privacy Act (CCPA/CPRA).</p>
+    <p>SwingView AI is operated by Predictive Growth Labs, based in Ontario, Canada. This policy explains what the app collects, what leaves your phone and when, who processes it, how long it is kept, and the choices you have.</p>
   </div>
 
-  <!-- SECTION 2 -->
   <div class="section">
     <span class="section-number">02</span>
-    <h2>Information We Collect</h2>
-
-    <h3>2.1 Information You Provide</h3>
-    <ul>
-      <li>Account or contact information submitted through our waitlist or booking form (name, email address)</li>
-      <li>Self-reported skill level (beginner, intermediate, advanced) selected during app setup</li>
-      <li>Your preferences and settings within the app</li>
-    </ul>
-
-    <h3>2.2 Information Collected Automatically</h3>
-    <ul>
-      <li>Device information (device model, operating system version, app version)</li>
-      <li>Usage data (session frequency, swing count, feature usage)</li>
-      <li>Crash logs and diagnostic data</li>
-    </ul>
-
-    <h3>2.3 Swing Data (With Your Explicit Consent)</h3>
-    <p>If you opt in to our Data Contribution Program, SwingView collects the following data during your practice sessions to improve our AI swing analysis model:</p>
-
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Data Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="label">Swing Video Clips</td>
-          <td>Short clips (2–5 seconds) of detected swings, captured at 720p resolution. Faces are automatically blurred on your device before any data is transmitted.</td>
-        </tr>
-        <tr>
-          <td class="label">Body Pose Landmarks</td>
-          <td>Skeletal joint position data (x, y coordinates and confidence scores) extracted by Apple's Vision framework during swing analysis.</td>
-        </tr>
-        <tr>
-          <td class="label">Swing Phase Labels</td>
-          <td>Automated labels identifying swing phases (address, backswing, downswing, impact, follow-through, finish).</td>
-        </tr>
-        <tr>
-          <td class="label">Tempo Data</td>
-          <td>Timing measurements across swing phases (backswing duration, downswing duration, tempo ratio).</td>
-        </tr>
-        <tr>
-          <td class="label">Device &amp; Environment Metadata</td>
-          <td>Device model, camera position, video resolution, and estimated lighting conditions. No location data is collected.</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="callout">
-      <p><strong>Important:</strong> All swing video is anonymized on your device before it leaves your phone. Face detection and blurring is performed locally using Apple's Vision framework. No identifiable facial imagery is ever transmitted or stored on our servers. No names, email addresses, or account identifiers are attached to contributed swing data.</p>
-    </div>
+    <h2>What Stays on Your Phone</h2>
+    <p>Recording and pose detection happen on your iPhone. While the camera is on, the app tracks your body position on the device (using MediaPipe) to detect each swing and measure tempo. The live camera feed is not streamed to any server.</p>
+    <p>Your recordings, swing history and profile are stored on your phone. Recordings saved on your phone include sound if you allow the microphone. If you allow access to Photos, the app also saves recordings to your photo library. If you add a name to your profile, it stays on your phone and is not sent to us.</p>
   </div>
 
-  <!-- SECTION 3 -->
   <div class="section">
     <span class="section-number">03</span>
-    <h2>How We Use Your Information</h2>
-
-    <h3>3.1 Core App Functionality</h3>
+    <h2>What Is Uploaded for AI Analysis</h2>
+    <p>AI analysis and coaching run on our servers, not on your phone. The app asks for your agreement first. Until you agree, no swing video is uploaded for analysis and no chat request is made.</p>
+    <p>When you tap Analyze, the app uploads that swing clip to SwingView's servers. The clip is sent without sound. Faces in analysis uploads are not blurred.</p>
+    <p>With each analysis the app also sends:</p>
     <ul>
-      <li>To provide real-time golf swing analysis and AI coaching feedback</li>
-      <li>To generate session reports, history, and progress tracking</li>
-      <li>To deliver voice coaching through AirPods or device speakers</li>
-    </ul>
-
-    <h3>3.2 AI Model Training (Consent Required)</h3>
-    <p>With your explicit opt-in consent, anonymized swing data is used solely to train and improve SwingView's proprietary golf swing analysis AI model. This data helps us build more accurate swing detection, better coaching recommendations, and improved analysis for all SwingView users.</p>
-    <p>We do not use contributed swing data for any purpose other than improving SwingView's AI model. We do not sell swing data to third parties. We do not share swing data with advertisers.</p>
-
-    <h3>3.3 Communications</h3>
-    <ul>
-      <li>To respond to your inquiries or booking requests</li>
-      <li>To send service-related notifications (with your permission)</li>
+      <li><strong style="color: var(--text);">A device identifier</strong> (Apple's identifier for vendor). It keeps your requests and sessions together. It is not your name, Apple ID or phone number.</li>
+      <li><strong style="color: var(--text);">A small profile:</strong> your total sessions and swings, recurring issues from earlier coaching, handedness, skill level, camera position and the club you selected.</li>
     </ul>
   </div>
 
-  <!-- SECTION 4 -->
   <div class="section">
     <span class="section-number">04</span>
-    <h2>Consent and Your Choices</h2>
-
-    <h3>4.1 Data Contribution Is Voluntary</h3>
-    <p>Participation in the Data Contribution Program is entirely optional. You are asked for your explicit consent during your first use of the app through a dedicated onboarding screen. No data is collected or uploaded without your affirmative action. There are no pre-checked boxes.</p>
-
-    <h3>4.2 What You Get</h3>
-    <p>Users who opt in to data contribution receive access to unlimited swing analysis and the AI coaching chat feature. Users who decline can still use SwingView with basic analysis features.</p>
-
-    <h3>4.3 Changing Your Mind</h3>
-    <p>You can withdraw your consent at any time by going to Settings → Privacy → Data Contribution in the app and toggling off "Contribute Swing Data." When you withdraw consent, all pending uploads are immediately cancelled and no further data is collected.</p>
-
-    <h3>4.4 Data Deletion</h3>
-    <p>You can request deletion of all previously contributed swing data at any time through the app (Settings → Privacy → Request Data Deletion) or by contacting us at the email address listed below. All deletion requests are processed within 30 days, consistent with PIPEDA and GDPR requirements.</p>
+    <h2>AI Coach Chat</h2>
+    <p>When you use the coach, the messages you type are sent to SwingView's servers with your device identifier, along with your golfer profile (such as skill level and goals) and any session goal you set.</p>
+    <p>Each completed swing analysis (its measurements and coaching text) is added to your chat session so the coach can refer to it.</p>
   </div>
 
-  <!-- SECTION 5 -->
   <div class="section">
     <span class="section-number">05</span>
-    <h2>Data Storage and Security</h2>
-
-    <h3>5.1 On-Device Processing</h3>
-    <p>Swing analysis, pose estimation, and face detection/blurring all occur on your device using Apple's Vision framework and on-device processing. Your camera feed is not streamed to any server.</p>
-
-    <h3>5.2 Cloud Storage</h3>
-    <p>Contributed swing data (anonymized video clips and metadata) is stored in Cloudflare R2 object storage with the following security measures:</p>
+    <h2>Who Processes Your Data</h2>
+    <p>Three outside companies process data for SwingView:</p>
     <ul>
-      <li>Encryption in transit via TLS 1.3</li>
-      <li>Encryption at rest via AES-256</li>
-      <li>Access restricted to SwingView (Predictive Growth Labs) personnel only</li>
-      <li>Upload authorization via HMAC-signed, time-limited tokens</li>
+      <li><strong style="color: var(--text);">Cloudflare</strong> hosts our servers and storage. Everything the app uploads passes through or is stored on Cloudflare: swing videos, chat conversations, profile details, the device identifier and your IP address (which any server sees when the app connects, and which we use to limit abuse).</li>
+      <li><strong style="color: var(--text);">Modal</strong> runs our swing analysis service. It downloads the uploaded clip and measures it, and receives the profile and club sent with the analysis.</li>
+      <li><strong style="color: var(--text);">Anthropic</strong> provides Claude, the AI model that writes coaching text and chat replies. Anthropic receives your swing measurements and analysis text, your golfer profile, the chat messages you type and recent conversation history.</li>
     </ul>
-
-    <h3>5.3 Data Retention</h3>
-    <p>Contributed swing data is retained for as long as SwingView's AI model is in active development and improvement. You may request deletion at any time (see Section 4.4). Account and contact information is retained until you request its removal.</p>
+    <p>These companies process this data to provide the service. We do not sell your data or share it with advertisers.</p>
   </div>
 
-  <!-- SECTION 6 -->
   <div class="section">
     <span class="section-number">06</span>
-    <h2>Third-Party Services</h2>
-    <p>SwingView uses the following third-party services:</p>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Service</th>
-          <th>Purpose</th>
-          <th>Data Shared</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="label">Anthropic (Claude API)</td>
-          <td>AI coaching feedback generation</td>
-          <td>Swing angle measurements only (no video, no PII)</td>
-        </tr>
-        <tr>
-          <td class="label">Cloudflare Workers</td>
-          <td>API proxy and backend processing</td>
-          <td>API requests, IP address (for rate limiting only)</td>
-        </tr>
-        <tr>
-          <td class="label">Cloudflare R2</td>
-          <td>Anonymized swing data storage</td>
-          <td>Anonymized video clips and metadata (no PII)</td>
-        </tr>
-        <tr>
-          <td class="label">Formspree</td>
-          <td>Waitlist and booking form</td>
-          <td>Name and email (only if you submit the form)</td>
-        </tr>
-      </tbody>
-    </table>
-    <p>We require all third-party service providers to protect your data to the same standard described in this policy. We do not sell, rent, or share your personal information with advertisers or data brokers.</p>
+    <h2>What We Store and for How Long</h2>
+    <ul>
+      <li>Chat sessions, messages, the swing analyses added to them and the golfer profile sent with them are stored on SwingView's servers for up to 90 days, linked to your device identifier.</li>
+      <li>Videos uploaded for analysis are stored on SwingView's servers. You can ask us to delete them.</li>
+      <li>Clips contributed for training, if you opt in, are stored on SwingView's servers. You can ask us to delete them.</li>
+      <li>Data travels between the app and our servers over an encrypted connection (HTTPS).</li>
+      <li>Recordings and history on your phone stay there until you delete them or delete the app. Copies saved to Photos stay in your photo library until you delete them there.</li>
+    </ul>
   </div>
 
-  <!-- SECTION 7 -->
   <div class="section">
     <span class="section-number">07</span>
-    <h2>Your Rights</h2>
-
-    <h3>Under PIPEDA (Canada)</h3>
-    <p>You have the right to access, correct, and request deletion of your personal information. You have the right to withdraw consent for data collection at any time. You have the right to file a complaint with the Office of the Privacy Commissioner of Canada.</p>
-
-    <h3>Under GDPR (European Union)</h3>
-    <p>If you are located in the EU, you have the right to access your data, rectify inaccuracies, request erasure, restrict processing, data portability, and object to processing. Our lawful basis for processing contributed swing data is your explicit consent (Article 6(1)(a) GDPR).</p>
-
-    <h3>Under CCPA/CPRA (California)</h3>
-    <p>California residents have the right to know what personal information is collected, request deletion, and opt out of the sale of personal information. SwingView does not sell personal information.</p>
-
-    <p>To exercise any of these rights, use the in-app settings or contact us at the email address below.</p>
+    <h2>Optional Training Contribution</h2>
+    <p>Separately from AI analysis, you can choose to contribute swing clips to help improve SwingView's swing analysis. This is optional and stays off unless you opt in. Analysis uploads are not part of it, and AI analysis and the coach work the same whether or not you contribute.</p>
+    <p>Contributed clips are sent without sound. They are face-blurred on your phone before upload, using Apple's Vision framework. Blurring is best effort: a frame where no face is detected is sent as recorded, so a face may sometimes be visible.</p>
+    <p>Each contributed clip is uploaded with pose landmarks, swing phases, tempo, skill level and camera position, plus recording details (device model, iOS version, app version, video resolution and the capture time). No name or email is attached.</p>
+    <p>You can turn contribution off at any time in Settings &gt; Data &amp; privacy. Clips waiting to upload are removed and uploads in progress are stopped. Clips that already reached our servers stay there until you request deletion.</p>
   </div>
 
-  <!-- SECTION 8 -->
   <div class="section">
     <span class="section-number">08</span>
-    <h2>Children's Privacy</h2>
-    <p>SwingView is not directed at children under the age of 13 (or 16 in the EU). We do not knowingly collect personal information from children. If we become aware that we have collected data from a child, we will delete it promptly. If you believe a child has provided us with personal information, please contact us immediately.</p>
+    <h2>No Accounts, Ads or Tracking</h2>
+    <p>The app has no accounts and does not ask for your email address. A name you add to your profile stays on your phone. The app contains no analytics SDK, no crash-reporting SDK, no advertising and no tracking. If you email us, we receive your email address and what you write.</p>
   </div>
 
-  <!-- SECTION 9 -->
   <div class="section">
     <span class="section-number">09</span>
-    <h2>Changes to This Policy</h2>
-    <p>We may update this Privacy Policy from time to time. If we make material changes — particularly to how contributed swing data is used — we will notify you through the app and, where required by law, request your consent again. The "Last Updated" date at the top of this page reflects the most recent revision.</p>
-    <p>If SwingView changes the scope of data collection for the Data Contribution Program, the app's consent version will be incremented and you will be re-prompted for consent before any new data practices take effect.</p>
+    <h2>Turning AI Processing Off</h2>
+    <p>You can turn AI processing off at any time: open Settings from the gear on the Me tab and switch off "AI analysis &amp; coaching" under Data &amp; privacy. While it is off, no swing video is uploaded for analysis and no chat request is made, so AI analysis and the coach are unavailable.</p>
+    <p>Turning it off stops further uploads. It does not delete what was already sent. To remove that, request deletion.</p>
   </div>
 
-  <!-- SECTION 10 -->
   <div class="section">
     <span class="section-number">10</span>
-    <h2>Contact Us</h2>
-    <p>If you have questions about this Privacy Policy, want to exercise your data rights, or need to report a privacy concern, contact us:</p>
+    <h2>Deleting Your Data</h2>
+    <p><strong style="color: var(--text);">On your phone:</strong> swipe a swing in the Sessions tab to delete it, or delete the app to remove everything the app stored on the device. Copies saved to Photos are deleted in the Photos app.</p>
+    <p><strong style="color: var(--text);">On our servers:</strong> to delete clips you contributed for training, go to Settings &gt; Data &amp; privacy &gt; Manage my data and tap Request data deletion. To delete videos uploaded for analysis and your coach conversations, email <a href="mailto:support@swingview.ai">support@swingview.ai</a>. Deletion requests are handled within 30 days.</p>
+  </div>
 
-    <div class="contact-card">
-      <p><strong style="color: var(--text);">Predictive Growth Labs</strong></p>
-      <p>SwingView AI — Privacy Inquiries</p>
-      <p>Mississauga, Ontario, Canada</p>
-      <p>Email: <a href="mailto:privacy@swingview.ai">privacy@swingview.ai</a></p>
-    </div>
+  <div class="section">
+    <span class="section-number">11</span>
+    <h2>The SwingView Website</h2>
+    <p>This section applies to swingview.ai, not to the app. If you join the waitlist on the website, we receive the email address you enter. The form is handled by Formspree, which receives that address to deliver it to us. You can ask us to remove it at any time by emailing <a href="mailto:support@swingview.ai">support@swingview.ai</a>.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">12</span>
+    <h2>Your Rights</h2>
+    <p>Depending on where you live, you may have the right to access, correct or delete the personal information we hold about you, and to withdraw consent you have given. To use any of these rights, contact us at <a href="mailto:support@swingview.ai">support@swingview.ai</a>.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">13</span>
+    <h2>Children</h2>
+    <p>SwingView is not directed at children under 13, and we do not knowingly collect personal information from them. If you believe a child has sent us data through the app, contact us and we will delete it.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">14</span>
+    <h2>Changes to This Policy</h2>
+    <p>When this policy changes, we will update it here and change the effective date at the top.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">15</span>
+    <h2>Contact Us</h2>
+    <p>If you have questions about this privacy policy or your data:</p>
+    <ul>
+      <li>Email: <a href="mailto:support@swingview.ai">support@swingview.ai</a></li>
+      <li>Location: Mississauga, Ontario, Canada</li>
+      <li>Operated by: Predictive Growth Labs</li>
+    </ul>
   </div>
 
 </div>
