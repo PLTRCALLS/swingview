@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Generates the "Hear TYGA in action" demo clips with xAI text-to-speech.
 //
-//   XAI_API_KEY=xai-... node scripts/make-tyga-demo.mjs
+//   XAI_API_KEY=xai-... node --dns-result-order=ipv4first scripts/make-tyga-demo.mjs
 //
 // Writes public/audio/tyga-q.mp3 (the golfer's question) and
 // public/audio/tyga-1.mp3 … tyga-3.mp3 (TYGA's answer, voice "carina").
@@ -31,24 +31,39 @@ const LINES = [
 const outDir = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "audio");
 await mkdir(outDir, { recursive: true });
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function synthesize(line, attempt = 1) {
+  try {
+    const res = await fetch("https://api.x.ai/v1/tts", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json", Accept: "audio/mpeg", Connection: "close" },
+      body: JSON.stringify({
+        text: line.text,
+        voice_id: line.voice,
+        language: "en",
+        speed: line.speed,
+        output_format: { codec: "mp3", sample_rate: 44100, bit_rate: 128000 },
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      throw new Error(`xAI returned ${res.status}${body ? `: ${body.slice(0, 300)}` : ""}`);
+    }
+    const buf = Buffer.from(await res.arrayBuffer());
+    if (buf.length < 1000) throw new Error(`response too small (${buf.length} bytes) — not audio`);
+    return buf;
+  } catch (err) {
+    if (attempt >= 4) throw err;
+    process.stdout.write(`retry ${attempt} (${err.message.split("\n")[0]}) … `);
+    await sleep(1500 * attempt);
+    return synthesize(line, attempt + 1);
+  }
+}
+
 for (const line of LINES) {
   process.stdout.write(`→ ${line.file} (${line.voice}) … `);
-  const res = await fetch("https://api.x.ai/v1/tts", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${KEY}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      text: line.text,
-      voice_id: line.voice,
-      language: "en",
-      speed: line.speed,
-      output_format: { codec: "mp3", sample_rate: 44100, bit_rate: 128000 },
-    }),
-  });
-  if (!res.ok) {
-    console.error(`\nxAI returned ${res.status}: ${await res.text()}`);
-    process.exit(1);
-  }
-  const buf = Buffer.from(await res.arrayBuffer());
+  const buf = await synthesize(line);
   await writeFile(join(outDir, line.file), buf);
   console.log(`${(buf.length / 1024).toFixed(0)} KB`);
 }
