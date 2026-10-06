@@ -164,7 +164,6 @@ export default function TygaOrb() {
       cancelAnimationFrame(rafId); clearTimeout(timer);
       if (audio) { audio.pause(); audio.src = ""; }
       if (actx) actx.close().catch(() => {});
-      if (window.speechSynthesis) window.speechSynthesis.cancel();
       targetRef.current = 0; setPlaying(false); setCaption(null);
     };
     stopRef.current = finish;
@@ -202,37 +201,16 @@ export default function TygaOrb() {
       return;
     }
 
-    // 2) fallback: browser speech + synthetic envelope
+    // 2) clips missing: captions + a gentle pulse, no browser voice
     const start = performance.now();
-    const synth = window.speechSynthesis;
-    let speaking = false;
-    if (synth) {
-      const lines = SCRIPT.filter((l) => l.who === "tyga");
-      lines.forEach((l, i) => {
-        const u = new SpeechSynthesisUtterance(l.text);
-        u.rate = 1.0; u.pitch = 0.95;
-        const voices = synth.getVoices();
-        const pick = voices.find((v) => /en-(US|CA|GB)/i.test(v.lang) && /(Samantha|Daniel|Google US English|Aria|Jenny|Guy)/i.test(v.name)) || voices.find((v) => /^en/i.test(v.lang));
-        if (pick) u.voice = pick;
-        u.onstart = () => { speaking = true; };
-        u.onend = () => { speaking = false; if (i === lines.length - 1) setTimeout(finish, 600); };
-        setTimeout(() => { if (!cancelled) synth.speak(u); }, l.t * 1000);
-      });
-    } else {
-      setTimeout(finish, SCRIPT_END * 1000);
-    }
     const tick = () => {
-      const s = (performance.now() - start) / 1000;
-      captionAt(s);
-      // speech-like envelope: syllable bursts ~4/s with slower phrase swell
-      const env = speaking || !synth
-        ? Math.max(0, 0.35 + 0.35 * Math.sin(s * 25) * Math.sin(s * 7.3) + 0.3 * Math.abs(Math.sin(s * 3.1)))
-        : 0.05;
-      targetRef.current = Math.min(1, env);
+      const sec = (performance.now() - start) / 1000;
+      captionAt(sec);
+      targetRef.current = 0.25 + 0.2 * Math.abs(Math.sin(sec * 2.2));
       rafId = requestAnimationFrame(tick);
     };
     tick();
-    if (!synth) timer = setTimeout(finish, SCRIPT_END * 1000);
+    timer = setTimeout(finish, SCRIPT_END * 1000);
   };
 
   useEffect(() => () => stopRef.current(), []);
