@@ -3,9 +3,8 @@
 //
 //   XAI_API_KEY=xai-... node --dns-result-order=ipv4first scripts/make-tyga-demo.mjs
 //
-// Writes public/audio/tyga-q.mp3 (the golfer's question) and
-// public/audio/tyga-1.mp3 … tyga-3.mp3 (TYGA's answer, voice "carina").
-// The site plays them in sequence and shows each line as a caption.
+// Writes public/audio/tyga-intro.mp3 (TYGA's greeting, voice "carina").
+// Add more entries to LINES and the site plays them in sequence, one caption each.
 // Edit LINES below and re-run to change the script.
 
 import { mkdir, writeFile } from "node:fs/promises";
@@ -19,13 +18,9 @@ if (!KEY) {
 }
 
 const TYGA_VOICE = process.env.TYGA_VOICE || "carina";
-const GOLFER_VOICE = process.env.GOLFER_VOICE || "rex";
 
 const LINES = [
-  { file: "tyga-q.mp3", voice: GOLFER_VOICE, speed: 1.0, text: "TYGA, what should I focus on next?" },
-  { file: "tyga-1.mp3", voice: TYGA_VOICE, speed: 1.0, text: "Your tempo has been steady at three point oh to one all week. That's not the problem." },
-  { file: "tyga-2.mp3", voice: TYGA_VOICE, speed: 1.0, text: "Your hips stood up about three inches before impact on your last six swings." },
-  { file: "tyga-3.mp3", voice: TYGA_VOICE, speed: 1.0, text: "Let's work on staying in posture. Try the chair drill for your next ten balls." },
+  { file: "tyga-intro.mp3", voice: TYGA_VOICE, speed: 1.0, text: "Hi, I'm TYGA. Ready to analyze your swing, or get some tips?" },
 ];
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "audio");
