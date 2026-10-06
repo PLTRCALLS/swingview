@@ -1,1004 +1,482 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
+import "./styles.css";
 
-// ── DESIGN TOKENS ─────────────────────────────────────────────────────────────
-const C = {
-  bg:        "#0D0D0D",
-  surface:   "#161616",
-  surface2:  "#1E1E1E",
-  border:    "rgba(255,255,255,0.07)",
-  border2:   "rgba(255,255,255,0.11)",
-  green:     "#C8FF00",
-  greenDim:  "rgba(200,255,0,0.10)",
-  greenGlow: "rgba(200,255,0,0.18)",
-  gold:      "#F5C842",
-  text:      "#FFFFFF",
-  muted:     "#666666",
-  dim:       "#2A2A2A",
+const FORMSPREE = "https://formspree.io/f/mqeybpyn";
+const APP_STORE_URL = "#waitlist"; // swap for the App Store link at launch
+const EVENTS_URL = "https://events.swingview.ai";
+
+/* ------------------------------------------------------------------ */
+/*  Icons (inline, 1.5px stroke)                                        */
+/* ------------------------------------------------------------------ */
+const I = {
+  logo: (
+    <svg className="brand-mark" viewBox="0 0 26 26" fill="none" aria-hidden="true">
+      <rect width="26" height="26" rx="7" fill="#fff" />
+      <path d="M7 18.5c3.5-1 7-6.5 8.5-11.5" stroke="#000" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="17.5" cy="18.5" r="2" fill="#34c759" />
+    </svg>
+  ),
+  check: (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+      <path d="M3 8.5l3 3 7-7" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  plus: (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M9 3v12M3 9h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  camera: (
+    <svg className="feature-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <rect x="3" y="7" width="18" height="14" rx="3" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M21 11l4-2.5v11L21 17" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <circle cx="12" cy="14" r="3.5" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  ),
+  skeleton: (
+    <svg className="feature-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <circle cx="14" cy="5" r="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M14 7.5v8M14 10l-6 3M14 10l6-3M14 15.5l-4 8M14 15.5l4 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      <circle cx="8" cy="13" r="1.3" fill="currentColor" /><circle cx="20" cy="7" r="1.3" fill="currentColor" />
+      <circle cx="10" cy="23.5" r="1.3" fill="currentColor" /><circle cx="18" cy="23.5" r="1.3" fill="currentColor" />
+    </svg>
+  ),
+  chat: (
+    <svg className="feature-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <path d="M5 6.5h18a2 2 0 012 2v10a2 2 0 01-2 2h-9l-6 4v-4H5a2 2 0 01-2-2v-10a2 2 0 012-2z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+      <path d="M8 12h12M8 15.5h7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
+  phases: (
+    <svg className="feature-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <rect x="3" y="12" width="7" height="4" rx="1.5" fill="currentColor" opacity=".5" />
+      <rect x="11.5" y="12" width="5" height="4" rx="1.5" fill="currentColor" />
+      <rect x="18" y="12" width="7" height="4" rx="1.5" fill="currentColor" opacity=".5" />
+      <path d="M3 21h22M3 7h22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity=".4" />
+    </svg>
+  ),
+  history: (
+    <svg className="feature-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <circle cx="14" cy="14" r="10" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M14 8v6l4 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  ),
+  compare: (
+    <svg className="feature-icon" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <rect x="3" y="5" width="9.5" height="18" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <rect x="15.5" y="5" width="9.5" height="18" rx="2.5" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M6 17l3.5-6M18.5 17l3.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  ),
 };
 
-const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: ${C.bg};
-    color: ${C.text};
-    font-family: 'DM Sans', sans-serif;
-    overflow-x: hidden;
-  }
-
-  ::selection { background: ${C.green}; color: ${C.bg}; }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: ${C.bg}; }
-  ::-webkit-scrollbar-thumb { background: ${C.dim}; border-radius: 2px; }
-
-  /* Animations */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(32px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; } to { opacity: 1; }
-  }
-  @keyframes pulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50%      { opacity: 0.6; transform: scale(0.96); }
-  }
-  @keyframes scanline {
-    0%   { top: -2px; }
-    100% { top: 100%; }
-  }
-  @keyframes float {
-    0%,100% { transform: translateY(0px); }
-    50%      { transform: translateY(-8px); }
-  }
-  @keyframes rotateSlow {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-  @keyframes shimmer {
-    0%   { background-position: -200% center; }
-    100% { background-position: 200% center; }
-  }
-  @keyframes countUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .fade-up-1 { animation: fadeUp 0.7s ease both; animation-delay: 0.1s; }
-  .fade-up-2 { animation: fadeUp 0.7s ease both; animation-delay: 0.25s; }
-  .fade-up-3 { animation: fadeUp 0.7s ease both; animation-delay: 0.4s; }
-  .fade-up-4 { animation: fadeUp 0.7s ease both; animation-delay: 0.55s; }
-  .fade-up-5 { animation: fadeUp 0.7s ease both; animation-delay: 0.7s; }
-
-  .shimmer-text {
-    background: linear-gradient(90deg, ${C.text} 0%, ${C.green} 40%, ${C.text} 60%, ${C.text} 100%);
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: shimmer 3s linear infinite;
-  }
-
-  .float { animation: float 4s ease-in-out infinite; }
-
-  .phone-glow {
-  }
-
-  /* Nav */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    padding: 0 40px;
-    height: 64px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: rgba(5,12,20,0.8);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .nav-logo {
-    display: flex; align-items: center; gap: 10px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 20px; letter-spacing: 3px; color: ${C.text};
-    text-decoration: none;
-  }
-
-  .nav-logo-mark {
-    width: 30px; height: 30px; border-radius: 8px;
-    background: ${C.green};
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    box-shadow: 0 0 12px ${C.greenGlow};
-  }
-
-  .nav-cta {
-    padding: 8px 20px;
-    background: ${C.green};
-    border: none; border-radius: 8px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 13px; letter-spacing: 2px;
-    color: ${C.bg}; cursor: pointer;
-    transition: all 0.2s;
-    box-shadow: 0 4px 16px ${C.greenGlow};
-  }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px ${C.greenGlow}; }
-
-  /* Hero */
-  .hero {
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    padding: 100px 40px 80px;
-    position: relative; overflow: hidden;
-  }
-
-  .hero-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    max-width: 1200px;
-    width: 100%;
-    align-items: center;
-  }
-
-  @media (max-width: 900px) {
-    .hero-grid { grid-template-columns: 1fr; gap: 60px; }
-    .hero-phone-col { order: -1; display: flex; justify-content: center; }
-    nav { padding: 0 20px; }
-    .hero { padding: 100px 20px 80px; }
-    .features-grid { grid-template-columns: 1fr 1fr !important; }
-    .testimonials-grid { grid-template-columns: 1fr !important; }
-    .footer-grid { grid-template-columns: 1fr !important; }
-  }
-
-  @media (max-width: 600px) {
-    .features-grid { grid-template-columns: 1fr !important; }
-    .stats-row { flex-direction: column !important; }
-  }
-
-  /* Input */
-  .waitlist-input {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
-    padding: 14px 18px;
-    color: ${C.text};
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
-    width: 100%;
-  }
-  .waitlist-input::placeholder { color: ${C.muted}; }
-  .waitlist-input:focus { border-color: ${C.green}; box-shadow: 0 0 0 3px rgba(200,255,0,0.08); }
-
-  .btn-primary {
-    padding: 15px 32px;
-    background: ${C.green};
-    border: none; border-radius: 10px;
-    color: ${C.bg};
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px; letter-spacing: 3px;
-    cursor: pointer; transition: all 0.2s;
-    box-shadow: 0 8px 24px ${C.greenGlow};
-    white-space: nowrap;
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(200,255,0,0.3); }
-  .btn-primary:active { transform: translateY(0); }
-
-  .btn-secondary {
-    padding: 15px 32px;
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.15); border-radius: 10px;
-    color: ${C.muted};
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 15px; letter-spacing: 3px;
-    cursor: pointer; transition: all 0.2s;
-  }
-  .btn-secondary:hover { border-color: ${C.green}; color: ${C.green}; }
-
-  /* Section */
-  .section {
-    padding: 100px 40px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px; letter-spacing: 3px;
-    color: ${C.green};
-    margin-bottom: 12px;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .section-label::before {
-    content: '';
-    display: inline-block;
-    width: 20px; height: 1px;
-    background: ${C.green};
-  }
-
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(40px, 5vw, 64px);
-    letter-spacing: 2px;
-    line-height: 0.95;
-    margin-bottom: 16px;
-  }
-
-  /* Feature cards */
-  .feature-card {
-    background: ${C.surface};
-    border: 1px solid ${C.border};
-    border-radius: 16px;
-    padding: 28px;
-    transition: all 0.3s;
-    position: relative; overflow: hidden;
-  }
-  .feature-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent, ${C.green}, transparent);
-    opacity: 0; transition: opacity 0.3s;
-  }
-  .feature-card:hover { border-color: rgba(200,255,0,0.2); transform: translateY(-4px); }
-  .feature-card:hover::before { opacity: 1; }
-
-  /* Phone mockup */
-  .phone-shell {
-    width: 260px; height: 540px;
-    background: #111111;
-    border-radius: 36px;
-    border: 6px solid #2A2A2A;
-    overflow: hidden;
-    position: relative;
-    box-shadow: none;
-  }
-
-  .phone-notch {
-    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-    width: 90px; height: 22px;
-    background: #080E1A;
-    border-radius: 0 0 14px 14px;
-    border: 2px solid rgba(255,255,255,0.08); border-top: none;
-    z-index: 10;
-  }
-
-  /* Testimonial */
-  .testimonial-card {
-    background: ${C.surface};
-    border: 1px solid ${C.border};
-    border-radius: 16px;
-    padding: 28px;
-    transition: border-color 0.3s;
-  }
-  .testimonial-card:hover { border-color: rgba(200,255,0,0.15); }
-
-  /* Divider */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, ${C.border2}, transparent);
-    margin: 0 40px;
-  }
-
-  /* Noise texture overlay */
-  .noise { display: none; }
-`;
-
-// ── PHONE MOCKUP COMPONENT ────────────────────────────────────────────────────
-function PhoneMockup() {
-  const [frame, setFrame] = useState(0);
-  const frames = ["onboarding", "home", "report"];
-
-  useEffect(() => {
-    const t = setInterval(() => setFrame(f => (f + 1) % frames.length), 3500);
-    return () => clearInterval(t);
-  }, []);
-
-  const green = C.green;
-
-  const slides = [
-    { icon: "🎯", headline: ["YOUR AI", "CADDIE"], sub: "Real-time swing analysis powered by Claude AI — like having a PGA coach in your AirPods." },
-    { icon: "📡", headline: ["HANDS", "FREE"], sub: "Set your phone up, hit balls. SwingView AI detects every swing automatically." },
-    { icon: "🗣️", headline: ["INSTANT", "VOICE"], sub: "Hear personalized coaching cues the moment your follow-through completes." },
+/* ------------------------------------------------------------------ */
+/*  Phone mockup — cycles through three real screens of the app         */
+/* ------------------------------------------------------------------ */
+function Skeleton() {
+  // Simplified golfer at the top of the backswing, face-on.
+  const j = {
+    head: [118, 40], neck: [118, 58], hipL: [104, 118], hipR: [132, 118],
+    shL: [96, 66], shR: [140, 66], elL: [78, 84], elR: [150, 52],
+    wrL: [96, 44], wrR: [128, 36], knL: [100, 160], knR: [136, 160], anL: [96, 200], anR: [140, 200],
+  };
+  const L = ([a, b]) => `${a},${b}`;
+  const bones = [
+    ["neck", "shL"], ["neck", "shR"], ["shL", "elL"], ["elL", "wrL"], ["shR", "elR"], ["elR", "wrR"],
+    ["shL", "hipL"], ["shR", "hipR"], ["hipL", "hipR"], ["hipL", "knL"], ["knL", "anL"], ["hipR", "knR"], ["knR", "anR"], ["neck", "head"],
   ];
-  const [slide, setSlide] = useState(0);
-  useEffect(() => {
-    if (frame !== 0) return;
-    const t = setInterval(() => setSlide(s => (s + 1) % slides.length), 2000);
-    return () => clearInterval(t);
-  }, [frame]);
-  const s = slides[slide];
-
-  const phases = [
-    { label: "Address",   score: 8, color: green,     obs: "Great posture and alignment." },
-    { label: "Takeaway",  score: 7, color: green,     obs: "Club slightly inside ideal path." },
-    { label: "Top",       score: 6, color: C.gold,    obs: "Left arm breaking down at top." },
-    { label: "Downswing", score: 5, color: "#FF6B6B", obs: "Early extension detected." },
-    { label: "Impact",    score: 7, color: green,     obs: "Hands ahead at contact. Good." },
-    { label: "Follow",    score: 8, color: green,     obs: "Full rotation, balanced finish." },
-  ];
-  const overall = Math.round(phases.reduce((a, p) => a + p.score, 0) / phases.length);
-
   return (
-    <div className="phone-shell">
-      <div className="phone-notch" />
+    <svg viewBox="0 0 236 230" aria-hidden="true">
+      <defs>
+        <linearGradient id="floor" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity="0" /><stop offset="1" stopColor="#fff" stopOpacity=".06" />
+        </linearGradient>
+      </defs>
+      <rect x="0" y="150" width="236" height="80" fill="url(#floor)" />
+      <path d="M112 40 L160 10" stroke="#8a8f98" strokeWidth="2" strokeLinecap="round" opacity=".8" />
+      {bones.map(([a, b]) => (
+        <line key={a + b} x1={j[a][0]} y1={j[a][1]} x2={j[b][0]} y2={j[b][1]} stroke="#34c759" strokeWidth="2.2" strokeLinecap="round" />
+      ))}
+      {Object.values(j).map((p, i) => (
+        <circle key={i} cx={p[0]} cy={p[1]} r={i === 0 ? 7 : 3.2} fill={i === 0 ? "none" : "#fff"} stroke="#fff" strokeWidth={i === 0 ? 2.2 : 0} />
+      ))}
+      <polyline points={[L([96, 44]), L([70, 70]), L([62, 110]), L([80, 150]), L([116, 172])].join(" ")} fill="none" stroke="#fff" strokeWidth="1.2" strokeDasharray="3 4" opacity=".55" />
+    </svg>
+  );
+}
 
-      {/* Status bar */}
-      <div style={{
-        position: "absolute", top: 0, left: 0, right: 0, height: 36,
-        display: "flex", alignItems: "flex-end", justifyContent: "space-between",
-        padding: "0 18px 4px", zIndex: 9,
-        fontSize: 9, fontFamily: "'DM Sans', sans-serif", color: C.text, fontWeight: 600,
-      }}>
-        <span>9:41</span>
-        <span>●●● 🔋</span>
+function ScreenReview() {
+  return (
+    <div className="screen-body screen-fade">
+      <div className="screen-title">Swing review</div>
+      <div className="screen-sub">7-iron · today 2:34 PM</div>
+      <div className="skel-wrap">
+        <Skeleton />
+        <div className="badge"><b>●</b> 240 fps</div>
       </div>
-
-      {/* FRAME 0: Onboarding */}
-      {frame === 0 && (
-        <div style={{ position: "absolute", inset: 0, background: C.bg, display: "flex", flexDirection: "column", overflow: "hidden" }}>
-          <div style={{ padding: "44px 20px 0", display: "flex", alignItems: "center", gap: 7 }}>
-            <div style={{ width: 22, height: 22, borderRadius: 6, background: green, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11 }}>⛳</div>
-            <span style={{ fontFamily: "'Bebas Neue'", fontSize: 13, color: C.text, letterSpacing: 3 }}>SWINGVIEW AI</span>
-          </div>
-          <div style={{ textAlign: "center", paddingTop: 24, fontSize: 48 }}>{s.icon}</div>
-          <div style={{ padding: "16px 20px 0" }}>
-            <div style={{ fontFamily: "'Bebas Neue'", fontSize: 56, lineHeight: 0.9, letterSpacing: 2 }}>
-              <div style={{ color: C.text }}>{s.headline[0]}</div>
-              <div style={{ color: green, filter: `drop-shadow(0 0 10px ${green})` }}>{s.headline[1]}</div>
-            </div>
-            <p style={{ fontFamily: "'DM Sans'", fontSize: 11, color: C.muted, lineHeight: 1.5, marginTop: 12, maxWidth: 200 }}>{s.sub}</p>
-          </div>
-          <div style={{ display: "flex", gap: 5, padding: "16px 20px 0" }}>
-            {slides.map((_, i) => (
-              <div key={i} style={{ height: 3, borderRadius: 2, width: i === slide ? 20 : 6, background: i === slide ? green : C.dim, transition: "all 0.3s" }} />
-            ))}
-          </div>
-          <div style={{ padding: "16px 20px 0", marginTop: "auto" }}>
-            <div style={{ width: "100%", padding: "13px", background: green, borderRadius: 12, color: C.bg, fontFamily: "'Bebas Neue'", fontSize: 14, letterSpacing: 3, textAlign: "center", marginBottom: 8 }}>GET STARTED FREE</div>
-            <div style={{ width: "100%", padding: "11px", background: "transparent", border: `1px solid ${C.border2}`, borderRadius: 12, color: C.muted, fontFamily: "'Bebas Neue'", fontSize: 12, letterSpacing: 3, textAlign: "center" }}>SIGN IN</div>
-          </div>
+      <div className="glass">
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#8a8f98", marginBottom: 8 }}>
+          <span>Backswing</span><span>Downswing</span><span>Follow-through</span>
         </div>
-      )}
-
-      {/* FRAME 1: Home Dashboard */}
-      {frame === 1 && (
-        <div style={{ position: "absolute", inset: 0, background: C.bg, overflow: "hidden" }}>
-          <div style={{ padding: "44px 16px 12px", background: `linear-gradient(180deg, ${C.surface} 0%, transparent 100%)` }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-              <div>
-                <div style={{ fontFamily: "'DM Sans'", fontSize: 9, color: C.muted, letterSpacing: 2 }}>GOOD MORNING</div>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 22, color: C.text, letterSpacing: 2 }}>AUSTIN</div>
-              </div>
-              <div style={{ width: 30, height: 30, borderRadius: 8, background: C.surface2, border: `1px solid ${C.border2}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>🔔</div>
-            </div>
-          </div>
-          <div style={{ padding: "0 16px 10px" }}>
-            <div style={{ background: `linear-gradient(135deg, ${C.surface2}, rgba(200,255,0,0.08))`, border: `1px solid rgba(200,255,0,0.2)`, borderRadius: 14, padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 18, color: green, letterSpacing: 2 }}>START SESSION</div>
-                <div style={{ fontFamily: "'DM Sans'", fontSize: 9, color: C.muted, marginTop: 3 }}>Hands-free AI coaching</div>
-              </div>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: green, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16 }}>▶</div>
-            </div>
-          </div>
-          <div style={{ padding: "0 16px 10px", display: "flex", gap: 6 }}>
-            {[{l:"AVG",v:"7.4",u:"/10"},{l:"SESSIONS",v:"12",u:""},{l:"HCP",v:"15",u:""}].map(st => (
-              <div key={st.l} style={{ flex: 1, background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 6px", textAlign: "center" }}>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 20, color: C.text }}>{st.v}<span style={{ fontSize: 9, color: C.muted }}>{st.u}</span></div>
-                <div style={{ fontFamily: "'DM Sans'", fontSize: 7, color: C.muted, letterSpacing: 1 }}>{st.l}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{ padding: "0 16px 10px" }}>
-            <div style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 12, padding: "10px 12px" }}>
-              <div style={{ fontFamily: "'Bebas Neue'", fontSize: 11, color: C.text, letterSpacing: 2, marginBottom: 8 }}>SCORE TREND</div>
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 5, height: 36 }}>
-                {[5,6,6,7,7,8,7].map((h, i) => (
-                  <div key={i} style={{ flex: 1, height: h * 4, background: i === 6 ? green : `rgba(200,255,0,${0.2 + i * 0.08})`, borderRadius: "2px 2px 0 0" }} />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div style={{ padding: "0 16px" }}>
-            <div style={{ fontFamily: "'Bebas Neue'", fontSize: 10, color: C.muted, letterSpacing: 2, marginBottom: 6 }}>TOP SWING FAULTS</div>
-            {[{f:"Early Extension",t:"↑",c:C.gold},{f:"Over The Top",t:"↓",c:green},{f:"Hip Slide",t:"→",c:C.muted}].map((f,i) => (
-              <div key={i} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 10px", marginBottom: 5, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 2, height: 20, background: f.c, borderRadius: 2 }} />
-                  <div style={{ fontFamily: "'DM Sans'", fontSize: 10, color: C.text }}>{f.f}</div>
-                </div>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 15, color: f.c }}>{f.t}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 52, background: C.surface, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-around", paddingBottom: 4 }}>
-            {[{l:"Record",a:true},{l:"History",a:false},{l:"Profile",a:false}].map(n => (
-              <div key={n.l} style={{ textAlign: "center" }}>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 9, color: n.a ? green : C.muted, letterSpacing: 1 }}>{n.l}</div>
-                {n.a && <div style={{ width: 4, height: 4, borderRadius: "50%", background: green, margin: "2px auto 0" }} />}
-              </div>
-            ))}
-          </div>
+        <div className="phase-bar">
+          <span style={{ flex: 0.74, background: "#34c759" }} />
+          <span style={{ flex: 0.26, background: "#fff" }} />
+          <span style={{ flex: 0.4, background: "rgba(255,255,255,.35)" }} />
         </div>
-      )}
-
-      {/* FRAME 2: Session Report */}
-      {frame === 2 && (
-        <div style={{ position: "absolute", inset: 0, background: C.bg, overflow: "hidden" }}>
-          <div style={{ padding: "44px 16px 10px", background: `linear-gradient(180deg, ${C.surface} 0%, transparent 100%)` }}>
-            <div style={{ fontFamily: "'DM Sans'", fontSize: 8, color: C.muted, letterSpacing: 2 }}>TODAY · 2:34 PM</div>
-            <div style={{ fontFamily: "'Bebas Neue'", fontSize: 22, color: C.text, letterSpacing: 2 }}>SESSION REPORT</div>
-          </div>
-          <div style={{ padding: "0 16px 10px" }}>
-            <div style={{ background: `linear-gradient(135deg, ${C.surface2}, rgba(200,255,0,0.06))`, border: `1px solid rgba(200,255,0,0.2)`, borderRadius: 14, padding: "14px", display: "flex", alignItems: "center", gap: 14 }}>
-              <svg width="64" height="64" viewBox="0 0 64 64" style={{ flexShrink: 0 }}>
-                <circle cx="32" cy="32" r="26" fill="none" stroke={C.dim} strokeWidth="4"
-                  strokeDasharray={`${2*Math.PI*26*0.75} ${2*Math.PI*26*0.25}`}
-                  strokeDashoffset={-2*Math.PI*26*0.125} strokeLinecap="round" />
-                <circle cx="32" cy="32" r="26" fill="none" stroke={green} strokeWidth="4"
-                  strokeDasharray={`${2*Math.PI*26*0.75*(overall/10)} ${2*Math.PI*26}`}
-                  strokeDashoffset={-2*Math.PI*26*0.125} strokeLinecap="round"
-                  style={{ filter: `drop-shadow(0 0 5px ${green})` }} />
-                <text x="32" y="36" textAnchor="middle" fill={green} style={{ font: `700 20px 'Bebas Neue'` }}>{overall}</text>
-              </svg>
-              <div>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 16, color: green, letterSpacing: 1 }}>SOLID SESSION</div>
-                <div style={{ fontFamily: "'DM Sans'", fontSize: 9, color: C.muted, marginTop: 2 }}>18 swings · 7i · 47 min</div>
-                <div style={{ display: "flex", gap: 5, marginTop: 6 }}>
-                  {[{l:"BEST",v:"8"},{l:"WORST",v:"5"},{l:"TREND",v:"↑"}].map(st => (
-                    <div key={st.l} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 6, padding: "2px 6px", textAlign: "center" }}>
-                      <div style={{ fontFamily: "'Bebas Neue'", fontSize: 12, color: C.text }}>{st.v}</div>
-                      <div style={{ fontFamily: "'DM Sans'", fontSize: 6, color: C.muted }}>{st.l}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div style={{ padding: "0 16px 8px" }}>
-            <div style={{ background: "rgba(255,107,107,0.07)", border: "1px solid rgba(255,107,107,0.22)", borderRadius: 10, padding: "8px 10px", display: "flex", alignItems: "center", gap: 8 }}>
-              <span style={{ fontSize: 13 }}>🎯</span>
-              <div>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 8, color: "#FF6B6B", letterSpacing: 2 }}>PRIORITY FIX</div>
-                <div style={{ fontFamily: "'DM Sans'", fontSize: 9, color: C.text }}>Early Extension · Wall Drill</div>
-              </div>
-            </div>
-          </div>
-          <div style={{ padding: "0 16px" }}>
-            <div style={{ fontFamily: "'Bebas Neue'", fontSize: 9, color: C.muted, letterSpacing: 2, marginBottom: 6 }}>PHASE BREAKDOWN</div>
-            {phases.map((p, i) => (
-              <div key={i} style={{ background: C.surface, border: `1px solid ${C.border}`, borderRadius: 8, padding: "6px 10px", marginBottom: 4, display: "flex", alignItems: "center", gap: 8 }}>
-                <div style={{ width: 2, height: 24, background: p.color, borderRadius: 2, flexShrink: 0 }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: "'Bebas Neue'", fontSize: 10, color: C.text, letterSpacing: 1 }}>{p.label.toUpperCase()}</div>
-                  <div style={{ fontFamily: "'DM Sans'", fontSize: 8, color: C.muted }}>{p.obs}</div>
-                </div>
-                <div style={{ fontFamily: "'Bebas Neue'", fontSize: 18, color: p.color, filter: `drop-shadow(0 0 3px ${p.color})` }}>{p.score}</div>
-              </div>
-            ))}
-          </div>
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 52, background: C.surface, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "center", justifyContent: "space-around", paddingBottom: 4 }}>
-            {["Record","History","Profile"].map(n => (
-              <div key={n} style={{ fontFamily: "'Bebas Neue'", fontSize: 9, color: C.muted, letterSpacing: 1 }}>{n}</div>
-            ))}
-          </div>
+        <div className="mono" style={{ display: "flex", justifyContent: "space-between", marginTop: 10, fontSize: 12 }}>
+          <span>0.74s</span><span>0.26s</span><span>2.8 : 1</span>
         </div>
-      )}
-
-      {/* Frame indicator dots */}
-      <div style={{ position: "absolute", bottom: 58, left: "50%", transform: "translateX(-50%)", display: "flex", gap: 4, zIndex: 10 }}>
-        {frames.map((_, i) => (
-          <div key={i} style={{ width: i === frame ? 16 : 5, height: 5, borderRadius: 3, background: i === frame ? green : "rgba(255,255,255,0.2)", transition: "all 0.3s" }} />
-        ))}
+      </div>
+      <div className="coach-msg">
+        Good width at the top. Your hips start forward 90 ms before your hands drop — keep that. The one thing: trail elbow drifts behind you in transition.
       </div>
     </div>
   );
 }
 
-// ── MAIN APP ──────────────────────────────────────────────────────────────────
-export default function App() {
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const [count, setCount] = useState(247);
-
-  const handleWaitlist = async (e) => {
-  e.preventDefault();
-  if (!email) return;
-  try {
-    await fetch("https://formspree.io/f/mqeybpyn", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
-    });
-  } catch (err) {
-    console.error(err);
-  }
-  setSubmitted(true);
-  setCount(c => c + 1);
-};
-
-  const features = [
-    {
-      icon: "🎙️",
-      title: "VOICE AI COACHING",
-      desc: "Claude AI delivers personalized coaching cues to your AirPods the moment your follow-through completes. Hear exactly what to fix before your next shot.",
-    },
-    {
-      icon: "📡",
-      title: "HANDS-FREE DETECTION",
-      desc: "Set your phone up, step back, and swing. SwingView AI automatically detects every swing — no tapping, no setup between shots.",
-    },
-    {
-      icon: "🦴",
-      title: "LIVE SKELETON TRACKING",
-      desc: "Real-time 19-point body pose detection using Apple's Vision framework. See your swing plane, spine angle, and joint positions overlaid live.",
-    },
-    {
-      icon: "📊",
-      title: "SESSION REPORTS",
-      desc: "Every session scored across 6 phases with prioritised fault detection, drill recommendations, and trend tracking across time.",
-    },
-    {
-      icon: "🔒",
-      title: "ON-DEVICE AI",
-      desc: "Analysis runs directly on your iPhone using the Neural Engine. Fast, private, and works without an internet connection at the range.",
-    },
-    {
-      icon: "🏌️",
-      title: "BUILT BY A GOLFER",
-      desc: "SwingView AI is designed for everyday amateur golfers — not just pros. Clear, conversational coaching that actually makes sense.",
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "Jamie R.",
-      hcp: "18 hcp",
-      text: "I've tried V1 and Mustard. Neither felt like having an actual coach. SwingView AI talking to me between shots is a completely different experience.",
-    },
-    {
-      name: "Mike T.",
-      hcp: "12 hcp",
-      text: "The hands-free detection is the killer feature. I just hit balls and it captures everything automatically. My range sessions are finally productive.",
-    },
-    {
-      name: "Sarah K.",
-      hcp: "24 hcp",
-      text: "The voice coaching is so natural it surprised me. It pointed out my early extension after my very first swing and gave me a drill I could do immediately.",
-    },
-  ];
-
+function ScreenCoach() {
   return (
-    <>
-      <style>{css}</style>
-      <div className="noise" />
+    <div className="screen-body screen-fade">
+      <div className="screen-title">Coach</div>
+      <div className="screen-sub">Knows your last 12 swings</div>
+      <div className="coach-msg">Your tempo has tightened from 3.4:1 to 2.8:1 over the last three sessions. Hip lead at impact is up 11°.</div>
+      <div className="user-msg">Why do I keep pulling the 7-iron?</div>
+      <div className="coach-msg">
+        In 4 of your last 5 swings the club path was 3–4° left of your shoulder line at impact, with the face slightly closed to it. That combination starts the ball left and keeps it there.
+        <br /><br />
+        Try this at your next session: feel the trail elbow stay in front of your hip through transition. One ball at a time, half speed.
+      </div>
+      <div className="glass" style={{ marginTop: 12, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px" }}>
+        <span style={{ color: "#8a8f98" }}>Ask about your swing…</span>
+        <span style={{ width: 24, height: 24, borderRadius: 12, background: "#34c759", display: "inline-block" }} />
+      </div>
+    </div>
+  );
+}
 
-      {/* NAV */}
-      <nav>
-        <a href="#" className="nav-logo" style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <div className="nav-logo-mark">⛳</div>
-          <span style={{ fontFamily: "'Arial Black', 'Helvetica Neue', sans-serif", fontSize: 17, fontWeight: 900, color: "#FFFFFF", letterSpacing: 0.5 }}>SwingView</span>
-        </a>
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontFamily: "'DM Mono'", fontSize: 11, color: C.muted, letterSpacing: 1 }}>
-            iOS · Coming Soon
-          </span>
-          <button className="nav-cta" onClick={() => document.getElementById("waitlist").scrollIntoView({ behavior: "smooth" })}>
-            JOIN WAITLIST
-          </button>
-        </div>
-      </nav>
-
-      {/* ── HERO ── */}
-      <section className="hero">
-
-
-        <div className="hero-grid">
-          {/* Left col */}
+function ScreenSessions() {
+  const rows = [
+    { d: "Today", club: "7-iron", n: 14, tempo: "2.8 : 1", on: true },
+    { d: "Sat", club: "Driver", n: 9, tempo: "3.0 : 1" },
+    { d: "Thu", club: "Pitching wedge", n: 22, tempo: "3.3 : 1" },
+    { d: "Mon", club: "7-iron", n: 11, tempo: "3.4 : 1" },
+  ];
+  return (
+    <div className="screen-body screen-fade">
+      <div className="screen-title">Sessions</div>
+      <div className="screen-sub">56 swings this month</div>
+      {rows.map((r) => (
+        <div className="glass" key={r.d} style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 8, alignItems: "center" }}>
           <div>
-            <div className="fade-up-1" style={{
-              display: "inline-flex", alignItems: "center", gap: 8,
-              background: C.surface, border: `1px solid rgba(200,255,0,0.2)`,
-              borderRadius: 20, padding: "6px 14px", marginBottom: 24,
-            }}>
-              <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.green,
-                animation: "pulse 1.5s infinite", boxShadow: `0 0 6px ${C.green}` }} />
-              <span style={{ fontFamily: "'DM Mono'", fontSize: 11, color: C.green, letterSpacing: 2 }}>
-                iOS APP · COMING 2026
-              </span>
-            </div>
-
-            <h1 className="fade-up-2" style={{
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: "clamp(64px, 7vw, 100px)",
-              lineHeight: 0.92, letterSpacing: 3,
-              marginBottom: 24,
-            }}>
-              <div style={{ color: C.text }}>YOUR AI</div>
-              <div style={{ color: C.green, filter: `drop-shadow(0 0 20px ${C.green})` }}>CADDIE</div>
-              <div style={{ color: C.text }}>IN YOUR</div>
-              <div className="shimmer-text">AIRPODS</div>
-            </h1>
-
-            <p className="fade-up-3" style={{
-              fontFamily: "'DM Sans'", fontSize: 16, color: C.muted,
-              lineHeight: 1.7, maxWidth: 460, marginBottom: 32,
-            }}>
-              SwingView AI detects every swing hands-free, then delivers Claude-powered voice coaching instantly — like having a PGA coach at the range, every session.
-            </p>
-
-            {/* Waitlist form */}
-            <div id="waitlist" className="fade-up-4">
-              {!submitted ? (
-                <form onSubmit={handleWaitlist} style={{ display: "flex", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
-                  <input
-                    className="waitlist-input"
-                    type="email"
-                    placeholder="your@email.com"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    style={{ maxWidth: 280 }}
-                    required
-                  />
-                  <button type="submit" className="btn-primary">JOIN WAITLIST →</button>
-                </form>
-              ) : (
-                <div style={{
-                  display: "flex", alignItems: "center", gap: 10,
-                  background: "rgba(200,255,0,0.08)", border: `1px solid rgba(200,255,0,0.25)`,
-                  borderRadius: 10, padding: "14px 20px", marginBottom: 14, maxWidth: 380,
-                  animation: "fadeIn 0.4s ease",
-                }}>
-                  <span style={{ fontSize: 20 }}>✅</span>
-                  <div>
-                    <div style={{ fontFamily: "'Bebas Neue'", fontSize: 14, color: C.green, letterSpacing: 2 }}>YOU'RE ON THE LIST</div>
-                    <div style={{ fontFamily: "'DM Sans'", fontSize: 11, color: C.muted, marginTop: 2 }}>
-                      We'll email you the moment SwingView AI launches.
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                <div style={{ display: "flex" }}>
-                  {["🟢","🔵","🟡"].map((c,i) => (
-                    <div key={i} style={{
-                      width: 24, height: 24, borderRadius: "50%",
-                      background: C.surface, border: `2px solid ${C.bg}`,
-                      marginLeft: i > 0 ? -8 : 0,
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: 10,
-                    }}>{c}</div>
-                  ))}
-                </div>
-                <span style={{ fontFamily: "'DM Sans'", fontSize: 12, color: C.muted }}>
-                  <span style={{ color: C.green, fontWeight: 600 }}>{count.toLocaleString()} golfers</span> already on the waitlist
-                </span>
-              </div>
-            </div>
-
-            {/* Tags */}
-            <div className="fade-up-5" style={{ display: "flex", gap: 8, marginTop: 24, flexWrap: "wrap" }}>
-              {["iOS Native", "Claude AI", "Hands-Free", "On-Device"].map(tag => (
-                <div key={tag} style={{
-                  fontFamily: "'DM Mono'", fontSize: 10, color: C.muted,
-                  background: C.surface, border: `1px solid ${C.border2}`,
-                  borderRadius: 6, padding: "4px 10px", letterSpacing: 1,
-                }}>#{tag.replace(" ","")}</div>
-              ))}
+            <div style={{ fontWeight: 600, fontSize: 13 }}>{r.d} · {r.club}</div>
+            <div style={{ color: "#8a8f98", fontSize: 11, marginTop: 2 }}>{r.n} swings</div>
+            <div className="phase-bar" style={{ marginTop: 8, width: 120 }}>
+              <span style={{ flex: 0.7, background: r.on ? "#34c759" : "rgba(255,255,255,.5)" }} />
+              <span style={{ flex: 0.25, background: "#fff" }} />
+              <span style={{ flex: 0.35, background: "rgba(255,255,255,.3)" }} />
             </div>
           </div>
-
-          {/* Right col — phone */}
-          <div className="hero-phone-col" style={{ display: "flex", justifyContent: "center" }}>
-            <div className="phone-glow">
-              <PhoneMockup />
-            </div>
-          </div>
+          <div className="mono" style={{ fontSize: 14 }}>{r.tempo}</div>
         </div>
-      </section>
+      ))}
+    </div>
+  );
+}
 
-      <div className="divider" />
-
-      {/* ── STATS ── */}
-      <div style={{ padding: "60px 40px", maxWidth: 1200, margin: "0 auto" }}>
-        <div className="stats-row" style={{ display: "flex", justifyContent: "space-around", gap: 20 }}>
-          {[
-            { value: "< 3s", label: "Feedback after each swing" },
-            { value: "19", label: "Body joints tracked live" },
-            { value: "6", label: "Swing phases analyzed" },
-            { value: "0", label: "Taps required per session" },
-          ].map(s => (
-            <div key={s.label} style={{ textAlign: "center" }}>
-              <div style={{
-                fontFamily: "'Bebas Neue'", fontSize: 52, color: C.green,
-                letterSpacing: 2, lineHeight: 1,
-                filter: `drop-shadow(0 0 12px ${C.greenGlow})`,
-              }}>{s.value}</div>
-              <div style={{ fontFamily: "'DM Sans'", fontSize: 12, color: C.muted, marginTop: 4 }}>{s.label}</div>
-            </div>
+function Phone({ cycle = true, start = 0 }) {
+  const screens = [ScreenReview, ScreenCoach, ScreenSessions];
+  const [i, setI] = useState(start);
+  useEffect(() => {
+    if (!cycle) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
+    const t = setInterval(() => setI((n) => (n + 1) % screens.length), 4200);
+    return () => clearInterval(t);
+  }, [cycle]);
+  const Screen = screens[i];
+  const tabs = ["Record", "Sessions", "Coach", "Replay", "Me"];
+  const active = [3, 2, 1][i];
+  return (
+    <div className="phone" aria-label="SwingView app preview">
+      <div className="phone-island" />
+      <div className="screen">
+        <div className="screen-status"><span>9:41</span><span className="mono" style={{ fontSize: 11 }}>240fps</span></div>
+        <Screen key={i} />
+        <div className="tabbar">
+          {tabs.map((t, k) => (
+            <span key={t} className={k === active ? "on" : ""}><i />{t}</span>
           ))}
         </div>
       </div>
+      {cycle && (
+        <div className="screen-dots">{screens.map((_, k) => <i key={k} className={k === i ? "on" : ""} />)}</div>
+      )}
+    </div>
+  );
+}
 
-      <div className="divider" />
+/* ------------------------------------------------------------------ */
+/*  Waitlist form                                                       */
+/* ------------------------------------------------------------------ */
+function Waitlist({ cta = "Join the waitlist" }) {
+  const [email, setEmail] = useState("");
+  const [done, setDone] = useState(false);
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    try {
+      await fetch(FORMSPREE, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ email }) });
+    } catch (err) { console.error(err); }
+    setDone(true);
+  };
+  if (done) {
+    return (
+      <div className="form-ok">{I.check}<span><b>You're on the list.</b> We'll email you when SwingView is on the App Store.</span></div>
+    );
+  }
+  return (
+    <form className="form" onSubmit={submit}>
+      <input className="input" type="email" required placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} aria-label="Email address" />
+      <button className="btn btn-white" type="submit">{cta}</button>
+    </form>
+  );
+}
 
-      {/* ── FEATURES ── */}
-      <section className="section">
-        <div className="section-label">FEATURES</div>
-        <h2 className="section-title">
-          <span style={{ color: C.text }}>BUILT DIFFERENT</span><br />
-          <span style={{ color: C.green }}>FROM THE GROUND UP</span>
-        </h2>
-        <p style={{ fontFamily: "'DM Sans'", fontSize: 15, color: C.muted, maxWidth: 540, marginBottom: 48, lineHeight: 1.7 }}>
-          Every other swing analyzer makes you watch a report. SwingView AI talks to you while you practice — the way a real coach would.
-        </p>
+/* ------------------------------------------------------------------ */
+/*  FAQ                                                                 */
+/* ------------------------------------------------------------------ */
+const FAQS = [
+  ["Do I need any equipment?", "Just your iPhone and something to lean it on. SwingView records at 240 fps from the back camera and runs pose tracking on-device, so there's no sensor, no launch monitor and no subscription hardware."],
+  ["How is this different from a launch monitor?", "A launch monitor tells you what the ball did. SwingView tells you what your body did to make it do that — tempo, hip lead, sequencing, club path — and then a coach that remembers your history tells you what to work on."],
+  ["Is the coaching generic?", "No. The coach only talks about measurements from your own swings. It can see your last sessions, so it can tell you whether a change actually stuck, not just whether this one swing looked good."],
+  ["How long does an analysis take?", "Your swing video is viewable the moment you stop recording. The full breakdown and coaching land under a minute later, and you can keep hitting balls while it processes."],
+  ["Is it only for good golfers?", "It's built for everyday golfers. If you can set your phone down and hit a ball, it works. Skill level only changes what the coach prioritises."],
+  ["What about my video and data?", "Videos stay on your phone unless you choose to share. Analysis clips are trimmed to the swing and processed securely; we never sell data. Details are in the privacy policy."],
+];
 
-        <div className="features-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16 }}>
-          {features.map((f, i) => (
-            <div key={i} className="feature-card">
-              <div style={{ fontSize: 28, marginBottom: 14 }}>{f.icon}</div>
-              <div style={{
-                fontFamily: "'Bebas Neue'", fontSize: 17, color: C.text,
-                letterSpacing: 2, marginBottom: 8,
-              }}>{f.title}</div>
-              <p style={{ fontFamily: "'DM Sans'", fontSize: 13, color: C.muted, lineHeight: 1.6 }}>{f.desc}</p>
-            </div>
-          ))}
+function Faq() {
+  const [open, setOpen] = useState(0);
+  return (
+    <div className="faq">
+      {FAQS.map(([q, a], k) => (
+        <div className="faq-item" key={q} data-open={open === k}>
+          <button className="faq-q" onClick={() => setOpen(open === k ? -1 : k)} aria-expanded={open === k}>
+            <span>{q}</span>{I.plus}
+          </button>
+          <div className="faq-a"><p>{a}</p></div>
         </div>
-      </section>
+      ))}
+    </div>
+  );
+}
 
-      <div className="divider" />
-
-      {/* ── HOW IT WORKS ── */}
-      <section className="section">
-        <div className="section-label">HOW IT WORKS</div>
-        <h2 className="section-title">
-          <span style={{ color: C.text }}>THREE STEPS TO</span><br />
-          <span style={{ color: C.green }}>BETTER GOLF</span>
-        </h2>
-
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 0, marginTop: 48, position: "relative" }}>
-          {/* Connecting line */}
-          <div style={{
-            position: "absolute", top: 28, left: "16%", right: "16%", height: 1,
-            background: `linear-gradient(90deg, ${C.green}, rgba(200,255,0,0.2), ${C.green})`,
-            zIndex: 0,
-          }} />
-
-          {[
-            { step: "01", icon: "📱", title: "PROP & POINT", desc: "Set your phone on a tripod or lean it against your bag. Point at your hitting area and open SwingView AI." },
-            { step: "02", icon: "🎧", title: "PUT IN AIRPODS", desc: "Enable Voice Coaching. SwingView AI will detect every swing automatically — no tapping required during your session." },
-            { step: "03", icon: "⛳", title: "JUST SWING", desc: "Hit balls normally. After each swing you'll hear Claude's coaching cues. Review your full session report when done." },
-          ].map((s, i) => (
-            <div key={i} style={{ textAlign: "center", padding: "0 24px", position: "relative", zIndex: 1 }}>
-              <div style={{
-                width: 56, height: 56, borderRadius: 16, margin: "0 auto 20px",
-                background: C.surface, border: `2px solid ${C.green}`,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontSize: 24,
-                boxShadow: `0 0 20px ${C.greenGlow}`,
-              }}>{s.icon}</div>
-              <div style={{
-                fontFamily: "'DM Mono'", fontSize: 10, color: C.green,
-                letterSpacing: 3, marginBottom: 8,
-              }}>{s.step}</div>
-              <div style={{
-                fontFamily: "'Bebas Neue'", fontSize: 18, color: C.text,
-                letterSpacing: 2, marginBottom: 10,
-              }}>{s.title}</div>
-              <p style={{ fontFamily: "'DM Sans'", fontSize: 13, color: C.muted, lineHeight: 1.6 }}>{s.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="divider" />
-
-      {/* ── COMPARE ── */}
-      <section className="section">
-        <div className="section-label">COMPARISON</div>
-        <h2 className="section-title">
-          <span style={{ color: C.text }}>WHY</span>{" "}
-          <span style={{ color: C.green }}>SWINGVIEW AI</span>
-        </h2>
-
-        <div style={{ marginTop: 40, overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 600 }}>
-            <thead>
-              <tr>
-                {["FEATURE", "SWINGVIEW AI", "MUSTARD", "V1 GOLF", "DEEPSWING"].map((h, i) => (
-                  <th key={h} style={{
-                    padding: "12px 16px", textAlign: i === 0 ? "left" : "center",
-                    fontFamily: "'Bebas Neue'", fontSize: 12, letterSpacing: 2,
-                    color: i === 1 ? C.green : C.muted,
-                    borderBottom: `1px solid ${i === 1 ? C.green : C.border}`,
-                    background: i === 1 ? "rgba(200,255,0,0.04)" : "transparent",
-                  }}>{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {[
-                ["Voice AI coaching",      "✅", "❌", "❌", "❌"],
-                ["Hands-free detection",   "✅", "❌", "❌", "Partial"],
-                ["Instant feedback",       "✅", "❌", "❌", "✅"],
-                ["Face-on + DTL analysis", "✅", "❌", "✅", "✅"],
-                ["Unlimited swings",       "✅", "1x/week", "✅", "✅"],
-                ["On-device AI",           "✅", "❌", "❌", "✅"],
-                ["Price / year",           "$59.99", "$149.99", "$59.99", "TBD"],
-              ].map((row, ri) => (
-                <tr key={ri} style={{ borderBottom: `1px solid ${C.border}` }}>
-                  {row.map((cell, ci) => (
-                    <td key={ci} style={{
-                      padding: "12px 16px",
-                      textAlign: ci === 0 ? "left" : "center",
-                      fontFamily: ci === 0 ? "'DM Sans'" : "'DM Mono'",
-                      fontSize: ci === 0 ? 14 : 12,
-                      color: ci === 1 ? (cell === "✅" ? C.green : cell === "❌" ? "#FF6B6B" : C.green) : ci === 0 ? C.text : C.muted,
-                      background: ci === 1 ? "rgba(200,255,0,0.03)" : "transparent",
-                      fontWeight: ci === 0 ? 400 : 500,
-                    }}>{cell}</td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <div className="divider" />
-
-      {/* ── TESTIMONIALS ── */}
-      <section className="section">
-        <div className="section-label">EARLY ACCESS</div>
-        <h2 className="section-title">
-          <span style={{ color: C.text }}>WHAT BETA</span><br />
-          <span style={{ color: C.green }}>TESTERS SAY</span>
-        </h2>
-
-        <div className="testimonials-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 40 }}>
-          {testimonials.map((t, i) => (
-            <div key={i} className="testimonial-card">
-              <div style={{ display: "flex", gap: 1, marginBottom: 12 }}>
-                {[...Array(5)].map((_, s) => (
-                  <span key={s} style={{ color: C.gold, fontSize: 12 }}>★</span>
-                ))}
-              </div>
-              <p style={{
-                fontFamily: "'DM Sans'", fontSize: 13, color: C.text,
-                lineHeight: 1.7, marginBottom: 16, fontStyle: "italic",
-              }}>"{t.text}"</p>
-              <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                <div style={{
-                  width: 32, height: 32, borderRadius: 10,
-                  background: C.surface2, border: `1px solid ${C.border2}`,
-                  display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14,
-                }}>🏌️</div>
-                <div>
-                  <div style={{ fontFamily: "'DM Sans'", fontSize: 13, color: C.text, fontWeight: 600 }}>{t.name}</div>
-                  <div style={{ fontFamily: "'DM Mono'", fontSize: 10, color: C.muted }}>{t.hcp}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="divider" />
-
-      {/* ── FINAL CTA ── */}
-      <section style={{ padding: "100px 40px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <div style={{
-          position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)",
-          width: 600, height: 600, borderRadius: "50%",
-          background: `radial-gradient(circle, rgba(200,255,0,0.07) 0%, transparent 65%)`,
-          pointerEvents: "none",
-        }} />
-
-        <div style={{
-          fontFamily: "'DM Mono'", fontSize: 11, color: C.green,
-          letterSpacing: 3, marginBottom: 16,
-        }}>— EARLY ACCESS —</div>
-
-        <h2 style={{
-          fontFamily: "'Bebas Neue'", fontSize: "clamp(48px, 6vw, 80px)",
-          letterSpacing: 3, lineHeight: 0.95, marginBottom: 20,
-        }}>
-          <span style={{ color: C.text }}>BE FIRST TO</span><br />
-          <span style={{ color: C.green, filter: `drop-shadow(0 0 20px ${C.green})` }}>SWING SMARTER</span>
-        </h2>
-
-        <p style={{
-          fontFamily: "'DM Sans'", fontSize: 15, color: C.muted,
-          maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7,
-        }}>
-          Join the waitlist for early access and a discounted launch price. We'll notify you the moment SwingView AI hits the App Store.
-        </p>
-
-        {!submitted ? (
-          <form onSubmit={handleWaitlist} style={{
-            display: "flex", gap: 10, justifyContent: "center",
-            flexWrap: "wrap", marginBottom: 16,
-          }}>
-            <input
-              className="waitlist-input"
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              style={{ maxWidth: 300 }}
-              required
-            />
-            <button type="submit" className="btn-primary">GET EARLY ACCESS →</button>
-          </form>
-        ) : (
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 12,
-            background: "rgba(200,255,0,0.08)", border: `1px solid rgba(200,255,0,0.25)`,
-            borderRadius: 12, padding: "16px 24px", marginBottom: 16,
-            animation: "fadeIn 0.4s ease",
-          }}>
-            <span style={{ fontSize: 24 }}>✅</span>
-            <div style={{ textAlign: "left" }}>
-              <div style={{ fontFamily: "'Bebas Neue'", fontSize: 16, color: C.green, letterSpacing: 2 }}>YOU'RE ON THE LIST</div>
-              <div style={{ fontFamily: "'DM Sans'", fontSize: 12, color: C.muted }}>We'll email you at launch with an exclusive discount.</div>
-            </div>
+/* ------------------------------------------------------------------ */
+/*  Page                                                                */
+/* ------------------------------------------------------------------ */
+export default function App() {
+  return (
+    <>
+      <header className="nav">
+        <div className="wrap">
+          <a href="#top" className="brand">{I.logo}<span>SwingView</span></a>
+          <nav className="nav-links" aria-label="Primary">
+            <a href="#how">How it works</a>
+            <a href="#features">Features</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href={EVENTS_URL}>In person</a>
+          </nav>
+          <div className="nav-right">
+            <a className="btn btn-white btn-sm" href={APP_STORE_URL}>Get the app</a>
           </div>
-        )}
-
-        <div style={{ fontFamily: "'DM Sans'", fontSize: 12, color: C.dim }}>
-          No spam. No credit card. Unsubscribe anytime.
         </div>
-      </section>
+      </header>
 
-      {/* ── FOOTER ── */}
-      <footer style={{
-        borderTop: `1px solid ${C.border}`,
-        padding: "40px 40px",
-        maxWidth: 1200, margin: "0 auto",
-      }}>
-        <div className="footer-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 40, marginBottom: 40 }}>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-              <div style={{ width: 24, height: 24, borderRadius: 6, background: C.green, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12 }}>⛳</div>
-              <span style={{ fontFamily: "'Bebas Neue'", fontSize: 16, color: C.text, letterSpacing: 3 }}>SWINGVIEW AI</span>
-            </div>
-            <p style={{ fontFamily: "'DM Sans'", fontSize: 12, color: C.muted, lineHeight: 1.6, maxWidth: 240 }}>
-              AI-powered golf swing analysis for everyday golfers. Coming to the App Store in 2026.
+      <main id="top">
+        {/* HERO */}
+        <section className="hero">
+          <div className="wrap">
+            <h1>A swing coach that has actually seen your swing.</h1>
+            <p className="lede">
+              SwingView records every swing at 240 frames per second, measures what your body did, and gives you a coach that remembers all of it.
             </p>
+            <div className="hero-actions">
+              <a className="btn btn-white" href={APP_STORE_URL}>Get the app</a>
+              <a className="btn btn-ghost" href="#how">See how it works</a>
+            </div>
+            <div className="hero-note">iPhone · Free to start · No extra hardware</div>
           </div>
-          <div>
-            <div style={{ fontFamily: "'Bebas Neue'", fontSize: 12, color: C.muted, letterSpacing: 2, marginBottom: 12 }}>FOLLOW</div>
-            {[
-              { label: "Instagram", handle: "@swingviewai" },
-              { label: "TikTok", handle: "@swingviewai" },
-              { label: "YouTube", handle: "SwingView AI" },
-            ].map(s => (
-              <div key={s.label} style={{ marginBottom: 8 }}>
-                <span style={{ fontFamily: "'DM Sans'", fontSize: 12, color: C.muted }}>{s.label} · </span>
-                <span style={{ fontFamily: "'DM Mono'", fontSize: 11, color: C.green }}>{s.handle}</span>
+          <div className="hero-stage">
+            <Phone />
+          </div>
+        </section>
+
+        {/* STATEMENT + FEATURES */}
+        <section className="section" id="features">
+          <div className="wrap">
+            <div className="section-head">
+              <h2>Measurement first. Advice second.</h2>
+              <p>Most swing apps hand you a video and a generic tip. SwingView measures the swing first, then coaches from the numbers — so the advice is about your move, not the average golfer's.</p>
+            </div>
+            <div className="features">
+              {[
+                [I.camera, "240 fps capture", "High-frame-rate video from your iPhone's back camera, so the downswing is dozens of frames instead of three."],
+                [I.skeleton, "Skeleton tracking", "Full-body pose on every frame, overlaid on your replay so you can see hip, shoulder and hand positions instead of guessing."],
+                [I.phases, "Phase breakdown", "Backswing, downswing and follow-through timed to the millisecond. Tempo, hip lead and sequencing on each swing."],
+                [I.chat, "A coach with memory", "Ask anything about your swing. The coach reads your measurements and your history, and answers in plain language."],
+                [I.history, "Sessions that add up", "Every swing is saved and trimmed. Watch a tendency change over weeks, not just within one bucket of balls."],
+                [I.compare, "Replay and compare", "Frame-step at the real frame rate, slow to a quarter speed, and compare against a reference swing side by side."],
+              ].map(([icon, h, p]) => (
+                <div className="feature" key={h}>{icon}<h3>{h}</h3><p>{p}</p></div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* HOW IT WORKS */}
+        <section className="section" id="how">
+          <div className="wrap">
+            <div className="section-head">
+              <h2>Set your phone down. Hit balls.</h2>
+              <p>There's nothing to tap between shots. The whole loop fits inside a normal range session.</p>
+            </div>
+            <div className="steps">
+              {[
+                ["Record", "Lean your iPhone against your bag, face-on or down the line. SwingView records at 240 fps and detects each swing automatically."],
+                ["Measure", "Pose tracking runs on every frame. Tempo, hip lead, club path and a dozen more measurements are pulled from the video."],
+                ["Review", "Your swing is on screen the second you finish — scrub it, slow it, see the skeleton. Coaching fills in below while you keep hitting."],
+                ["Improve", "Ask the coach what to work on. It knows this swing and the last fifty, so it can tell you what's changing and what isn't."],
+              ].map(([h, p], k) => (
+                <div className="step" key={h}>
+                  <div className="n">0{k + 1}</div>
+                  <h3>{h}</h3><p>{p}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* METRICS */}
+        <section className="section">
+          <div className="wrap">
+            <div className="metrics">
+              {[
+                ["240", "fps", "Capture rate on supported iPhones"],
+                ["133", "", "Body keypoints tracked per frame"],
+                ["19", "", "Swing measurements per analysis"],
+                ["<60", "s", "From swing to full coaching"],
+              ].map(([v, u, l]) => (
+                <div className="metric" key={l}>
+                  <div className="v">{v}{u && <small>{u}</small>}</div>
+                  <div className="l">{l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* COACH SPLIT */}
+        <section className="section">
+          <div className="wrap split">
+            <div className="copy">
+              <h2>Ask it why the ball went left.</h2>
+              <p>The coach isn't a chatbot bolted onto a video player. It reads the same measurements you see — on this swing and every previous one — and answers like a coach who's been watching all season.</p>
+              <ul>
+                <li>Remembers your sessions, so it can tell you what's actually changed</li>
+                <li>Explains in plain language, with the number behind every claim</li>
+                <li>Gives one thing to work on, not a list of ten</li>
+              </ul>
+            </div>
+            <div className="visual"><Phone cycle={false} start={1} /></div>
+          </div>
+        </section>
+
+        {/* PRICING */}
+        <section className="section" id="pricing">
+          <div className="wrap">
+            <div className="section-head center">
+              <h2>Start free. Upgrade when it earns it.</h2>
+              <p>Record and review as much as you like for free. Pay only for the analysis and coaching.</p>
+            </div>
+            <div className="plans">
+              <div className="plan">
+                <div className="name">Free</div>
+                <div className="price">$0</div>
+                <div className="blurb">Everything you need to see your swing properly.</div>
+                <ul>
+                  {["Unlimited 240 fps recording", "Swing detection and trimming", "Skeleton overlay on replay", "Frame-step and slow motion", "Session history", "3 full analyses a month"].map((f) => <li key={f}>{I.check}<span>{f}</span></li>)}
+                </ul>
+                <a className="btn btn-ghost" href={APP_STORE_URL}>Get the app</a>
               </div>
-            ))}
+              <div className="plan featured">
+                <div className="name"><span>Pro</span><span className="tag">Launch price</span></div>
+                <div className="price">$59.99<small>/ year</small></div>
+                <div className="blurb">Unlimited analysis and a coach that remembers everything.</div>
+                <ul>
+                  {["Everything in Free", "Unlimited full analyses", "Phase timing, tempo and sequencing on every swing", "Coach with full session memory", "Compare against reference swings", "Share cards"].map((f) => <li key={f}>{I.check}<span>{f}</span></li>)}
+                </ul>
+                <a className="btn btn-white" href={APP_STORE_URL}>Get the app</a>
+              </div>
+            </div>
+            <div className="pricing-note">Prices in CAD. Pro is billed annually through the App Store and can be cancelled any time.</div>
           </div>
-          <div>
-            <div style={{ fontFamily: "'Bebas Neue'", fontSize: 12, color: C.muted, letterSpacing: 2, marginBottom: 12 }}>BUILT WITH</div>
-            {["Swift + SwiftUI", "Apple Vision Framework", "Claude AI (Anthropic)", "AVFoundation"].map(t => (
-              <div key={t} style={{ fontFamily: "'DM Sans'", fontSize: 12, color: C.muted, marginBottom: 6 }}>· {t}</div>
-            ))}
+        </section>
+
+        {/* FAQ */}
+        <section className="section" id="faq">
+          <div className="wrap">
+            <div className="section-head center">
+              <h2>Questions</h2>
+            </div>
+            <Faq />
           </div>
-        </div>
-        <div style={{
-          borderTop: `1px solid ${C.border}`, paddingTop: 20,
-          display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10,
-        }}>
-          <span style={{ fontFamily: "'DM Sans'", fontSize: 11, color: C.dim }}>© 2026 SwingView AI. All rights reserved.</span>
-          <span style={{ fontFamily: "'DM Mono'", fontSize: 10, color: C.dim, letterSpacing: 1 }}>swingview.ai</span>
+        </section>
+
+        {/* CTA */}
+        <section className="cta" id="waitlist">
+          <div className="wrap">
+            <h2>See what you can't feel.</h2>
+            <p>SwingView is coming to the App Store. Leave your email and we'll let you know the day it's live.</p>
+            <Waitlist />
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="wrap">
+          <div className="footer-grid">
+            <div>
+              <a href="#top" className="brand">{I.logo}<span>SwingView</span></a>
+              <p>AI swing analysis and coaching for everyday golfers. Built in Mississauga, Ontario.</p>
+            </div>
+            <div>
+              <h4>Product</h4>
+              <ul>
+                <li><a href="#how">How it works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#faq">FAQ</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4>In person</h4>
+              <ul>
+                <li><a href={EVENTS_URL}>SwingView Live sessions</a></li>
+                <li><a href={EVENTS_URL}>Book a range day</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Follow</h4>
+              <ul>
+                <li><a href="https://www.instagram.com/swingviewai" rel="noreferrer">Instagram</a></li>
+                <li><a href="https://www.tiktok.com/@swingviewai" rel="noreferrer">TikTok</a></li>
+                <li><a href="https://www.youtube.com/@swingviewai" rel="noreferrer">YouTube</a></li>
+              </ul>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <span>© {new Date().getFullYear()} SwingView · Predictive Growth Labs</span>
+            <span><a href="/privacy.html">Privacy policy</a></span>
+          </div>
         </div>
       </footer>
     </>
