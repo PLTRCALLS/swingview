@@ -8,6 +8,7 @@ const IMG = {
   tabCoach: "/images/tab-coach.jpg",
   tabPractice: "/images/tab-practice.jpg",
   tab3d: "/images/tab-3d-data.jpg",
+  tabCompare: "/images/tab-compare.jpg",
   stepRecord: "/images/step-record.jpg",
   stepMeasure: "/images/step-measure.jpg",
   stepReview: "/images/step-review.jpg",
@@ -356,7 +357,7 @@ const TABS = [
   { label: "AI\nCoach", title: "Personalized AI Coach", img: IMG.tabCoach, body: "TYGA is your AI swing coach, using your measurements to answer questions, uncover insights, and guide you toward smarter improvement." },
   { label: "In Depth\n3D Data", title: "In Depth 3D Data", img: IMG.tab3d, body: "Turn a simple video from your phone into detailed swing data, giving you a clearer picture of how your body moves throughout the swing." },
   { label: "Automated\nPractice", title: "Automated Practice", img: IMG.tabPractice, body: "Set the phone down and hit balls. Every swing is detected, trimmed and measured automatically — nothing to tap between shots." },
-  { label: "Compare\nSwings", title: "Compare Swings", img: IMG.tabCoach, body: "Put today next to last month, or next to a reference swing, frame for frame at the real frame rate." },
+  { label: "Compare\nSwings", title: "Compare Swings", img: IMG.tabCompare, body: "Put today next to last month, or next to a reference swing, frame for frame at the real frame rate." },
 ];
 
 const FEATURES = [
