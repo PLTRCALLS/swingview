@@ -1,8 +1,8 @@
-// Cloudflare Pages Function: POST /api/tyga
+// POST /api/tyga — handled by the Worker in worker/index.js
 // Body: { messages: [{ role: "user"|"assistant", content: string }, ...] }
 // Returns: { text: string, audio: string (base64 mp3) }
 //
-// Secrets / vars (Cloudflare Pages → Settings → Environment variables):
+// Secrets / vars (Cloudflare → Workers & Pages → swingview → Settings → Variables and Secrets):
 //   XAI_API_KEY      required
 //   XAI_CHAT_MODEL   optional, default "grok-4.7"
 //   TYGA_VOICE       optional, default "carina"
@@ -17,7 +17,7 @@ If asked about their swing, give one practical, specific tip and invite them to 
 
 const ALLOWED_ORIGINS = ["https://swingview.ai", "https://www.swingview.ai"];
 
-export async function onRequestPost({ request, env }) {
+export async function handleTyga(request, env) {
   const origin = request.headers.get("Origin") || "";
   const isAllowed = ALLOWED_ORIGINS.includes(origin) || /\.pages\.dev$/.test(new URL(origin || "https://x.invalid").hostname) || /^https?:\/\/localhost(:\d+)?$/.test(origin);
   if (origin && !isAllowed) return json({ error: "forbidden" }, 403);
@@ -83,7 +83,7 @@ export async function onRequestPost({ request, env }) {
   return json({ text, audio, turnsLeft: Math.max(0, maxTurns - userTurns) });
 }
 
-export async function onRequestOptions() {
+export function handleOptions() {
   return new Response(null, { status: 204, headers: cors() });
 }
 
