@@ -82,13 +82,14 @@ const css = `
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
     padding-top: 22px; padding-bottom: 22px; flex-wrap: wrap;
   }
-  .logo { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 700; font-size: 18px; }
+  .logo { display: flex; align-items: center; color: #fff; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; }
+  .nav-right { display: flex; align-items: center; gap: 36px; }
   .logo-mark {
     width: 30px; height: 30px; border-radius: 8px; background: var(--accent); color: var(--accent-ink);
     display: inline-flex; align-items: center; justify-content: center;
   }
-  .nav-links { display: flex; gap: 28px; font-size: 15px; font-weight: 500; flex-wrap: wrap; }
-  .nav-links a { color: var(--dim); }
+  .nav-links { display: flex; gap: 36px; font-size: 15px; font-weight: 500; }
+  .nav-links a { color: #e9e6f5; }
   .nav-links a:hover { color: #fff; }
 
   /* HERO */
@@ -409,11 +410,13 @@ export default function App() {
 
       {/* NAV */}
       <header className="wrap nav">
-        <a href="#top" className="logo"><span className="logo-mark">{I.logo()}</span>SwingView</a>
-        <nav className="nav-links">
-          <a href="#how">How it works</a><a href="#tyga">TYGA</a>
-        </nav>
-        <a href="#waitlist" className="btn btn-white btn-sm">Get the app</a>
+        <a href="#top" className="logo">SwingView</a>
+        <div className="nav-right">
+          <nav className="nav-links">
+            <a href="#how">How it works</a><a href="#tyga">TYGA</a>
+          </nav>
+          <a href="#waitlist" className="btn btn-white btn-sm">Get the app</a>
+        </div>
       </header>
 
       {/* HERO */}
@@ -630,7 +633,7 @@ export default function App() {
       <footer className="wrap">
         <div className="foot-grid">
           <div className="foot-col">
-            <span className="logo"><span className="logo-mark">{I.logo()}</span>SwingView</span>
+            <span className="logo">SwingView</span>
             <p>AI swing analysis and coaching for everyday golfers. Built in Mississauga, Ontario.</p>
           </div>
           <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
