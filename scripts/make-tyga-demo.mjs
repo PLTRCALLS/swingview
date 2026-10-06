@@ -20,7 +20,7 @@ if (!KEY) {
 const TYGA_VOICE = process.env.TYGA_VOICE || "carina";
 
 const LINES = [
-  { file: "tyga-intro.mp3", voice: TYGA_VOICE, speed: 1.0, text: "Hi, I'm TYGA. Ready to analyze your swing, or get some tips?" },
+  { file: "tyga-intro.mp3", voice: TYGA_VOICE, speed: 1.0, text: "Hi, I'm Tyga. Ready to analyze your swing, or get some tips?" },
 ];
 
 const outDir = join(dirname(fileURLToPath(import.meta.url)), "..", "public", "audio");
