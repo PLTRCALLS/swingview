@@ -1,0 +1,289 @@
+import { useEffect, useRef, useState } from "react";
+
+// Demo script. Replace with a real clip at /audio/tyga-demo.mp3 and these lines become captions only.
+const SCRIPT = [
+  { t: 0.0, who: "you", text: "TYGA, what should I focus on next?" },
+  { t: 1.6, who: "tyga", text: "Your tempo has been steady at 3.0 to 1 all week — that's not the problem." },
+  { t: 5.4, who: "tyga", text: "Your hips stood up about three inches before impact on your last six swings." },
+  { t: 9.6, who: "tyga", text: "Let's work on staying in posture. Try the chair drill for your next ten balls." },
+];
+const SCRIPT_END = 13.5;
+const DEMO_SRC = "/audio/tyga-demo.mp3";
+
+// ── particle field ───────────────────────────────────────────────────────────
+function buildParticles() {
+  const pts = [];
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  // sphere — fibonacci distribution
+  const N = 2800;
+  const golden = Math.PI * (3 - Math.sqrt(5));
+  for (let i = 0; i < N; i++) {
+    const y = 1 - (i / (N - 1)) * 2;
+    const r = Math.sqrt(1 - y * y);
+    const th = golden * i;
+    const R = 1 * rand(0.97, 1.0);
+    pts.push({ x: Math.cos(th) * r * R, y: y * R, z: Math.sin(th) * r * R, kind: 0, s: rand(0.8, 1.8), seed: Math.random() * 6.28 });
+  }
+  // rings — three bands, with gaps, denser near edges
+  const bands = [
+    [1.35, 1.75, 3600],
+    [1.85, 2.15, 2400],
+    [2.25, 2.45, 1500],
+  ];
+  for (const [r0, r1, n] of bands) {
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const u = Math.random();
+      const r = r0 + (r1 - r0) * (0.5 - 0.5 * Math.cos(u * Math.PI));
+      pts.push({ x: Math.cos(a) * r, y: rand(-0.015, 0.015), z: Math.sin(a) * r, kind: 1, s: rand(0.7, 2.0), seed: Math.random() * 6.28, r });
+    }
+  }
+  // dust
+  for (let i = 0; i < 420; i++) {
+    pts.push({ x: rand(-4.2, 4.2), y: rand(-2.6, 2.6), z: rand(-3, 3), kind: 2, s: rand(0.6, 1.6), seed: Math.random() * 6.28, vx: rand(-0.02, 0.02), vy: rand(-0.015, 0.015) });
+  }
+  return pts;
+}
+
+// palette: deep green → mint → acid yellow-green
+function tone(k, bright) {
+  // k 0..1 picks hue position, bright 0..1 alpha/lightness
+  const g1 = [34, 210, 110];   // mint green
+  const g2 = [200, 255, 0];    // acid
+  const r = Math.round(g1[0] + (g2[0] - g1[0]) * k);
+  const g = Math.round(g1[1] + (g2[1] - g1[1]) * k);
+  const b = Math.round(g1[2] + (g2[2] - g1[2]) * k);
+  return `rgba(${r},${g},${b},${bright.toFixed(3)})`;
+}
+
+export default function TygaOrb() {
+  const canvasRef = useRef(null);
+  const levelRef = useRef(0);          // 0..1 voice level, smoothed
+  const targetRef = useRef(0);
+  const [playing, setPlaying] = useState(false);
+  const [caption, setCaption] = useState(null);
+  const stopRef = useRef(() => {});
+
+  // ── render loop ──
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    const pts = buildParticles();
+    let raf, t0 = performance.now(), W = 0, H = 0, dpr = 1;
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+    const ro = new ResizeObserver(resize); ro.observe(canvas);
+
+    const tiltX = -0.36, tiltZ = 0.16; // ring tilt
+    const cX = Math.cos(tiltX), sX = Math.sin(tiltX), cZ = Math.cos(tiltZ), sZ = Math.sin(tiltZ);
+
+    const frame = (now) => {
+      const t = (now - t0) / 1000;
+      // smooth the voice level
+      levelRef.current += (targetRef.current - levelRef.current) * 0.18;
+      const lv = levelRef.current;
+
+      ctx.clearRect(0, 0, W, H);
+      const cx = W / 2, cy = H * 0.5;
+      const scale = Math.min(W * 0.175, H * 1.6 * 0.185);
+      const dens = Math.min(1, W / 1000); const aMul = 0.4 + 0.6 * dens, sMul = 0.65 + 0.35 * dens;
+      const rotY = t * 0.12;                       // slow spin
+      const drift = Math.sin(t * 0.5) * 0.02;       // gentle breathing at rest
+      const puff = 1 + drift + lv * 0.14;           // voice pulse
+      const cR = Math.cos(rotY), sR = Math.sin(rotY);
+
+      // glow behind sphere
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, scale * 2.6);
+      glow.addColorStop(0, `rgba(60,255,140,${0.16 + lv * 0.14})`);
+      glow.addColorStop(0.45, `rgba(60,200,110,${0.06 + lv * 0.06})`);
+      glow.addColorStop(1, "rgba(0,0,0,0)");
+      ctx.fillStyle = glow; ctx.fillRect(0, 0, W, H);
+
+      ctx.globalCompositeOperation = "lighter";
+      for (let i = 0; i < pts.length; i++) {
+        const p = pts[i];
+        let x, y, z;
+        if (p.kind === 2) {
+          p.x += p.vx * 0.016 * 60 * 0.02; p.y += p.vy * 0.016 * 60 * 0.02;
+          if (p.x > 4.4) p.x = -4.4; if (p.x < -4.4) p.x = 4.4;
+          if (p.y > 2.8) p.y = -2.8; if (p.y < -2.8) p.y = 2.8;
+          x = p.x; y = p.y; z = p.z;
+        } else {
+          // ring ripple travels outward with the voice
+          let rr = 1;
+          if (p.kind === 1) rr = 1 + Math.sin(t * 2.2 - p.r * 2.5 + p.seed * 0.3) * (0.01 + lv * 0.05);
+          const px = p.x * puff * rr, py = p.y * puff, pz = p.z * puff * rr;
+          // spin about Y
+          const x1 = px * cR - pz * sR, z1 = px * sR + pz * cR, y1 = py;
+          // tilt about X then Z
+          const y2 = y1 * cX - z1 * sX, z2 = y1 * sX + z1 * cX;
+          x = x1 * cZ - y2 * sZ; y = x1 * sZ + y2 * cZ; z = z2;
+        }
+        const persp = 1 / (1 + z * 0.14);
+        const sx = cx + x * scale * persp, sy = cy + y * scale * persp;
+        if (sx < -4 || sx > W + 4 || sy < -4 || sy > H + 4) continue;
+
+        const depth = (z + 2.5) / 5; // 0 far .. 1 near
+        const twinkle = 0.75 + 0.25 * Math.sin(t * 1.7 + p.seed);
+        let k, a, size;
+        if (p.kind === 0) { k = 0.15 + depth * 0.4; a = (0.45 + depth * 0.55) * twinkle; size = p.s * (0.9 + depth * 1.1); }
+        else if (p.kind === 1) { const edge = (p.r - 1.35) / 1.1; k = 0.3 + edge * 0.7; a = (0.35 + depth * 0.55) * twinkle; size = p.s * (0.75 + depth * 1.0); }
+        else { k = 0.25; a = 0.2 * twinkle; size = p.s * 1.0; }
+        a = Math.min(1, a * aMul * (1 + lv * 0.5)); size *= sMul;
+        ctx.fillStyle = tone(k, a);
+        ctx.beginPath(); ctx.arc(sx, sy, size * persp, 0, 6.283); ctx.fill();
+      }
+      ctx.globalCompositeOperation = "source-over";
+      raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+    return () => { cancelAnimationFrame(raf); ro.disconnect(); };
+  }, []);
+
+  // ── demo playback ──
+  const stop = () => { stopRef.current(); };
+
+  const play = async () => {
+    if (playing) { stop(); return; }
+    setPlaying(true);
+    let cancelled = false;
+    let rafId, audio, actx, timer;
+
+    const captionAt = (sec) => {
+      let cur = null;
+      for (const l of SCRIPT) if (sec >= l.t) cur = l;
+      setCaption(cur);
+    };
+    const finish = () => {
+      cancelled = true;
+      cancelAnimationFrame(rafId); clearInterval(timer);
+      if (audio) { audio.pause(); audio.src = ""; }
+      if (actx) actx.close().catch(() => {});
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+      targetRef.current = 0; setPlaying(false); setCaption(null);
+    };
+    stopRef.current = finish;
+
+    // 1) real clip, if present
+    const hasClip = await fetch(DEMO_SRC, { method: "HEAD" }).then((r) => r.ok && /audio/.test(r.headers.get("content-type") || "")).catch(() => false);
+    if (cancelled) return;
+
+    if (hasClip) {
+      audio = new Audio(DEMO_SRC); audio.crossOrigin = "anonymous";
+      actx = new (window.AudioContext || window.webkitAudioContext)();
+      const src = actx.createMediaElementSource(audio);
+      const an = actx.createAnalyser(); an.fftSize = 512; an.smoothingTimeConstant = 0.6;
+      src.connect(an); an.connect(actx.destination);
+      const buf = new Uint8Array(an.frequencyBinCount);
+      const tick = () => {
+        an.getByteFrequencyData(buf);
+        let sum = 0; for (let i = 2; i < 40; i++) sum += buf[i];
+        targetRef.current = Math.min(1, (sum / 38 / 255) * 1.8);
+        captionAt(audio.currentTime);
+        rafId = requestAnimationFrame(tick);
+      };
+      audio.onended = finish;
+      await audio.play().catch(finish);
+      tick();
+      return;
+    }
+
+    // 2) fallback: browser speech + synthetic envelope
+    const start = performance.now();
+    const synth = window.speechSynthesis;
+    let speaking = false;
+    if (synth) {
+      const lines = SCRIPT.filter((l) => l.who === "tyga");
+      lines.forEach((l, i) => {
+        const u = new SpeechSynthesisUtterance(l.text);
+        u.rate = 1.0; u.pitch = 0.95;
+        const voices = synth.getVoices();
+        const pick = voices.find((v) => /en-(US|CA|GB)/i.test(v.lang) && /(Samantha|Daniel|Google US English|Aria|Jenny|Guy)/i.test(v.name)) || voices.find((v) => /^en/i.test(v.lang));
+        if (pick) u.voice = pick;
+        u.onstart = () => { speaking = true; };
+        u.onend = () => { speaking = false; if (i === lines.length - 1) setTimeout(finish, 600); };
+        setTimeout(() => { if (!cancelled) synth.speak(u); }, l.t * 1000);
+      });
+    } else {
+      setTimeout(finish, SCRIPT_END * 1000);
+    }
+    const tick = () => {
+      const s = (performance.now() - start) / 1000;
+      captionAt(s);
+      // speech-like envelope: syllable bursts ~4/s with slower phrase swell
+      const env = speaking || !synth
+        ? Math.max(0, 0.35 + 0.35 * Math.sin(s * 25) * Math.sin(s * 7.3) + 0.3 * Math.abs(Math.sin(s * 3.1)))
+        : 0.05;
+      targetRef.current = Math.min(1, env);
+      rafId = requestAnimationFrame(tick);
+    };
+    tick();
+    if (!synth) timer = setTimeout(finish, SCRIPT_END * 1000);
+  };
+
+  useEffect(() => () => stopRef.current(), []);
+
+  return (
+    <div className="tyga">
+      <div className="tyga-eyebrow">Meet TYGA</div>
+      <h2 className="tyga-title">Your swing. A real conversation.</h2>
+      <div className="tyga-stage">
+        <canvas ref={canvasRef} className="tyga-canvas" aria-hidden="true" />
+      </div>
+      <button type="button" className={"tyga-player" + (playing ? " on" : "")} onClick={play} aria-pressed={playing}>
+        <span className="tyga-play">
+          {playing ? (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg>
+          ) : (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+          )}
+        </span>
+        <span className="tyga-label">{playing ? "Listening to TYGA" : "Hear TYGA in action"}</span>
+        <Wave levelRef={levelRef} playing={playing} />
+      </button>
+      <div className="tyga-sub">A preview of your live AI swing coach</div>
+      <div className="tyga-caption" aria-live="polite">
+        {caption ? (
+          <span className={caption.who === "you" ? "you" : "ai"}>{caption.who === "you" ? `“${caption.text}”` : caption.text}</span>
+        ) : (
+          <span className="you">“TYGA, what should I focus on next?”</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// 18-bar waveform that follows the voice level
+function Wave({ levelRef, playing }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    let raf;
+    const bars = ref.current.children;
+    const seeds = Array.from({ length: bars.length }, () => Math.random() * 6.28);
+    const tick = (now) => {
+      const t = now / 1000, lv = levelRef.current;
+      for (let i = 0; i < bars.length; i++) {
+        const mid = 1 - Math.abs(i - (bars.length - 1) / 2) / ((bars.length - 1) / 2);
+        const idle = 0.18 + 0.12 * Math.sin(t * 2 + seeds[i]);
+        const live = 0.25 + lv * (0.45 + 0.55 * Math.abs(Math.sin(t * 9 + seeds[i] * 2))) * (0.5 + mid * 0.7);
+        const h = playing ? live : idle;
+        bars[i].style.transform = `scaleY(${Math.min(1, h).toFixed(3)})`;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [levelRef, playing]);
+  return (
+    <span ref={ref} className="tyga-wave" aria-hidden="true">
+      {Array.from({ length: 18 }).map((_, i) => <i key={i} />)}
+    </span>
+  );
+}

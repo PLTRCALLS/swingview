@@ -1,4 +1,5 @@
 import { useState } from "react";
+import TygaOrb from "./TygaOrb.jsx";
 
 // ── IMAGES (public/images) ───────────────────────────────────────────────────
 const IMG = {
@@ -91,7 +92,7 @@ const css = `
   .nav-links a:hover { color: #fff; }
 
   /* HERO */
-  .hero { position: relative; overflow: hidden; padding-top: 72px; text-align: center; }
+  .hero { position: relative; overflow: hidden; padding-top: 28px; text-align: center; }
   .hero-inner { position: relative; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 24px; }
   .hero-inner p.lead { max-width: 620px; font-size: 20px; }
   .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
@@ -121,6 +122,31 @@ const css = `
   }
   .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
   .phone-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; background: linear-gradient(180deg, rgba(11,11,16,0) 0%, rgba(40,20,90,0.55) 100%); pointer-events: none; }
+
+
+  /* TYGA ORB */
+  .tyga { position: relative; margin-top: 44px; display: flex; flex-direction: column; align-items: center; gap: 0; }
+  .tyga-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); }
+  .tyga-title { margin-top: 10px; font-size: clamp(24px, 2.6vw, 34px); font-weight: 600; letter-spacing: -0.02em; color: #fff; }
+  .tyga-stage { position: relative; width: min(1180px, 100vw); height: clamp(320px, 40vw, 500px); margin-top: 0; }
+  .tyga-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .tyga-player {
+    position: relative; z-index: 2; margin-top: -24px;
+    display: inline-flex; align-items: center; gap: 16px;
+    background: rgba(10,12,11,0.85); border: 1px solid rgba(255,255,255,0.12); color: #fff;
+    padding: 10px 26px 10px 10px; border-radius: 999px; backdrop-filter: blur(12px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,222,128,0.08);
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .tyga-player:hover, .tyga-player.on { border-color: rgba(74,222,128,0.45); box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 30px rgba(74,222,128,0.18); }
+  .tyga-play { width: 40px; height: 40px; border-radius: 50%; background: #fff; color: #0b0b10; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 40px; }
+  .tyga-label { font-size: 16px; font-weight: 600; }
+  .tyga-wave { display: inline-flex; align-items: center; gap: 3px; height: 26px; }
+  .tyga-wave i { display: block; width: 3px; height: 26px; border-radius: 2px; background: var(--accent); transform-origin: center; transform: scaleY(0.2); }
+  .tyga-sub { margin-top: 10px; font-size: 13px; color: var(--faint); }
+  .tyga-caption { margin-top: 22px; min-height: 28px; font-size: 18px; max-width: 640px; text-align: center; line-height: 1.4; }
+  .tyga-caption .you { color: #d4d0e0; font-style: italic; }
+  .tyga-caption .ai { color: #fff; }
 
   /* BUILT AROUND */
   .two-col { display: flex; gap: 64px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
@@ -286,7 +312,10 @@ const css = `
     .nav-links { display: none; }
     .hero { padding-top: 40px; }
     .stage { margin-top: 40px; padding: 32px 0 0; }
-    .phone { width: 280px; height: 480px; }
+    .tyga-stage { height: 300px; }
+    .tyga-player { padding-right: 16px; gap: 10px; }
+    .tyga-wave { display: none; }
+    .tyga-caption { font-size: 16px; padding: 0 8px; }
     .steps, .features, .stats, .live-grid, .plans, .foot-grid { grid-template-columns: 1fr; }
     .step p { min-height: 0; }
     .tab { min-width: 150px; min-height: 76px; font-size: 17px; padding: 14px 22px; }
@@ -382,7 +411,7 @@ export default function App() {
       <header className="wrap nav">
         <a href="#top" className="logo"><span className="logo-mark">{I.logo()}</span>SwingView</a>
         <nav className="nav-links">
-          <a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="#inperson">In person</a>
+          <a href="#how">How it works</a><a href="#tyga">TYGA</a>
         </nav>
         <a href="#waitlist" className="btn btn-white btn-sm">Get the app</a>
       </header>
@@ -400,21 +429,7 @@ export default function App() {
           <p className="hero-note">iPhone · Free to start · No extra hardware</p>
         </div>
 
-        <div className="stage">
-          <div className="stage-glow" />
-          <div className="chips">
-            <div className="chip"><div className="chip-label">Hip turn · Top</div><div className="chip-value" style={{ color: "#4fd1ff" }}>41°</div><div className="chip-sub">Target 40–48°</div></div>
-            <div className="chip"><div className="chip-label">Tempo</div><div className="chip-value" style={{ color: "var(--accent)" }}>2.9 : 1</div><div className="chip-sub">Backswing : downswing</div></div>
-          </div>
-          <div className="phone">
-            <img src={IMG.heroMe} alt="SwingView Me screen showing tempo trend, practice history and coaching topics" />
-            <div className="phone-fade" />
-          </div>
-          <div className="chips">
-            <div className="chip"><div className="chip-label">Early extension</div><div className="chip-value" style={{ color: "#ff6b7a" }}>+3.1 in</div><div className="chip-sub">Flagged at impact</div></div>
-            <div className="chip-coach"><div className="chip-label">{I.spark}Coach</div><p>Your hips stood up 3 inches before impact — same as Tuesday. Try the chair drill.</p></div>
-          </div>
-        </div>
+        <div id="tyga"><TygaOrb /></div>
       </section>
 
       {/* BUILT AROUND */}
