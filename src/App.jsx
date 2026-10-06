@@ -146,6 +146,30 @@ const css = `
   .tyga-label { font-size: 16px; font-weight: 600; }
   .tyga-wave { display: inline-flex; align-items: center; gap: 3px; height: 26px; }
   .tyga-wave i { display: block; width: 3px; height: 26px; border-radius: 2px; background: var(--accent); transform-origin: center; transform: scaleY(0.2); }
+  .tyga-talk { position: relative; z-index: 2; margin-top: -24px; display: flex; flex-direction: column; align-items: center; gap: 14px; width: 100%; }
+  .tyga-bar {
+    display: flex; align-items: center; gap: 12px; width: min(560px, 100%);
+    background: rgba(10,12,11,0.85); border: 1px solid rgba(255,255,255,0.12);
+    padding: 8px 18px 8px 8px; border-radius: 999px; backdrop-filter: blur(12px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(74,222,128,0.08); transition: border-color .2s ease, box-shadow .2s ease;
+  }
+  .tyga-bar.listening { border-color: rgba(74,222,128,0.6); box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 0 30px rgba(74,222,128,0.25); }
+  .tyga-bar.busy { border-color: rgba(255,255,255,0.2); }
+  .tyga-mic { flex: 0 0 44px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: #0b0b10; display: inline-flex; align-items: center; justify-content: center; transition: background .2s ease, transform .15s ease; }
+  .tyga-mic:hover:not(:disabled) { transform: scale(1.05); }
+  .tyga-mic:disabled { opacity: 0.5; cursor: default; }
+  .tyga-bar.listening .tyga-mic { background: var(--accent); animation: tygaPulse 1.2s ease-in-out infinite; }
+  @keyframes tygaPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); } 50% { box-shadow: 0 0 0 10px rgba(74,222,128,0); } }
+  .tyga-form { flex: 1 1 auto; display: flex; align-items: center; gap: 6px; min-width: 0; }
+  .tyga-form input { flex: 1 1 auto; min-width: 0; background: transparent; border: 0; outline: none; color: #fff; font-family: inherit; font-size: 15px; padding: 8px 4px; }
+  .tyga-form input::placeholder { color: var(--faint); }
+  .tyga-send { flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; border: 0; background: rgba(255,255,255,0.1); color: #fff; display: inline-flex; align-items: center; justify-content: center; }
+  .tyga-send:not(:disabled) { background: var(--accent); color: var(--accent-ink); }
+  .tyga-send:disabled { opacity: 0.4; cursor: default; }
+  .tyga-chips { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; max-width: 640px; }
+  .tyga-chips button { background: rgba(255,255,255,0.05); border: 1px solid #2b2a33; color: #c9c5d9; font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 999px; transition: all .15s ease; }
+  .tyga-chips button:hover { border-color: #4a4860; color: #fff; }
+  .tyga-cta { margin-top: 4px; }
   .tyga-sub { margin-top: 10px; font-size: 13px; color: var(--faint); }
   .tyga-caption { margin-top: 22px; min-height: 28px; font-size: 18px; max-width: 640px; text-align: center; line-height: 1.4; }
   .tyga-caption .you { color: #d4d0e0; font-style: italic; }
@@ -318,6 +342,7 @@ const css = `
     .tyga-stage { height: 300px; }
     .tyga-player { padding-right: 16px; gap: 10px; }
     .tyga-wave { display: none; }
+    .tyga-bar { padding-right: 10px; }
     .tyga-caption { font-size: 16px; padding: 0 8px; }
     .steps, .features, .stats, .live-grid, .plans, .foot-grid { grid-template-columns: 1fr; }
     .step p { min-height: 0; }
