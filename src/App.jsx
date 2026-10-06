@@ -174,6 +174,7 @@ const css = `
   .tyga-caption { margin-top: 22px; min-height: 28px; font-size: 18px; max-width: 640px; text-align: center; line-height: 1.4; }
   .tyga-caption .you { color: #d4d0e0; font-style: italic; }
   .tyga-caption .ai { color: #fff; }
+  .tyga-caption .soft { color: var(--faint); font-style: italic; }
 
   /* BUILT AROUND */
   .two-col { display: flex; gap: 64px; align-items: center; justify-content: space-between; flex-wrap: wrap; }

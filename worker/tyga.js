@@ -43,11 +43,12 @@ export async function handleTyga(request, env) {
   try {
     const r = await fetch("https://api.x.ai/v1/chat/completions", {
       method: "POST",
+      signal: AbortSignal.timeout(20000),
       headers: { Authorization: `Bearer ${env.XAI_API_KEY}`, "Content-Type": "application/json" },
       body: JSON.stringify({
         model: env.XAI_CHAT_MODEL || "grok-4.7",
         messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-        max_tokens: 120,
+        max_tokens: 90,
         temperature: 0.7,
       }),
     });
@@ -66,6 +67,7 @@ export async function handleTyga(request, env) {
   try {
     const r = await fetch("https://api.x.ai/v1/tts", {
       method: "POST",
+      signal: AbortSignal.timeout(15000),
       headers: { Authorization: `Bearer ${env.XAI_API_KEY}`, "Content-Type": "application/json", Accept: "audio/mpeg" },
       body: JSON.stringify({
         text: text.replace(/\bTYGA\b/g, "Tyga"),

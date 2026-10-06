@@ -213,16 +213,20 @@ export default function TygaOrb() {
     setCaption({ who: "you", text: q });
     setMode("thinking");
     const a = ensureAudio(); a.pulse = 0.6;
+    const thoughts = ["Thinking about your swing…", "Checking the numbers…", "Putting it in golfer terms…"];
+    let ti = 0; const thinkTimer = setInterval(() => { ti = Math.min(ti + 1, thoughts.length - 1); setCaption({ who: "tyga", text: thoughts[ti], soft: true }); }, 2200);
+    setTimeout(() => setCaption({ who: "tyga", text: thoughts[0], soft: true }), 900);
     let data;
     try {
-      const r = await fetch("/api/tyga", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: historyRef.current }) });
+      const r = await fetch("/api/tyga", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: historyRef.current }), signal: AbortSignal.timeout(45000) });
       data = await r.json().catch(() => ({}));
       if (r.status === 429) { data.limit = true; }
       else if (!r.ok) throw new Error(data.error || r.status);
     } catch (err) {
       console.error(err);
-      data = { text: "I'm having a little trouble right now — try me again in a moment." };
+      data = { text: err?.name === "TimeoutError" ? "That took longer than it should — give me one more try." : "I'm having a little trouble right now — try me again in a moment." };
     }
+    clearInterval(thinkTimer);
     a.pulse = 0;
     if (!aliveRef.current) return;
     const reply = data.text || "Say that again?";
@@ -331,7 +335,7 @@ export default function TygaOrb() {
       </div>
       <div className="tyga-caption" aria-live="polite">
         {caption ? (
-          <span className={caption.who === "you" ? "you" : "ai"}>{caption.who === "you" ? `“${caption.text}”` : caption.text}</span>
+          <span className={caption.who === "you" ? "you" : caption.soft ? "soft" : "ai"}>{caption.who === "you" ? `“${caption.text}”` : caption.text}</span>
         ) : (
           <span className="ai">“{INTRO.text}”</span>
         )}
