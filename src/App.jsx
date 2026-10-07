@@ -128,7 +128,7 @@ const css = `
   /* TYGA ORB */
   .tyga { position: relative; margin-top: 44px; display: flex; flex-direction: column; align-items: center; gap: 0; }
   .tyga-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); }
-  .tyga-title { margin-top: 16px; font-size: clamp(24px, 2.6vw, 34px); font-weight: 600; letter-spacing: -0.02em; color: #fff; }
+  .tyga-title { margin-top: 10px; font-size: clamp(24px, 2.6vw, 34px); font-weight: 600; letter-spacing: -0.02em; color: #fff; }
   .tyga-stage { position: relative; width: min(1180px, 100vw); height: clamp(320px, 40vw, 500px); margin-top: 0; }
   .tyga-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .tyga-player {
