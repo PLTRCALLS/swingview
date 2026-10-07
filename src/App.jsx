@@ -13,8 +13,6 @@ const IMG = {
   stepMeasure: "/images/step-measure.jpg",
   stepReview: "/images/step-review.jpg",
   stepImprove: "/images/step-improve.jpg",
-  liveRange: "/images/live-range.jpg",
-  liveEvents: "/images/live-events.jpg",
 };
 
 const FORMSPREE = "https://formspree.io/f/mqeybpyn";
@@ -236,20 +234,9 @@ const css = `
   .chat-input > span:first-child { flex: 1; font-size: 14px; color: var(--faint); }
   .chat-send { flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #fff; color: #0b0b10; display: inline-flex; align-items: center; justify-content: center; }
 
-  /* LIVE */
-  .live-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 40px; }
-  .live-card {
     position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; min-height: 420px;
     border-radius: 28px; padding: 32px; color: #fff; background: #0b0b10; border: 1px solid var(--line); overflow: hidden;
   }
-  .live-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
-  .live-card:hover img { transform: scale(1.03); }
-  .live-card .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.05) 35%, rgba(0,0,0,0.88) 100%); }
-  .live-card .tag { position: absolute; top: 24px; left: 24px; font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px; }
-  .live-card .tag.green { color: var(--accent-ink); background: var(--accent); }
-  .live-card .tag.purple { color: #fff; background: var(--purple); }
-  .live-card .meta { position: relative; font-size: 13px; color: #d4d0e0; font-weight: 600; }
-  .live-card .title { position: relative; font-size: 30px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
 
   /* PRICING */
   .toggle-row { display: flex; align-items: center; gap: 14px; font-size: 20px; font-weight: 600; margin-top: 40px; justify-content: center; }
@@ -326,14 +313,12 @@ const css = `
     .tyga-wave { display: none; }
     .tyga-bar { padding-right: 10px; }
     .tyga-caption { font-size: 16px; padding: 0 8px; }
-    .steps, .live-grid, .plans, .foot-grid { grid-template-columns: 1fr; }
+    .steps, .plans, .foot-grid { grid-template-columns: 1fr; }
     .step p { min-height: 0; }
     .tab { min-width: 150px; min-height: 76px; font-size: 17px; padding: 14px 22px; }
     .coach { padding: 28px 20px; }
     .two-col .copy .strong, .two-col .copy .soft, .panel p { font-size: 18px; }
-    .live-card { min-height: 340px; }
-    .live-card .title { font-size: 26px; }
-    .plan { padding: 28px 22px; }
+        .plan { padding: 28px 22px; }
     .plan-price { font-size: 44px; }
     .waitlist { padding: 64px 20px 80px; border-radius: 24px; }
       }
@@ -502,31 +487,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* IN PERSON */}
-      <section id="inperson" className="wrap section-lg">
-        <div className="center">
-          <span className="pill">SwingView Live</span>
-          <h2 className="h-lg">See it in person.</h2>
-          <p className="lead">We bring the full setup to ranges and events across the GTA. Hit a bucket, leave with your numbers.</p>
-        </div>
-        <div className="live-grid">
-          <a href="#waitlist" className="live-card">
-            <img src={IMG.liveRange} alt="Covered driving range bay at sunset" />
-            <span className="shade" />
-            <span className="tag green">Range sessions</span>
-            <span className="meta">Mississauga · Oakville · GTA</span>
-            <span className="title">Book a SwingView Live session at your range</span>
-          </a>
-          <a href="#waitlist" className="live-card">
-            <img src={IMG.liveEvents} alt="Golfers at a clubhouse event at sunset" />
-            <span className="shade" />
-            <span className="tag purple">Events</span>
-            <span className="meta">Corporate days · Tournaments · Demo days</span>
-            <span className="title">Bring 3D swing analysis to your event</span>
-          </a>
-        </div>
-      </section>
-
       {/* PRICING */}
       <section id="pricing" className="wrap section-lg">
         <div className="center">
@@ -591,7 +551,7 @@ export default function App() {
             <p>A swing coach that has actually seen your swing.</p>
           </div>
           <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
-          <div className="foot-col"><b>In person</b><a href="#inperson">SwingView Live sessions</a><a href="#inperson">Book a range day</a></div>
+          <div className="foot-col"><b>In person</b><a href="https://events.swingview.ai" target="_blank" rel="noreferrer">SwingView Live</a></div>
           <div className="foot-col"><b>Follow</b><a href="https://www.instagram.com/swingviewai/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.tiktok.com/@swingview.ai" target="_blank" rel="noreferrer">TikTok</a><a href="https://www.youtube.com/@SwingView" target="_blank" rel="noreferrer">YouTube</a><a href="https://www.linkedin.com/company/swingview-ai/" target="_blank" rel="noreferrer">LinkedIn</a><a href="https://x.com/swingviewai" target="_blank" rel="noreferrer">X/Twitter</a></div>
         </div>
         <div className="foot-bottom">
