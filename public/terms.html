@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SwingView AI — Terms of Use</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface-2: #1c1c1c;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --text-secondary: #999999;
+    --accent: #34C759;
+    --accent-dim: rgba(52, 199, 89, 0.10);
+    --gold: #c9a84c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 10, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 100;
+  }
+
+  .header-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+  }
+
+  .logo span {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .header-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-secondary);
+    background: var(--surface-2);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  .page-title {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+
+  .effective-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 48px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section {
+    margin-bottom: 48px;
+  }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--text);
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 28px;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+
+  p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-size: 15.5px;
+  }
+
+  .callout {
+    background: var(--accent-dim);
+    border-left: 3px solid var(--accent);
+    padding: 20px 24px;
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+  }
+
+  .callout p {
+    color: var(--text);
+    margin-bottom: 0;
+    font-size: 15px;
+  }
+
+  .callout strong {
+    color: var(--accent);
+  }
+
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 24px 0;
+    font-size: 14px;
+  }
+
+  .data-table th {
+    text-align: left;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    color: var(--accent);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+    vertical-align: top;
+  }
+
+  .data-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .data-table .label {
+    color: var(--text);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  ul {
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+
+  li {
+    color: var(--text-secondary);
+    font-size: 15.5px;
+    margin-bottom: 8px;
+    padding-left: 4px;
+  }
+
+  li::marker {
+    color: var(--accent);
+  }
+
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-top: 24px;
+  }
+
+  .contact-card p {
+    margin-bottom: 8px;
+  }
+
+  .contact-card a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .contact-card a:hover {
+    text-decoration: underline;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 48px 0;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+    text-align: center;
+  }
+
+  .footer p {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .footer a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  @media (max-width: 600px) {
+    .page-title { font-size: 32px; }
+    .container { padding: 40px 20px 80px; }
+    .data-table { font-size: 13px; }
+    .data-table th, .data-table td { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <a href="https://swingview.ai" class="logo">SwingView <span>AI</span></a>
+    <span class="header-badge">Terms of Use</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <h1 class="page-title">Terms of Use</h1>
+  <p class="effective-date">Effective: October 7, 2026 &nbsp;·&nbsp; Last Updated: October 7, 2026</p>
+
+  <div class="section">
+    <span class="section-number">01</span>
+    <h2>Agreement</h2>
+    <p>These terms are an agreement between you and Predictive Growth Labs ("we", "us"), the operator of the SwingView AI app and the swingview.ai website (together, "SwingView"). By downloading, installing or using SwingView you agree to these terms. If you do not agree, do not use SwingView.</p>
+    <p>Our <a href="/privacy.html" style="color: var(--accent); text-decoration: none;">privacy policy</a> explains what data the app handles and forms part of these terms.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">02</span>
+    <h2>What SwingView Is</h2>
+    <p>SwingView records golf swings on your iPhone, measures them from the video, and offers coaching feedback generated by an AI model based on those measurements.</p>
+    <div class="callout">
+      <p><strong>Important.</strong> Measurements are estimates derived from video and depend on camera placement, lighting and frame rate. Coaching feedback is generated automatically and is general information, not professional instruction. Use your own judgement, and consult a qualified coach or medical professional where appropriate. You are responsible for your own safety when practising.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <span class="section-number">03</span>
+    <h2>Who May Use SwingView</h2>
+    <p>You must be at least 13 years old to use SwingView. If you are under the age of majority where you live, a parent or guardian must agree to these terms on your behalf.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">04</span>
+    <h2>Your Content</h2>
+    <p>Videos you record, the measurements made from them and your conversations with the coach are yours. You keep all rights to them.</p>
+    <p>So that SwingView can work, you give us permission to process your content in the ways described in the privacy policy, for example sending a trimmed clip to an analysis service when you request an analysis. Clips are only used to improve our models if you have turned on the optional training contribution in the app.</p>
+    <p>Only record people who are happy to be recorded. You are responsible for the content you capture and for having the right to use it.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">05</span>
+    <h2>Free and Pro</h2>
+    <p>SwingView offers a free tier and a paid Pro subscription. Pro is sold as an auto-renewing subscription through the Apple App Store and is billed to your Apple account at the price shown at purchase. It renews automatically unless you cancel at least 24 hours before the end of the current period. You can manage or cancel the subscription at any time in your Apple ID settings. Refunds are handled by Apple under its policies.</p>
+    <p>We may change prices or what each tier includes. A change to the price of an existing subscription takes effect at the next renewal after you have been notified.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">06</span>
+    <h2>Acceptable Use</h2>
+    <p>When using SwingView you agree not to:</p>
+    <ul>
+      <li>reverse engineer, copy or resell the app, its models or its data;</li>
+      <li>use automated tools to access the app or our services;</li>
+      <li>interfere with the app, our servers or other users;</li>
+      <li>use the coach to generate content that is unlawful, abusive or harmful;</li>
+      <li>upload content you do not have the right to use.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <span class="section-number">07</span>
+    <h2>Our Property</h2>
+    <p>SwingView, including its software, design, models, trademarks and the measurements it produces, belongs to Predictive Growth Labs or its licensors. These terms give you a personal, non-transferable licence to use the app on Apple devices you own or control, subject to the App Store terms. They do not transfer any ownership to you.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">08</span>
+    <h2>Availability and Changes</h2>
+    <p>SwingView is in active development. We may add, change or remove features, and the AI services we rely on may be unavailable from time to time. We will try to give notice of significant changes but cannot guarantee uninterrupted service.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">09</span>
+    <h2>Disclaimer and Limitation of Liability</h2>
+    <p>SwingView is provided "as is" and "as available", without warranties of any kind, to the extent permitted by law. We do not promise that measurements or coaching will be accurate, complete or suited to your goals, or that using them will improve your golf.</p>
+    <p>To the extent permitted by law, Predictive Growth Labs is not liable for indirect, incidental or consequential loss arising from your use of SwingView, including injury during practice, lost data or lost profits. Our total liability for any claim relating to SwingView is limited to the amount you paid us in the twelve months before the claim arose. Some jurisdictions do not allow these limits, in which case they apply to the fullest extent permitted.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">10</span>
+    <h2>Ending the Agreement</h2>
+    <p>You can stop using SwingView and delete the app at any time. We may suspend or end your access if you breach these terms. Sections that by their nature should continue, such as ownership and limitation of liability, survive termination.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">11</span>
+    <h2>Apple</h2>
+    <p>These terms are between you and Predictive Growth Labs, not Apple. Apple is not responsible for SwingView or its content and has no obligation to provide support or maintenance for it. Apple and its subsidiaries are third-party beneficiaries of these terms and may enforce them against you.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">12</span>
+    <h2>Governing Law</h2>
+    <p>These terms are governed by the laws of the Province of Ontario and the federal laws of Canada applicable there, without regard to conflict-of-law rules. Nothing in these terms removes consumer protections you are entitled to under the law where you live.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">13</span>
+    <h2>Changes to These Terms</h2>
+    <p>We may update these terms as SwingView evolves. The date at the top shows the current version. For significant changes we will notify you in the app or on the website. Continuing to use SwingView after a change means you accept the updated terms.</p>
+  </div>
+
+  <div class="section">
+    <span class="section-number">14</span>
+    <h2>Contact Us</h2>
+    <p>Questions about these terms or about SwingView:</p>
+    <ul>
+      <li>Email: <a href="mailto:support@swingview.ai">support@swingview.ai</a></li>
+      <li>Operated by: Predictive Growth Labs</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  <p>&copy; 2026 Predictive Growth Labs. All rights reserved. &nbsp;·&nbsp; <a href="https://swingview.ai">swingview.ai</a> &nbsp;·&nbsp; <a href="/privacy.html">Privacy policy</a></p>
+</div>
+
+</body>
+</html>
