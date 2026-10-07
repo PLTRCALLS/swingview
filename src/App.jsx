@@ -518,7 +518,7 @@ export default function App() {
             </ul>
           </div>
         </div>
-        <p className="fine">Prices in CAD. Pro is billed through the App Store and can be cancelled any time.</p>
+        <p className="fine">Pro is billed through the App Store and can be cancelled any time.</p>
       </section>
 
       {/* WAITLIST */}
