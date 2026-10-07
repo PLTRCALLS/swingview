@@ -487,7 +487,6 @@ export default function App() {
       {/* PRICING */}
       <section id="pricing" className="wrap section-lg">
         <div className="center">
-          <span className="pill">Pricing</span>
           <h2 className="h-lg">Start free. Upgrade when it earns it.</h2>
           <p className="lead">Record and review as much as you like for free. Pay only for the analysis and coaching.</p>
         </div>
