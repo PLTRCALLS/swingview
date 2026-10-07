@@ -17,6 +17,34 @@ If asked about their swing, give one practical, specific tip and invite them to 
 
 const ALLOWED_ORIGINS = ["https://swingview.ai", "https://www.swingview.ai"];
 
+// Fast, non-reasoning models are tried first; grok-4.7 is the safe fallback.
+// Set XAI_CHAT_MODEL to force one. The first id that works is remembered per isolate.
+const MODEL_CANDIDATES = ["grok-4-2-fast-non-reasoning", "grok-4-1-fast-non-reasoning", "grok-4-fast-non-reasoning", "grok-4.7"];
+let workingModel = null;
+
+async function chat(env, messages) {
+  const candidates = env.XAI_CHAT_MODEL ? [env.XAI_CHAT_MODEL] : workingModel ? [workingModel, ...MODEL_CANDIDATES.filter((m) => m !== workingModel)] : MODEL_CANDIDATES;
+  let lastErr;
+  for (const model of candidates) {
+    const r = await fetch("https://api.x.ai/v1/chat/completions", {
+      method: "POST",
+      signal: AbortSignal.timeout(20000),
+      headers: { Authorization: `Bearer ${env.XAI_API_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ model, messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages], max_tokens: 90, temperature: 0.7 }),
+    });
+    if (r.ok) {
+      const data = await r.json();
+      workingModel = model;
+      return (data.choices?.[0]?.message?.content || "").trim();
+    }
+    const body = (await r.text()).slice(0, 200);
+    lastErr = new Error(`chat ${r.status} (${model}): ${body}`);
+    // unknown / unavailable model → try the next one; anything else is a real failure
+    if (!((r.status === 404 || r.status === 400 || r.status === 403) && /model/i.test(body))) break;
+  }
+  throw lastErr;
+}
+
 export async function handleTyga(request, env) {
   const origin = request.headers.get("Origin") || "";
   const isAllowed = ALLOWED_ORIGINS.includes(origin) || /\.pages\.dev$/.test(new URL(origin || "https://x.invalid").hostname) || /^https?:\/\/localhost(:\d+)?$/.test(origin);
@@ -41,20 +69,7 @@ export async function handleTyga(request, env) {
   // 1) Grok reply
   let text;
   try {
-    const r = await fetch("https://api.x.ai/v1/chat/completions", {
-      method: "POST",
-      signal: AbortSignal.timeout(20000),
-      headers: { Authorization: `Bearer ${env.XAI_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: env.XAI_CHAT_MODEL || "grok-4.7",
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
-        max_tokens: 90,
-        temperature: 0.7,
-      }),
-    });
-    if (!r.ok) throw new Error(`chat ${r.status}: ${(await r.text()).slice(0, 200)}`);
-    const data = await r.json();
-    text = (data.choices?.[0]?.message?.content || "").trim();
+    text = await chat(env, messages);
   } catch (err) {
     console.error(err);
     text = "I'm having a little trouble hearing you right now. Try me again in a second.";
