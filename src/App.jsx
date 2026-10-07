@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TygaOrb from "./TygaOrb.jsx";
 
 // ── IMAGES (public/images) ───────────────────────────────────────────────────
@@ -289,23 +289,12 @@ const css = `
   .foot-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--faint); border-top: 1px solid var(--line); padding-top: 24px; margin-top: 48px; }
 
   /* MOTION */
-  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-  .hero-inner > * { animation: rise .8s cubic-bezier(.2,.7,.2,1) both; }
-  .hero-inner > *:nth-child(1) { animation-delay: .05s; }
-  .hero-inner > *:nth-child(2) { animation-delay: .15s; }
-  .hero-inner > *:nth-child(3) { animation-delay: .28s; }
-  .hero-inner > *:nth-child(4) { animation-delay: .38s; }
-  .hero-inner > *:nth-child(5) { animation-delay: .46s; }
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
-  .reveal.in { opacity: 1; transform: none; }
   .step-img img, .panel img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
   .step:hover .step-img img { transform: scale(1.04); }
   .plan { transition: border-color .3s ease, transform .3s ease; }
   .plan:hover { border-color: #34324a; transform: translateY(-2px); }
   .plan.pro:hover { border-color: #6a4fd0; }
   @media (prefers-reduced-motion: reduce) {
-    .hero-inner > * { animation: none; }
-    .reveal { opacity: 1; transform: none; transition: none; }
     .step-img img, .panel img, .plan { transition: none; }
     .step:hover .step-img img, .plan:hover { transform: none; }
   }
@@ -399,19 +388,6 @@ export default function App() {
     setSubmitted(true);
   };
 
-  useEffect(() => {
-    const els = Array.from(document.querySelectorAll(".reveal"));
-    const show = (el) => el.classList.add("in");
-    const inView = (el) => { const r = el.getBoundingClientRect(); return r.top < window.innerHeight * 0.92 && r.bottom > 0; };
-    els.filter(inView).forEach(show);
-    if (!("IntersectionObserver" in window)) { els.forEach(show); return; }
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { show(e.target); io.unobserve(e.target); } });
-    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
-    els.forEach((el) => { if (!el.classList.contains("in")) io.observe(el); });
-    return () => io.disconnect();
-  }, []);
-
   const t = TABS[tab];
 
   return (
@@ -442,33 +418,33 @@ export default function App() {
           <p className="hero-note">iPhone · Free to start · No extra hardware</p>
         </div>
 
-        <div id="tyga" className="reveal"><TygaOrb /></div>
+        <div id="tyga"><TygaOrb /></div>
       </section>
 
       {/* BUILT AROUND */}
       <section id="features" className="wrap section-xl">
         <div className="two-col">
-          <div className="copy reveal">
+          <div className="copy">
             <h2 className="h-md">Measurement first,<br />advice second.</h2>
             <p className="strong">Golf advice is everywhere. The hard part is knowing what actually works with your swing.</p>
             <p className="soft">Instead of generic tips, get feedback grounded in your own measurements — every swing at 240 fps, remembered by a coach that has seen them all.</p>
           </div>
-          <img className="square-photo reveal" style={{ transitionDelay: "120ms" }} src={IMG.builtAround} alt="Golfer at the range holding an iPhone showing SwingView's Me screen" />
+          <img className="square-photo" src={IMG.builtAround} alt="Golfer at the range holding an iPhone showing SwingView's Me screen" />
         </div>
       </section>
 
       {/* TABS */}
       <section className="wrap section-xl">
-        <div className="center reveal">
+        <div className="center">
           <h2 className="h-lg">The smarter way to improve</h2>
           <p className="lead">A data-driven feedback loop that keeps your practice purposeful and shows you when you’re getting better.</p>
         </div>
-        <div className="tabs reveal" style={{ transitionDelay: "100ms" }} role="tablist">
+        <div className="tabs" role="tablist">
           {TABS.map((x, i) => (
             <button key={x.title} role="tab" aria-selected={i === tab} className={"tab" + (i === tab ? " on" : "")} onClick={() => setTab(i)}>{x.label}</button>
           ))}
         </div>
-        <div className="panel reveal" style={{ transitionDelay: "180ms" }}>
+        <div className="panel">
           <img key={t.img} src={t.img} alt={t.title} />
           <div key={t.title} className="copy">
             <h3>{t.title}</h3>
@@ -480,13 +456,13 @@ export default function App() {
 
       {/* STEPS */}
       <section id="how" className="wrap section-lg">
-        <div className="center reveal">
+        <div className="center">
           <h2 className="h-lg">Set your phone down. Hit balls.</h2>
           <p className="lead">There's nothing to tap between shots. The whole loop fits inside a normal range session.</p>
         </div>
         <div className="steps">
-          {STEPS.map((s, i) => (
-            <div key={s.n} className="step reveal" style={{ transitionDelay: `${i * 90}ms` }}>
+          {STEPS.map((s) => (
+            <div key={s.n} className="step">
               <span className="step-num">{s.n}</span>
               <h3>{s.title}</h3>
               <p>{s.body}</p>
@@ -498,7 +474,7 @@ export default function App() {
 
       {/* COACH */}
       <section className="wrap section-lg">
-        <div className="coach reveal">
+        <div className="coach">
           <div className="copy">
             <span className="pill">AI coach</span>
             <h2 className="h-md">Ask it why the ball went left.</h2>
@@ -524,17 +500,17 @@ export default function App() {
 
       {/* PRICING */}
       <section id="pricing" className="wrap section-lg">
-        <div className="center reveal">
+        <div className="center">
           <h2 className="h-lg">Start free. Upgrade when it earns it.</h2>
           <p className="lead">Record and review as much as you like for free. Pay only for the analysis and coaching.</p>
         </div>
-        <div className="toggle-row reveal" style={{ transitionDelay: "80ms" }}>
+        <div className="toggle-row">
           <button className="txt" style={{ color: yearly ? "var(--faint)" : "#fff" }} onClick={() => setYearly(false)}>Monthly</button>
           <button className="switch" aria-label="Toggle yearly billing" onClick={() => setYearly((v) => !v)}><span className="knob" style={{ left: yearly ? 35 : 5 }} /></button>
           <button className="txt" style={{ color: yearly ? "#fff" : "var(--faint)" }} onClick={() => setYearly(true)}>Yearly</button>
         </div>
         <div className="plans">
-          <div className="plan reveal" style={{ transitionDelay: "120ms" }}>
+          <div className="plan">
             <div className="plan-name"><span style={{ color: "#4fd1ff" }}>{I.star}</span>Free</div>
             <div className="plan-price">$0<span> /month</span></div>
             <p>Everything you need to see your swing properly. Great for trying before you commit.</p>
@@ -544,7 +520,7 @@ export default function App() {
               {["Unlimited 240 fps recording", "Swing detection and trimming", "Skeleton overlay on replay", "Frame-step and slow motion", "Session history", "3 full analyses a month"].map((x) => <li key={x}><span style={{ color: "#4fd1ff" }}>●</span><b>{x}</b></li>)}
             </ul>
           </div>
-          <div className="plan pro reveal" style={{ transitionDelay: "220ms" }}>
+          <div className="plan pro">
             <span className="badge">Launch price</span>
             <div className="plan-name"><span style={{ color: "#ffb04a" }}>{I.bolt}</span>Pro</div>
             <div className="plan-price">{yearly ? "$59.99" : "$6.99"}<span> {yearly ? "/year" : "/month"}</span></div>
@@ -556,12 +532,12 @@ export default function App() {
             </ul>
           </div>
         </div>
-        <p className="fine reveal" style={{ transitionDelay: "300ms" }}>Pro is billed through the App Store and can be cancelled any time.</p>
+        <p className="fine">Pro is billed through the App Store and can be cancelled any time.</p>
       </section>
 
       {/* WAITLIST */}
       <section id="waitlist" className="wrap section-lg">
-        <div className="waitlist reveal">
+        <div className="waitlist">
           <div className="waitlist-glow" />
           <h2>See what you can't feel.</h2>
           <p>SwingView is coming to the App Store. Leave your email and we'll let you know the day it's live.</p>
