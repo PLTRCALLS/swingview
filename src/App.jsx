@@ -423,7 +423,7 @@ export default function App() {
       <section className="wrap section-xl">
         <div className="center">
           <h2 className="h-lg">The smarter way to improve</h2>
-          <p className="lead">A data-driven feedback loop that keeps your practice purposeful and shows you when you're getting better</p>
+          <p className="lead">A data-driven feedback loop that keeps your practice purposeful and shows you when you’re getting better.</p>
         </div>
         <div className="tabs" role="tablist">
           {TABS.map((x, i) => (
