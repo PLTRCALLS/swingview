@@ -182,7 +182,7 @@ const css = `
   .square-photo { flex: 0 0 470px; width: 470px; height: 470px; border-radius: 24px; object-fit: cover; }
 
   /* TABS */
-  .center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; max-width: 760px; margin: 0 auto; }
+  .center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; max-width: 760px; margin: 0 auto; }
   .tabs { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 48px; }
   .tab {
     min-width: 190px; min-height: 92px; border-radius: 999px; padding: 18px 28px;
