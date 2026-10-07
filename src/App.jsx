@@ -176,13 +176,13 @@ const css = `
 
   /* BUILT AROUND */
   .two-col { display: flex; gap: 64px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-  .two-col .copy { flex: 1 1 460px; min-width: 280px; display: flex; flex-direction: column; gap: 26px; }
+  .two-col .copy { flex: 1 1 460px; min-width: 280px; display: flex; flex-direction: column; gap: 24px; }
   .two-col .copy .strong { font-size: 21px; line-height: 1.4; font-weight: 600; color: #fff; max-width: 440px; }
   .two-col .copy .soft { font-size: 21px; line-height: 1.45; color: #9a97a8; max-width: 600px; }
   .square-photo { flex: 0 0 470px; width: 470px; height: 470px; border-radius: 24px; object-fit: cover; }
 
   /* TABS */
-  .center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; max-width: 760px; margin: 0 auto; }
+  .center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; max-width: 760px; margin: 0 auto; }
   .tabs { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 40px; }
   .tab {
     min-width: 190px; min-height: 92px; border-radius: 999px; padding: 18px 28px;
@@ -219,7 +219,7 @@ const css = `
     border-radius: 32px; background: linear-gradient(120deg, #07060c 0%, #0c0a1c 50%, #1d1148 100%);
     border: 1px solid #2a2250; padding: 64px; display: flex; gap: 56px; align-items: center; flex-wrap: wrap;
   }
-  .coach .copy { flex: 1 1 420px; min-width: 280px; display: flex; flex-direction: column; gap: 20px; }
+  .coach .copy { flex: 1 1 420px; min-width: 280px; display: flex; flex-direction: column; gap: 24px; }
   .coach .pill { align-self: flex-start; background: rgba(155,92,255,0.16); border-color: rgba(155,92,255,0.5); color: #d9c7ff; }
   .coach ul { list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 17px; }
   .coach li { display: flex; gap: 12px; align-items: flex-start; }
@@ -264,7 +264,7 @@ const css = `
   .waitlist {
     position: relative; border-radius: 32px; overflow: hidden; border: 1px solid #2a2250;
     background: linear-gradient(180deg, #0c0a18 0%, #1b0f3d 60%, #4a26a8 100%);
-    padding: 96px 24px 112px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px;
+    padding: 96px 24px 112px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px;
   }
   .waitlist-glow { position: absolute; left: 0; right: 0; bottom: -260px; height: 500px; background: radial-gradient(ellipse at center bottom, rgba(190,150,255,0.95), rgba(0,0,0,0) 70%); pointer-events: none; }
   .waitlist h2 { position: relative; font-size: clamp(40px, 5.5vw, 64px); letter-spacing: -0.035em; line-height: 1.02; }
