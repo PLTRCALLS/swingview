@@ -662,6 +662,7 @@ export default function App() {
         <div className="foot-grid">
           <div className="foot-col">
             <span className="logo">SwingView</span>
+            <p>A swing coach that has actually seen your swing.</p>
           </div>
           <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
           <div className="foot-col"><b>In person</b><a href="#inperson">SwingView Live sessions</a><a href="#inperson">Book a range day</a></div>
