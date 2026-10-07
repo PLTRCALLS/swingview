@@ -234,12 +234,9 @@ const css = `
   .chat-input > span:first-child { flex: 1; font-size: 14px; color: var(--faint); }
   .chat-send { flex: 0 0 32px; width: 32px; height: 32px; border-radius: 50%; background: #fff; color: #0b0b10; display: inline-flex; align-items: center; justify-content: center; }
 
-    position: relative; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; min-height: 420px;
-    border-radius: 28px; padding: 32px; color: #fff; background: #0b0b10; border: 1px solid var(--line); overflow: hidden;
-  }
 
   /* PRICING */
-  .toggle-row { display: flex; align-items: center; gap: 14px; font-size: 20px; font-weight: 600; margin-top: 40px; justify-content: center; }
+  .toggle-row { display: flex; align-items: center; gap: 14px; font-size: 20px; font-weight: 600; margin-top: 48px; justify-content: center; }
   .toggle-row button.txt { background: none; border: 0; font-size: inherit; font-weight: inherit; padding: 8px; }
   .switch { width: 68px; height: 38px; border-radius: 999px; background: #fff; border: 0; position: relative; padding: 0; }
   .switch .knob { position: absolute; top: 5px; width: 28px; height: 28px; border-radius: 50%; background: #0b0b10; transition: left .2s ease; }
