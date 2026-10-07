@@ -285,6 +285,8 @@ const css = `
   .foot-col a:hover { color: #fff; }
   .foot-col p { font-size: 14px; line-height: 1.55; color: var(--faint); }
   .foot-bottom { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--faint); border-top: 1px solid var(--line); padding-top: 24px; margin-top: 48px; }
+  .foot-links { display: flex; gap: 20px; flex-wrap: wrap; }
+  .foot-bottom a:hover { color: #fff; }
 
   /* MOTION */
   .step-img img, .panel img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
@@ -564,7 +566,11 @@ export default function App() {
         </div>
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} SwingView · Predictive Growth Labs</span>
-          <a href="/privacy.html">Privacy policy</a>
+          <nav className="foot-links">
+            <a href="/privacy.html">Privacy policy</a>
+            <a href="/terms.html">Terms of use</a>
+            <a href="mailto:support@swingview.ai">Contact</a>
+          </nav>
         </div>
       </footer>
     </>
