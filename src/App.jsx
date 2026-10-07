@@ -185,8 +185,8 @@ const css = `
   .center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; max-width: 760px; margin: 0 auto; }
   .tabs { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 48px; }
   .tab {
-    min-width: 190px; min-height: 92px; border-radius: 999px; padding: 18px 28px;
-    font-size: 20px; font-weight: 600; line-height: 1.25; white-space: pre-line;
+    min-width: 170px; border-radius: 999px; padding: 16px 28px;
+    font-size: 20px; font-weight: 600; line-height: 1.25; white-space: nowrap;
     background: transparent; border: 1px solid #2b2a33; color: #b9b5c9; transition: all .2s ease;
   }
   .tab:hover { border-color: #4a4860; color: #fff; }
@@ -341,10 +341,10 @@ const I = {
 
 // ── CONTENT ──────────────────────────────────────────────────────────────────
 const TABS = [
-  { label: "AI\nCoach", title: "Personalized AI Coach", img: IMG.tabCoach, body: "TYGA is your AI swing coach, using your measurements to answer questions, uncover insights, and guide you toward smarter improvement." },
-  { label: "In Depth\n3D Data", title: "In Depth 3D Data", img: IMG.tab3d, body: "Turn a simple video from your phone into detailed swing data, giving you a clearer picture of how your body moves throughout the swing." },
-  { label: "Automated\nPractice", title: "Automated Practice", img: IMG.tabPractice, body: "Set the phone down and hit balls. Every swing is detected, trimmed and measured automatically — nothing to tap between shots." },
-  { label: "Compare\nSwings", title: "Compare Swings", img: IMG.tabCompare, body: "Put today next to last month, or next to a reference swing, frame for frame at the real frame rate." },
+  { label: "AI coach", title: "Personalized AI Coach", img: IMG.tabCoach, body: "TYGA is your AI swing coach, using your measurements to answer questions, uncover insights, and guide you toward smarter improvement." },
+  { label: "3D data", title: "In Depth 3D Data", img: IMG.tab3d, body: "Turn a simple video from your phone into detailed swing data, giving you a clearer picture of how your body moves throughout the swing." },
+  { label: "Auto practice", title: "Automated Practice", img: IMG.tabPractice, body: "Set the phone down and hit balls. Every swing is detected, trimmed and measured automatically — nothing to tap between shots." },
+  { label: "Compare swings", title: "Compare Swings", img: IMG.tabCompare, body: "Put today next to last month, or next to a reference swing, frame for frame at the real frame rate." },
 ];
 
 
