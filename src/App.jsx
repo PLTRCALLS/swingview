@@ -388,7 +388,7 @@ export default function App() {
         <a href="#top" className="logo">SwingView</a>
         <div className="nav-right">
           <nav className="nav-links">
-            <a href="#how">How it works</a><a href="#tyga">TYGA</a>
+            <a href="#how">How it works</a><a href="#tyga">Caddie</a>
           </nav>
           <a href="#waitlist" className="btn btn-white btn-sm">Get the app</a>
         </div>
