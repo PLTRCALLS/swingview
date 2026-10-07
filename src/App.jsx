@@ -193,14 +193,14 @@ const css = `
   .tab.on { background: #fff; border-color: #fff; color: #0b0b10; }
 
   .panel {
-    width: 100%; max-width: 1200px; margin: 48px auto 0; border-radius: 20px;
+    width: 100%; max-width: 1040px; margin: 48px auto 0; border-radius: 20px;
     background: radial-gradient(ellipse at 92% 115%, rgba(96,48,190,0.55) 0%, rgba(96,48,190,0) 55%), #09071a;
-    border: 1px solid #17132e; padding: 22px; display: flex; gap: 88px; align-items: center; flex-wrap: wrap; text-align: left;
+    border: 1px solid #17132e; padding: 22px; display: flex; gap: 64px; align-items: center; flex-wrap: wrap; text-align: left;
   }
   .panel img { flex: 0 1 446px; min-width: 280px; width: 446px; height: 446px; border-radius: 16px; object-fit: cover; object-position: 55% 48%; }
   .panel .copy { flex: 1 1 320px; min-width: 260px; display: flex; flex-direction: column; gap: 14px; padding: 16px 24px 16px 0; }
   .panel h3 { font-size: 26px; letter-spacing: -0.02em; }
-  .panel p { font-size: 21px; line-height: 1.45; color: #b3afc4; max-width: 400px; }
+  .panel p { font-size: 21px; line-height: 1.45; color: #b3afc4; max-width: 440px; }
 
 
   /* STEPS */
