@@ -215,11 +215,6 @@ const css = `
   .step-img img { width: 100%; height: 100%; object-fit: cover; }
 
   /* STATS */
-  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
-  .stat { background: #0f0e16; border: 1px solid var(--line); border-radius: 24px; padding: 32px; display: flex; flex-direction: column; gap: 8px; }
-  .stat-num { font-size: 56px; font-weight: 800; letter-spacing: -0.03em; color: #fff; line-height: 1; }
-  .stat-num span { font-size: 22px; color: var(--dim); font-weight: 600; }
-  .stat p { font-size: 15px; color: var(--dim); line-height: 1.5; }
 
   /* COACH */
   .coach {
@@ -317,7 +312,6 @@ const css = `
   /* RESPONSIVE */
   @media (max-width: 1100px) {
     .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .chips { display: none; }
     .square-photo { flex-basis: 100%; width: 100%; max-width: 560px; height: auto; aspect-ratio: 1; }
     .panel { gap: 40px; }
@@ -339,7 +333,7 @@ const css = `
     .tyga-wave { display: none; }
     .tyga-bar { padding-right: 10px; }
     .tyga-caption { font-size: 16px; padding: 0 8px; }
-    .steps, .stats, .live-grid, .plans, .foot-grid { grid-template-columns: 1fr; }
+    .steps, .live-grid, .plans, .foot-grid { grid-template-columns: 1fr; }
     .step p { min-height: 0; }
     .tab { min-width: 150px; min-height: 76px; font-size: 17px; padding: 14px 22px; }
     .coach { padding: 28px 20px; }
@@ -347,7 +341,7 @@ const css = `
     .live-card { min-height: 340px; }
     .live-card .title { font-size: 26px; }
     .plan { padding: 28px 22px; }
-    .plan-price, .stat-num { font-size: 44px; }
+    .plan-price { font-size: 44px; }
     .waitlist { padding: 64px 20px 80px; border-radius: 24px; }
     .faq-q { font-size: 17px; padding: 18px 20px; }
     .faq-a { padding: 0 20px 20px; font-size: 16px; }
@@ -497,16 +491,6 @@ export default function App() {
               <div className="step-img"><img src={s.img} alt={s.alt} /></div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* STATS */}
-      <section className="wrap section">
-        <div className="stats">
-          <div className="stat"><div className="stat-num">240<span> fps</span></div><p>Capture rate on supported iPhones</p></div>
-          <div className="stat"><div className="stat-num">133</div><p>Body keypoints tracked per frame</p></div>
-          <div className="stat"><div className="stat-num">19</div><p>Swing measurements per analysis</p></div>
-          <div className="stat"><div className="stat-num">&lt;60<span> s</span></div><p>From swing to full coaching</p></div>
         </div>
       </section>
 
