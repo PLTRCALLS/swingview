@@ -312,7 +312,8 @@ const css = `
     .tyga-caption { font-size: 16px; min-height: 45px; padding: 0 8px; }
     .steps, .plans, .foot-grid { grid-template-columns: 1fr; }
     .step p { min-height: 0; }
-    .tab { min-width: 150px; min-height: 76px; font-size: 17px; padding: 14px 22px; }
+    .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .tab { min-width: 0; font-size: 17px; padding: 14px 16px; }
     .coach { padding: 28px 20px; }
     .two-col .copy .strong, .two-col .copy .soft, .panel p { font-size: 18px; }
         .plan { padding: 28px 22px; }
