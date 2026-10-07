@@ -198,7 +198,7 @@ const css = `
     border: 1px solid #17132e; padding: 22px; display: flex; gap: 88px; align-items: center; flex-wrap: wrap; text-align: left;
   }
   .panel img { flex: 0 1 446px; min-width: 280px; width: 446px; height: 446px; border-radius: 16px; object-fit: cover; object-position: 55% 48%; }
-  .panel .copy { flex: 1 1 320px; min-width: 260px; display: flex; flex-direction: column; gap: 14px; padding: 16px 24px 16px 0; }
+  .panel .copy { flex: 1 1 320px; min-width: 260px; display: flex; flex-direction: column; gap: 16px; padding: 16px 24px 16px 0; }
   .panel h3 { font-size: 26px; letter-spacing: -0.02em; }
   .panel p { font-size: 21px; line-height: 1.45; color: #b3afc4; max-width: 400px; }
 
@@ -241,7 +241,7 @@ const css = `
   .switch { width: 68px; height: 38px; border-radius: 999px; background: #fff; border: 0; position: relative; padding: 0; }
   .switch .knob { position: absolute; top: 5px; width: 28px; height: 28px; border-radius: 50%; background: #0b0b10; transition: left .2s ease; }
   .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 48px; }
-  .plan { background: linear-gradient(180deg, #0f0e16, #0b0b10); border: 1px solid var(--line); border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 22px; position: relative; }
+  .plan { background: linear-gradient(180deg, #0f0e16, #0b0b10); border: 1px solid var(--line); border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 24px; position: relative; }
   .plan.pro { background: linear-gradient(160deg, #130e2a 0%, #0f0e16 40%, #0b0b10 100%); border-color: #4a33a8; box-shadow: 0 0 0 1px rgba(109,60,255,0.2), 0 30px 90px rgba(109,60,255,0.25); }
   .plan-name { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: #fff; }
   .plan-price { font-size: 56px; font-weight: 800; letter-spacing: -0.03em; color: #fff; line-height: 1; }
