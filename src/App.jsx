@@ -277,7 +277,7 @@ const css = `
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
   /* FOOTER */
-  footer { padding: 96px 0 40px; }
+  footer { padding: 160px 0 40px; }
   .foot-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
   .foot-col { display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
   .foot-col b { color: #fff; font-weight: 700; }
@@ -318,6 +318,7 @@ const css = `
         .plan { padding: 28px 22px; }
     .plan-price { font-size: 44px; }
     .waitlist { padding: 64px 20px 80px; border-radius: 24px; }
+    footer { padding-top: 104px; }
       }
 `;
 
