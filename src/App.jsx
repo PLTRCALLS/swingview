@@ -168,8 +168,8 @@ const css = `
   .tyga-chips button { background: rgba(255,255,255,0.05); border: 1px solid #2b2a33; color: #c9c5d9; font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 999px; transition: all .15s ease; }
   .tyga-chips button:hover { border-color: #4a4860; color: #fff; }
   .tyga-cta { margin-top: 4px; }
-  .tyga-sub { margin-top: 16px; font-size: 13px; color: var(--faint); }
-  .tyga-caption { margin-top: 16px; min-height: 50px; font-size: 18px; max-width: 640px; text-align: center; line-height: 1.4; }
+  .tyga-sub { margin-top: 10px; font-size: 13px; color: var(--faint); }
+  .tyga-caption { margin-top: 16px; min-height: 28px; font-size: 18px; max-width: 640px; text-align: center; line-height: 1.4; }
   .tyga-caption .you { color: #d4d0e0; font-style: italic; }
   .tyga-caption .ai { color: #fff; }
   .tyga-caption .soft { color: var(--faint); font-style: italic; }
@@ -198,7 +198,7 @@ const css = `
     border: 1px solid #17132e; padding: 22px; display: flex; gap: 88px; align-items: center; flex-wrap: wrap; text-align: left;
   }
   .panel img { flex: 0 1 446px; min-width: 280px; width: 446px; height: 446px; border-radius: 16px; object-fit: cover; object-position: 55% 48%; }
-  .panel .copy { flex: 1 1 320px; min-width: 260px; display: flex; flex-direction: column; gap: 16px; padding: 16px 24px 16px 0; }
+  .panel .copy { flex: 1 1 320px; min-width: 260px; display: flex; flex-direction: column; gap: 14px; padding: 16px 24px 16px 0; }
   .panel h3 { font-size: 26px; letter-spacing: -0.02em; }
   .panel p { font-size: 21px; line-height: 1.45; color: #b3afc4; max-width: 400px; }
 
@@ -219,7 +219,7 @@ const css = `
     border-radius: 32px; background: linear-gradient(120deg, #07060c 0%, #0c0a1c 50%, #1d1148 100%);
     border: 1px solid #2a2250; padding: 64px; display: flex; gap: 56px; align-items: center; flex-wrap: wrap;
   }
-  .coach .copy { flex: 1 1 420px; min-width: 280px; display: flex; flex-direction: column; gap: 24px; }
+  .coach .copy { flex: 1 1 420px; min-width: 280px; display: flex; flex-direction: column; gap: 20px; }
   .coach .pill { align-self: flex-start; background: rgba(155,92,255,0.16); border-color: rgba(155,92,255,0.5); color: #d9c7ff; }
   .coach ul { list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 17px; }
   .coach li { display: flex; gap: 12px; align-items: flex-start; }
