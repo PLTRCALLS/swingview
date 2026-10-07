@@ -344,10 +344,10 @@ const I = {
 
 // ── CONTENT ──────────────────────────────────────────────────────────────────
 const TABS = [
-  { label: "AI coach", title: "Personalized AI Coach", img: IMG.tabCoach, body: "TYGA is your AI swing coach, using your measurements to answer questions, uncover insights, and guide you toward smarter improvement." },
-  { label: "3D data", title: "In Depth 3D Data", img: IMG.tab3d, body: "Turn a simple video from your phone into detailed swing data, giving you a clearer picture of how your body moves throughout the swing." },
-  { label: "Auto practice", title: "Automated Practice", img: IMG.tabPractice, body: "Set the phone down and hit balls. Every swing is detected, trimmed and measured automatically — nothing to tap between shots." },
-  { label: "Compare swings", title: "Compare Swings", img: IMG.tabCompare, body: "Put today next to last month, or next to a reference swing, frame for frame at the real frame rate." },
+  { label: "AI Coach", title: "Personalized AI Coach", img: IMG.tabCoach, body: "TYGA is your AI swing coach, using your measurements to answer questions, uncover insights, and guide you toward smarter improvement." },
+  { label: "3D Data", title: "In Depth 3D Data", img: IMG.tab3d, body: "Turn a simple video from your phone into detailed swing data, giving you a clearer picture of how your body moves throughout the swing." },
+  { label: "Auto Practice", title: "Automated Practice", img: IMG.tabPractice, body: "Set the phone down and hit balls. Every swing is detected, trimmed and measured automatically — nothing to tap between shots." },
+  { label: "Compare Swings", title: "Compare Swings", img: IMG.tabCompare, body: "Put today next to last month, or next to a reference swing, frame for frame at the real frame rate." },
 ];
 
 
