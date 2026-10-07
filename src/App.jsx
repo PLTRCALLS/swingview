@@ -665,7 +665,7 @@ export default function App() {
           </div>
           <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
           <div className="foot-col"><b>In person</b><a href="#inperson">SwingView Live sessions</a><a href="#inperson">Book a range day</a></div>
-          <div className="foot-col"><b>Follow</b><a href="https://www.instagram.com/swingviewai/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.tiktok.com/@swingview.ai" target="_blank" rel="noreferrer">TikTok</a><a href="https://www.youtube.com/@SwingView" target="_blank" rel="noreferrer">YouTube</a></div>
+          <div className="foot-col"><b>Follow</b><a href="https://www.instagram.com/swingviewai/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.tiktok.com/@swingview.ai" target="_blank" rel="noreferrer">TikTok</a><a href="https://www.youtube.com/@SwingView" target="_blank" rel="noreferrer">YouTube</a><a href="https://www.linkedin.com/company/swingview-ai/" target="_blank" rel="noreferrer">LinkedIn</a><a href="https://x.com/swingviewai" target="_blank" rel="noreferrer">X</a></div>
         </div>
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} SwingView · Predictive Growth Labs</span>
