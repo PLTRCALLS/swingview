@@ -128,7 +128,7 @@ const css = `
   /* TYGA ORB */
   .tyga { position: relative; margin-top: 44px; display: flex; flex-direction: column; align-items: center; gap: 0; }
   .tyga-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--accent); }
-  .tyga-title { margin-top: 10px; font-size: clamp(24px, 2.6vw, 34px); font-weight: 600; letter-spacing: -0.02em; color: #fff; }
+  .tyga-title { margin-top: 16px; font-size: clamp(24px, 2.6vw, 34px); font-weight: 600; letter-spacing: -0.02em; color: #fff; }
   .tyga-stage { position: relative; width: min(1180px, 100vw); height: clamp(320px, 40vw, 500px); margin-top: 0; }
   .tyga-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
   .tyga-player {
@@ -168,8 +168,8 @@ const css = `
   .tyga-chips button { background: rgba(255,255,255,0.05); border: 1px solid #2b2a33; color: #c9c5d9; font-size: 13px; font-weight: 500; padding: 8px 14px; border-radius: 999px; transition: all .15s ease; }
   .tyga-chips button:hover { border-color: #4a4860; color: #fff; }
   .tyga-cta { margin-top: 4px; }
-  .tyga-sub { margin-top: 10px; font-size: 13px; color: var(--faint); }
-  .tyga-caption { margin-top: 22px; min-height: 28px; font-size: 18px; max-width: 640px; text-align: center; line-height: 1.4; }
+  .tyga-sub { margin-top: 16px; font-size: 13px; color: var(--faint); }
+  .tyga-caption { margin-top: 16px; min-height: 50px; font-size: 18px; max-width: 640px; text-align: center; line-height: 1.4; }
   .tyga-caption .you { color: #d4d0e0; font-style: italic; }
   .tyga-caption .ai { color: #fff; }
   .tyga-caption .soft { color: var(--faint); font-style: italic; }
@@ -309,7 +309,7 @@ const css = `
     .tyga-player { padding-right: 16px; gap: 10px; }
     .tyga-wave { display: none; }
     .tyga-bar { padding-right: 10px; }
-    .tyga-caption { font-size: 16px; padding: 0 8px; }
+    .tyga-caption { font-size: 16px; min-height: 45px; padding: 0 8px; }
     .steps, .plans, .foot-grid { grid-template-columns: 1fr; }
     .step p { min-height: 0; }
     .tab { min-width: 150px; min-height: 76px; font-size: 17px; padding: 14px 22px; }
