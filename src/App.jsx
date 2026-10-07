@@ -272,13 +272,6 @@ const css = `
   .plan .badge { position: absolute; top: 24px; right: 24px; font-size: 12px; font-weight: 700; color: var(--accent-ink); background: var(--accent); padding: 6px 12px; border-radius: 999px; }
   .fine { font-size: 14px; color: var(--faint); text-align: center; margin-top: 24px; }
 
-  /* FAQ */
-  .faq { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
-  .faq-list { display: flex; flex-direction: column; gap: 10px; }
-  .faq-item { background: #0f0e16; border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
-  .faq-q { width: 100%; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: 0; text-align: left; padding: 22px 26px; font-size: 19px; font-weight: 600; color: #fff; }
-  .faq-q span:last-child { font-size: 26px; color: var(--dim); line-height: 1; }
-  .faq-a { padding: 0 26px 24px; font-size: 17px; line-height: 1.55; color: var(--muted); }
 
   /* WAITLIST */
   .waitlist {
@@ -343,9 +336,7 @@ const css = `
     .plan { padding: 28px 22px; }
     .plan-price { font-size: 44px; }
     .waitlist { padding: 64px 20px 80px; border-radius: 24px; }
-    .faq-q { font-size: 17px; padding: 18px 20px; }
-    .faq-a { padding: 0 20px 20px; font-size: 16px; }
-  }
+      }
 `;
 
 // ── ICONS ────────────────────────────────────────────────────────────────────
@@ -382,20 +373,11 @@ const STEPS = [
   { n: "04", title: "Improve", body: "Ask the coach what to work on. It knows this swing and the last fifty, so it can tell you what's actually changing and what isn't.", img: IMG.stepImprove, alt: "TYGA Coach screen with insights and next drill" },
 ];
 
-const FAQS = [
-  { q: "Do I need any equipment?", a: "Just your iPhone and something to lean it on. SwingView records at 240 fps from the back camera and runs pose tracking on-device, so there is no sensor, no launch monitor and no subscription hardware." },
-  { q: "How is this different from a launch monitor?", a: "A launch monitor measures the ball and club. SwingView measures your body — turn, tilt, sequencing and tempo — which is what you actually change when you practise." },
-  { q: "Is the coaching generic?", a: "No. Every answer is grounded in the measurements from your swing and your history, and the coach cites the number behind each claim." },
-  { q: "How long does an analysis take?", a: "Under a minute from the moment you finish the swing to full coaching. Replay and skeleton overlay are instant." },
-  { q: "Is it only for good golfers?", a: "It is built for everyday golfers. If you can hit a bucket at the range, SwingView can tell you what your body is doing." },
-  { q: "What about my video and data?", a: "Your swings stay in your account and are used only to analyse and coach you. You can delete any session, or everything, at any time." },
-];
 
 // ── APP ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [tab, setTab] = useState(0);
   const [yearly, setYearly] = useState(true);
-  const [open, setOpen] = useState(0);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
@@ -583,23 +565,6 @@ export default function App() {
         <p className="fine">Prices in CAD. Pro is billed through the App Store and can be cancelled any time.</p>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="wrap section-lg">
-        <div className="faq">
-          <h2 className="h-lg" style={{ textAlign: "center" }}>Questions</h2>
-          <div className="faq-list">
-            {FAQS.map((f, i) => (
-              <div key={f.q} className="faq-item">
-                <button className="faq-q" aria-expanded={open === i} onClick={() => setOpen(open === i ? -1 : i)}>
-                  <span>{f.q}</span><span>{open === i ? "×" : "+"}</span>
-                </button>
-                {open === i && <div className="faq-a">{f.a}</div>}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* WAITLIST */}
       <section id="waitlist" className="wrap section-lg">
         <div className="waitlist">
@@ -625,7 +590,7 @@ export default function App() {
             <span className="logo">SwingView</span>
             <p>A swing coach that has actually seen your swing.</p>
           </div>
-          <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a></div>
+          <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
           <div className="foot-col"><b>In person</b><a href="#inperson">SwingView Live sessions</a><a href="#inperson">Book a range day</a></div>
           <div className="foot-col"><b>Follow</b><a href="https://www.instagram.com/swingviewai/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.tiktok.com/@swingview.ai" target="_blank" rel="noreferrer">TikTok</a><a href="https://www.youtube.com/@SwingView" target="_blank" rel="noreferrer">YouTube</a><a href="https://www.linkedin.com/company/swingview-ai/" target="_blank" rel="noreferrer">LinkedIn</a><a href="https://x.com/swingviewai" target="_blank" rel="noreferrer">X/Twitter</a></div>
         </div>
