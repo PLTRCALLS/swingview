@@ -204,11 +204,6 @@ const css = `
   .panel h3 { font-size: 26px; letter-spacing: -0.02em; }
   .panel p { font-size: 21px; line-height: 1.45; color: #b3afc4; max-width: 400px; }
 
-  .features { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 40px; text-align: left; }
-  .feature { background: var(--card); border: 1px solid var(--card-border); border-radius: 20px; padding: 28px; display: flex; flex-direction: column; gap: 16px; }
-  .feature .icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid #262530; color: #c9c5d9; display: inline-flex; align-items: center; justify-content: center; }
-  .feature h4 { margin-top: 6px; font-size: 19px; font-weight: 700; color: #fff; }
-  .feature p { font-size: 15px; line-height: 1.55; color: var(--dim); }
 
   /* STEPS */
   .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin-top: 56px; }
@@ -322,7 +317,6 @@ const css = `
   /* RESPONSIVE */
   @media (max-width: 1100px) {
     .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .chips { display: none; }
     .square-photo { flex-basis: 100%; width: 100%; max-width: 560px; height: auto; aspect-ratio: 1; }
@@ -345,7 +339,7 @@ const css = `
     .tyga-wave { display: none; }
     .tyga-bar { padding-right: 10px; }
     .tyga-caption { font-size: 16px; padding: 0 8px; }
-    .steps, .features, .stats, .live-grid, .plans, .foot-grid { grid-template-columns: 1fr; }
+    .steps, .stats, .live-grid, .plans, .foot-grid { grid-template-columns: 1fr; }
     .step p { min-height: 0; }
     .tab { min-width: 150px; min-height: 76px; font-size: 17px; padding: 14px 22px; }
     .coach { padding: 28px 20px; }
@@ -386,14 +380,6 @@ const TABS = [
   { label: "Compare\nSwings", title: "Compare Swings", img: IMG.tabCompare, body: "Put today next to last month, or next to a reference swing, frame for frame at the real frame rate." },
 ];
 
-const FEATURES = [
-  { icon: I.cam, title: "240 fps capture", body: "High-frame-rate video from your iPhone's back camera, so the downswing is dozens of frames instead of three." },
-  { icon: I.body, title: "Skeleton tracking", body: "Full-body pose on every frame, so you can see hip, shoulder and hand positions instead of guessing." },
-  { icon: I.wave, title: "Phase breakdown", body: "Backswing, downswing and follow-through timed to the millisecond. Tempo, hip lead and sequencing on each swing." },
-  { icon: I.chat, title: "A coach with memory", body: "Ask anything about your swing. The coach reads your measurements and your history, and answers in plain language." },
-  { icon: I.trend, title: "Sessions that add up", body: "Every swing is saved and trimmed. Watch a tendency change over weeks, not just within one bucket of balls." },
-  { icon: I.split, title: "Replay and compare", body: "Frame-step at the real frame rate, slow to a quarter speed, and compare a reference swing side by side." },
-];
 
 const STEPS = [
   { n: "01", title: "Record", body: "Lean your iPhone against your bag, face-on or down the line. SwingView records at 240 fps and detects each swing automatically.", img: IMG.stepRecord, alt: "SwingView recording a swing at 240 fps" },
@@ -494,15 +480,6 @@ export default function App() {
           </div>
         </div>
 
-        <div className="features">
-          {FEATURES.map((f) => (
-            <div key={f.title} className="feature">
-              <span className="icon">{f.icon}</span>
-              <h4>{f.title}</h4>
-              <p>{f.body}</p>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* STEPS */}
