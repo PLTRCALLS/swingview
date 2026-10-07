@@ -52,7 +52,7 @@ const css = `
   .wrap { max-width: 1280px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
   .section { padding-top: 112px; }
   .section-lg { padding-top: 160px; }
-  .section-xl { padding-top: 200px; }
+  .section-xl { padding-top: 160px; }
 
   .pill {
     display: inline-flex; align-items: center; gap: 8px;
@@ -304,7 +304,7 @@ const css = `
     .wrap { padding-left: 16px; padding-right: 16px; }
     .section { padding-top: 80px; }
     .section-lg { padding-top: 104px; }
-    .section-xl { padding-top: 120px; }
+    .section-xl { padding-top: 104px; }
     .nav-links { display: none; }
     .hero { padding-top: 40px; }
     .stage { margin-top: 40px; padding: 32px 0 0; }
