@@ -399,7 +399,7 @@ export default function App() {
         <div className="hero-inner">
           <span className="pill"><span className="dot" />Now in beta on iPhone</span>
           <h1 className="h-xl">A swing coach that has actually seen your swing.</h1>
-          <p className="lead">SwingView records every swing at 240 frames per second, measures what your body did, and gives you a coach that remembers all of it.</p>
+          <p className="lead">Every swing, measured. A coach that remembers all of them.</p>
           <div className="hero-cta">
             <a href="#waitlist" className="btn btn-white">Get the app</a>
             <a href="#how" className="btn btn-ghost">See how it works</a>
