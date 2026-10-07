@@ -201,8 +201,6 @@ const css = `
   .panel .copy { flex: 1 1 320px; min-width: 260px; display: flex; flex-direction: column; gap: 14px; padding: 16px 24px 16px 0; }
   .panel h3 { font-size: 26px; letter-spacing: -0.02em; }
   .panel p { font-size: 21px; line-height: 1.45; color: #b3afc4; max-width: 440px; }
-  @keyframes panelFade { from { opacity: 0; } to { opacity: 1; } }
-  .panel img, .panel .copy { animation: panelFade .25s ease; }
 
 
   /* STEPS */
@@ -445,8 +443,8 @@ export default function App() {
           ))}
         </div>
         <div className="panel">
-          <img key={t.img} src={t.img} alt={t.title} />
-          <div key={t.title} className="copy">
+          <img src={t.img} alt={t.title} />
+          <div className="copy">
             <h3>{t.title}</h3>
             <p>{t.body}</p>
           </div>
