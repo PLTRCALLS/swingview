@@ -183,7 +183,7 @@ const css = `
 
   /* TABS */
   .center { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 24px; max-width: 760px; margin: 0 auto; }
-  .tabs { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 40px; }
+  .tabs { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin-top: 48px; }
   .tab {
     min-width: 190px; min-height: 92px; border-radius: 999px; padding: 18px 28px;
     font-size: 20px; font-weight: 600; line-height: 1.25; white-space: pre-line;
@@ -193,7 +193,7 @@ const css = `
   .tab.on { background: #fff; border-color: #fff; color: #0b0b10; }
 
   .panel {
-    width: 100%; max-width: 1200px; margin: 40px auto 0; border-radius: 20px;
+    width: 100%; max-width: 1200px; margin: 48px auto 0; border-radius: 20px;
     background: radial-gradient(ellipse at 92% 115%, rgba(96,48,190,0.55) 0%, rgba(96,48,190,0) 55%), #09071a;
     border: 1px solid #17132e; padding: 22px; display: flex; gap: 88px; align-items: center; flex-wrap: wrap; text-align: left;
   }
@@ -204,7 +204,7 @@ const css = `
 
 
   /* STEPS */
-  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin-top: 56px; }
+  .steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; margin-top: 48px; }
   .step { display: flex; flex-direction: column; gap: 16px; }
   .step-num { width: 44px; height: 44px; border-radius: 999px; background: #1d1c24; color: #fff; font-weight: 700; font-size: 15px; display: inline-flex; align-items: center; justify-content: center; }
   .step h3 { font-size: 26px; letter-spacing: -0.02em; }
@@ -243,7 +243,7 @@ const css = `
   .toggle-row button.txt { background: none; border: 0; font-size: inherit; font-weight: inherit; padding: 8px; }
   .switch { width: 68px; height: 38px; border-radius: 999px; background: #fff; border: 0; position: relative; padding: 0; }
   .switch .knob { position: absolute; top: 5px; width: 28px; height: 28px; border-radius: 50%; background: #0b0b10; transition: left .2s ease; }
-  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 40px; }
+  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 48px; }
   .plan { background: linear-gradient(180deg, #0f0e16, #0b0b10); border: 1px solid var(--line); border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 22px; position: relative; }
   .plan.pro { background: linear-gradient(160deg, #130e2a 0%, #0f0e16 40%, #0b0b10 100%); border-color: #4a33a8; box-shadow: 0 0 0 1px rgba(109,60,255,0.2), 0 30px 90px rgba(109,60,255,0.25); }
   .plan-name { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: #fff; }
