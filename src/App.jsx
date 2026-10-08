@@ -302,20 +302,20 @@ const css = `
 
   /* WAITLIST */
   .waitlist {
-    position: relative; border-radius: 32px; overflow: hidden; border: 1px solid #2a2250;
-    background: linear-gradient(180deg, #0c0a18 0%, #1b0f3d 60%, #4a26a8 100%);
-    padding: 96px 24px 112px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px;
+    position: relative; padding: 120px 24px 140px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 24px;
   }
-  .waitlist-glow { position: absolute; left: 0; right: 0; bottom: -260px; height: 500px; background: radial-gradient(ellipse at center bottom, rgba(190,150,255,0.95), rgba(0,0,0,0) 70%); pointer-events: none; }
+  .waitlist-glow { position: absolute; left: 50%; top: 40%; width: 900px; height: 500px; transform: translate(-50%, -50%); background: radial-gradient(ellipse at center, rgba(120,80,255,0.16), rgba(0,0,0,0) 65%); pointer-events: none; }
   .waitlist h2 { position: relative; font-size: clamp(40px, 5.5vw, 64px); letter-spacing: -0.035em; line-height: 1.02; }
-  .waitlist p { position: relative; max-width: 560px; font-size: 19px; line-height: 1.5; color: #d9d4ee; }
+  .waitlist p { position: relative; max-width: 560px; font-size: 19px; line-height: 1.5; color: var(--muted); }
   .waitlist form { position: relative; display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px; width: 100%; }
   .waitlist input {
     flex: 1 1 260px; max-width: 360px; font-family: inherit; font-size: 16px; padding: 15px 20px; border-radius: 999px;
-    border: 1px solid rgba(255,255,255,0.25); background: rgba(0,0,0,0.45); color: #fff; outline: none;
+    border: 1px solid #2b2a33; background: #0f0e16; color: #fff; outline: none; transition: border-color .15s ease;
   }
+  .waitlist input:focus { border-color: #5a5870; }
   .waitlist input::placeholder { color: var(--faint); }
-  .waitlist .btn { background: var(--accent); color: var(--accent-ink); }
+  .waitlist .btn { background: #fff; color: #0b0b10; }
   .waitlist .thanks { position: relative; font-size: 18px; color: #fff; font-weight: 600; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
 
@@ -406,7 +406,7 @@ const css = `
     .two-col .copy .strong, .two-col .copy .soft, .panel p { font-size: 18px; }
     .plan { padding: 20px 18px; }
     .plan-price { font-size: 32px; }
-    .waitlist { padding: 64px 20px 80px; border-radius: 24px; }
+    .waitlist { padding: 80px 8px 96px; }
     .faq-q { font-size: 18px; padding: 20px 20px; }
     .faq-a p { font-size: 16px; padding: 0 20px 22px; }
     .faq-help { font-size: 18px; }
