@@ -321,7 +321,7 @@ const css = `
 
   /* FOOTER */
   footer { padding: 96px 0 40px; }
-  .foot-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); gap: 32px; }
+  .foot-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; }
   .foot-col { display: flex; flex-direction: column; gap: 12px; font-size: 15px; }
   .foot-col b { color: #fff; font-weight: 700; }
   .foot-col a { color: var(--dim); }
@@ -673,6 +673,7 @@ export default function App() {
           </div>
           <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
           <div className="foot-col"><b>Follow</b><a href="https://www.instagram.com/swingviewai/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.tiktok.com/@swingview.ai" target="_blank" rel="noreferrer">TikTok</a><a href="https://www.youtube.com/@SwingView" target="_blank" rel="noreferrer">YouTube</a><a href="https://www.linkedin.com/company/swingview-ai/" target="_blank" rel="noreferrer">LinkedIn</a><a href="https://x.com/swingviewai" target="_blank" rel="noreferrer">X/Twitter</a></div>
+          <div className="foot-col"><b>In person</b><a href="mailto:support@swingview.ai?subject=SwingView%20Live">SwingView Live</a></div>
         </div>
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} SwingView · Predictive Growth Labs</span>
