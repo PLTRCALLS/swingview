@@ -78,7 +78,7 @@ const css = `
   .lead { font-size: 19px; line-height: 1.5; color: var(--muted); }
 
   /* NAV */
-  .navbar { position: sticky; top: 0; z-index: 50; background: #000; }
+  .navbar { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
   .nav {
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
     padding-top: 16px; padding-bottom: 16px; flex-wrap: wrap;
