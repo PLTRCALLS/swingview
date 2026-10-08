@@ -672,16 +672,12 @@ export default function App() {
             <p>A swing coach that has actually seen your swing.</p>
           </div>
           <div className="foot-col"><b>Product</b><a href="#how">How it works</a><a href="#features">Features</a><a href="#pricing">Pricing</a></div>
-          <div className="foot-col"><b>In person</b><a href="mailto:support@swingview.ai?subject=SwingView%20Live">SwingView Live</a></div>
+          <div className="foot-col"><b>Company</b><a href="#faq">FAQ</a><a href="mailto:support@swingview.ai">Contact</a><a href="/privacy.html">Privacy policy</a><a href="/terms.html">Terms of use</a></div>
           <div className="foot-col"><b>Follow</b><a href="https://www.instagram.com/swingviewai/" target="_blank" rel="noreferrer">Instagram</a><a href="https://www.tiktok.com/@swingview.ai" target="_blank" rel="noreferrer">TikTok</a><a href="https://www.youtube.com/@SwingView" target="_blank" rel="noreferrer">YouTube</a><a href="https://www.linkedin.com/company/swingview-ai/" target="_blank" rel="noreferrer">LinkedIn</a><a href="https://x.com/swingviewai" target="_blank" rel="noreferrer">X/Twitter</a></div>
         </div>
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} SwingView · Predictive Growth Labs</span>
-          <nav className="foot-links">
-            <a href="/privacy.html">Privacy policy</a>
-            <a href="/terms.html">Terms of use</a>
-            <a href="mailto:support@swingview.ai">Contact</a>
-          </nav>
+          <span>Made in Canada</span>
         </div>
       </footer>
     </>
