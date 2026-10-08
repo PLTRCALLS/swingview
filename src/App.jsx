@@ -78,9 +78,10 @@ const css = `
   .lead { font-size: 19px; line-height: 1.5; color: var(--muted); }
 
   /* NAV */
+  .navbar { position: sticky; top: 0; z-index: 50; background: rgba(0,0,0,0.65); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,0.05); }
   .nav {
     display: flex; align-items: center; justify-content: space-between; gap: 24px;
-    padding-top: 22px; padding-bottom: 22px; flex-wrap: wrap;
+    padding-top: 16px; padding-bottom: 16px; flex-wrap: wrap;
   }
   .logo { display: flex; align-items: center; color: #fff; font-weight: 700; font-size: 22px; letter-spacing: -0.02em; }
   .nav-right { display: flex; align-items: center; gap: 36px; }
@@ -481,7 +482,7 @@ export default function App() {
       <style>{css}</style>
 
       {/* NAV */}
-      <header className="wrap nav">
+      <div className="navbar"><header className="wrap nav">
         <a href="#top" className="logo">SwingView</a>
         <div className="nav-right">
           <nav className="nav-links">
@@ -489,7 +490,7 @@ export default function App() {
           </nav>
           <a href="#waitlist" className="btn btn-white btn-sm">Get the app</a>
         </div>
-      </header>
+      </header></div>
 
       {/* HERO */}
       <section id="top" className="hero wrap">
