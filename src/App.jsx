@@ -193,11 +193,11 @@ const css = `
   .tab.on { background: #fff; border-color: #fff; color: #0b0b10; }
 
   .panel {
-    width: 100%; max-width: 1040px; margin: 48px auto 0; border-radius: 20px;
-    background: radial-gradient(ellipse at 92% 115%, rgba(96,48,190,0.55) 0%, rgba(96,48,190,0) 55%), #09071a;
-    border: 1px solid #17132e; padding: 22px; display: flex; gap: 64px; align-items: center; flex-wrap: wrap; text-align: left;
+    width: 100%; max-width: 1180px; margin: 48px auto 0; border-radius: 14px;
+    background: #03001a;
+    border: 1px solid #0c0a24; padding: 20px; display: flex; gap: 64px; align-items: center; flex-wrap: wrap; text-align: left;
   }
-  .panel img { flex: 0 1 446px; min-width: 280px; width: 446px; height: 446px; border-radius: 16px; object-fit: cover; object-position: 55% 48%; }
+  .panel img { flex: 0 1 446px; min-width: 280px; width: 446px; height: 446px; border-radius: 10px; object-fit: cover; object-position: 55% 48%; }
   .panel .copy { flex: 1 1 320px; min-width: 260px; display: flex; flex-direction: column; gap: 14px; padding: 16px 24px 16px 0; }
   .panel h3 { font-size: 26px; letter-spacing: -0.02em; }
   .panel p { font-size: 21px; line-height: 1.45; color: #b3afc4; max-width: 440px; }
@@ -236,26 +236,68 @@ const css = `
 
 
   /* PRICING */
-  .toggle-row { display: flex; align-items: center; gap: 14px; font-size: 20px; font-weight: 600; margin-top: 48px; justify-content: center; }
+  .pricing-head h2 { font-size: clamp(32px, 3.4vw, 44px); font-weight: 700; letter-spacing: -0.035em; line-height: 1.08; }
+  .toggle-row { display: flex; align-items: center; gap: 12px; font-size: 18px; font-weight: 500; margin-top: 40px; justify-content: center; }
   .toggle-row button.txt { background: none; border: 0; font-size: inherit; font-weight: inherit; padding: 8px; }
-  .switch { width: 68px; height: 38px; border-radius: 999px; background: #fff; border: 0; position: relative; padding: 0; }
-  .switch .knob { position: absolute; top: 5px; width: 28px; height: 28px; border-radius: 50%; background: #0b0b10; transition: left .2s ease; }
-  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 48px; }
-  .plan { background: linear-gradient(180deg, #0f0e16, #0b0b10); border: 1px solid var(--line); border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 24px; position: relative; }
-  .plan.pro { background: linear-gradient(160deg, #130e2a 0%, #0f0e16 40%, #0b0b10 100%); border-color: #4a33a8; box-shadow: 0 0 0 1px rgba(109,60,255,0.2), 0 30px 90px rgba(109,60,255,0.25); }
-  .plan-name { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 17px; color: #fff; }
-  .plan-price { font-size: 56px; font-weight: 800; letter-spacing: -0.03em; color: #fff; line-height: 1; }
-  .plan-price span { font-size: 18px; color: var(--dim); font-weight: 600; }
-  .plan p { font-size: 17px; color: var(--muted); line-height: 1.5; }
-  .plan .btn { width: 100%; padding: 15px; }
-  .plan h5 { font-weight: 700; font-size: 17px; color: #fff; }
-  .plan ul { list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 17px; color: var(--muted); }
-  .plan.pro ul { color: var(--text); }
-  .plan li { display: flex; gap: 12px; }
+  .switch { width: 72px; height: 36px; border-radius: 999px; background: #fff; border: 0; position: relative; padding: 0; }
+  .switch .knob { position: absolute; top: 4px; width: 28px; height: 28px; border-radius: 50%; background: #0b0b10; transition: left .2s ease; }
+  .plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; margin-top: 48px; }
+  .plan {
+    position: relative; overflow: hidden; background: #111; border: 1px solid #111; border-radius: 20px; padding: 22px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .plan::after {
+    content: ""; position: absolute; width: 70%; height: 70%; right: -20%; bottom: -30%; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.05) 40%, rgba(255,255,255,0) 70%);
+    filter: blur(30px);
+  }
+  .plan > * { position: relative; z-index: 1; }
+  .plan.pro { background: #1c1c1c; border: 2px solid #828282; }
+  .plan.pro::after { right: auto; left: -20%; }
+  .plan-name { display: flex; align-items: center; gap: 7px; font-weight: 700; font-size: 14px; color: #fff; }
+  .plan-name svg { width: 14px; height: 14px; }
+  .plan-price { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; color: #fff; line-height: 1; }
+  .plan-price span { font-size: 15px; color: var(--dim); font-weight: 500; letter-spacing: -0.01em; }
+  .plan p { font-size: 15px; color: #999; line-height: 1.45; }
+  .plan .btn { width: 100%; padding: 11px; font-size: 15px; }
+  .btn-plan-free { background: #262626; color: #fff; }
+  .plan h5 { font-weight: 700; font-size: 15px; color: #fff; margin-top: 10px; }
+  .plan ul { list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 15px; color: #999; }
+  .plan li { display: flex; gap: 12px; align-items: baseline; }
+  .plan li::before { content: ""; flex: 0 0 4px; width: 4px; height: 4px; border-radius: 50%; background: #999; position: relative; top: -3px; }
   .plan li b { font-weight: 400; }
-  .plan .badge { position: absolute; top: 24px; right: 24px; font-size: 12px; font-weight: 700; color: var(--accent-ink); background: var(--accent); padding: 6px 12px; border-radius: 999px; }
-  .fine { font-size: 14px; color: var(--faint); text-align: center; margin-top: 24px; }
+  .fine { font-size: 13px; color: var(--faint); text-align: center; margin-top: 24px; }
 
+
+  /* FAQ */
+  .faq { position: relative; display: grid; grid-template-columns: minmax(300px, 520px) minmax(0, 880px); justify-content: space-between; gap: 48px; align-items: start; }
+  .faq-glow {
+    position: absolute; top: 50%; right: -26%; width: 90%; height: 70%; transform: translateY(-50%); pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0.14) 35%, rgba(255,255,255,0.04) 55%, rgba(255,255,255,0) 70%);
+    filter: blur(56px);
+  }
+  .faq-intro { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+  .faq-intro .pill { padding: 6px 12px; }
+  .faq-intro h2 { font-size: clamp(36px, 4vw, 54px); letter-spacing: -0.035em; line-height: 1.04; white-space: nowrap; }
+  .faq-help { font-size: 17px; color: #999; line-height: 1.4; }
+  .faq-help a { color: #fff; font-weight: 600; margin-left: 5px; }
+  .faq-help a:hover { text-decoration: underline; }
+  .faq-list { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 13px; }
+  .faq-item {
+    background: linear-gradient(180deg, #151515 0%, #0e0e0e 100%); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px;
+    padding: 0; overflow: hidden; transition: border-color .2s ease;
+  }
+  .faq-item:hover { border-color: rgba(255,255,255,0.12); }
+  .faq-q {
+    width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 24px; text-align: left;
+    background: none; border: 0; color: #fff; font-size: 20px; font-weight: 600; letter-spacing: -0.015em; padding: 26px 28px;
+  }
+  .faq-q svg { flex: 0 0 auto; width: 14px; height: 14px; transition: transform .25s ease; color: #d9d6e6; }
+  .faq-item.open .faq-q svg { transform: rotate(180deg); }
+  .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .faq-item.open .faq-a { grid-template-rows: 1fr; }
+  .faq-a > div { overflow: hidden; }
+  .faq-a p { font-size: 16px; line-height: 1.55; color: #999; max-width: 620px; padding: 0 22px 22px; }
 
   /* WAITLIST */
   .waitlist {
@@ -292,12 +334,41 @@ const css = `
   .step-img img, .panel img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
   .step:hover .step-img img { transform: scale(1.04); }
   .plan { transition: border-color .3s ease, transform .3s ease; }
-  .plan:hover { border-color: #34324a; transform: translateY(-2px); }
-  .plan.pro:hover { border-color: #6a4fd0; }
-  @media (prefers-reduced-motion: reduce) {
+    @media (prefers-reduced-motion: reduce) {
     .step-img img, .panel img, .plan { transition: none; }
     .step:hover .step-img img, .plan:hover { transform: none; }
   }
+
+  /* BELOW-HERO SCALE (reference proportions; hero/orb untouched) */
+  .sub { max-width: 1180px; }
+  .sub h2, .sub h3 { font-weight: 700; }
+  .sub .h-md { font-size: clamp(30px, 3.4vw, 46px); }
+  .sub .h-lg { font-size: clamp(32px, 3.6vw, 48px); }
+  .sub .lead { font-size: 18px; color: #999; }
+  .sub .two-col .copy .strong { font-size: 19px; }
+  .sub .two-col .copy .soft { font-size: 19px; }
+  .sub .square-photo { flex-basis: 390px; width: 390px; height: 390px; border-radius: 20px; }
+  .sub .tabs { margin-top: 32px; gap: 12px; }
+  .sub .tab { min-width: 170px; min-height: 80px; font-size: 18px; padding: 16px 26px; }
+  .sub .panel { margin-top: 32px; gap: 80px; }
+  .sub .panel img { flex-basis: 420px; width: 420px; height: 420px; }
+  .sub .panel h3 { font-size: 22px; }
+  .sub .panel p { font-size: 18px; max-width: 380px; }
+  .sub .steps { margin-top: 48px; gap: 24px; }
+  .sub .step { gap: 14px; }
+  .sub .step-num { width: 40px; height: 40px; font-size: 14px; background: #1a1a1f; border: 1px solid #3a3942; }
+  .sub .step h3 { font-size: 22px; }
+  .sub .step p { font-size: 18px; line-height: 1.45; color: #999; min-height: 0; max-width: 260px; }
+  .sub .step-img { height: 280px; border-radius: 20px; }
+  .sub .coach { padding: 56px; }
+  .sub .coach ul { font-size: 16px; }
+  .sub .pricing-head h2 { font-size: clamp(32px, 3.6vw, 48px); }
+  .sub .faq-intro h2 { font-size: clamp(30px, 3vw, 40px); line-height: 1.02; }
+  .sub .faq-help { font-size: 17px; }
+  .sub .faq-q { font-size: 17px; padding: 20px 22px; }
+  .sub .faq-a p { font-size: 16px; }
+  .sub .waitlist h2 { font-size: clamp(36px, 4.5vw, 54px); }
+  .sub .waitlist p { font-size: 18px; }
 
   /* RESPONSIVE */
   @media (max-width: 1100px) {
@@ -308,6 +379,9 @@ const css = `
     .panel img { flex-basis: 100%; width: 100%; height: auto; aspect-ratio: 1; }
     .panel .copy { padding: 8px; }
     .coach { padding: 40px; }
+    .faq { grid-template-columns: 1fr; gap: 40px; }
+    .faq-intro h2 { white-space: normal; }
+    .faq-glow { right: -30%; width: 110%; }
     .foot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
   @media (max-width: 700px) {
@@ -324,14 +398,17 @@ const css = `
     .tyga-bar { padding-right: 10px; }
     .tyga-caption { font-size: 16px; min-height: 45px; padding: 0 8px; }
     .steps, .plans, .foot-grid { grid-template-columns: 1fr; }
-    .step p { min-height: 0; }
+    .step p, .sub .step p { min-height: 0; }
     .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .tab { min-width: 0; font-size: 17px; padding: 14px 16px; }
     .coach { padding: 28px 20px; }
     .two-col .copy .strong, .two-col .copy .soft, .panel p { font-size: 18px; }
-        .plan { padding: 28px 22px; }
-    .plan-price { font-size: 44px; }
+    .plan { padding: 20px 18px; }
+    .plan-price { font-size: 32px; }
     .waitlist { padding: 64px 20px 80px; border-radius: 24px; }
+    .faq-q { font-size: 18px; padding: 20px 20px; }
+    .faq-a p { font-size: 16px; padding: 0 20px 22px; }
+    .faq-help { font-size: 18px; }
       }
 `;
 
@@ -363,12 +440,19 @@ const TABS = [
 
 
 const STEPS = [
-  { n: "01", title: "Record", body: "Lean your iPhone against your bag, face-on or down the line. SwingView records at 240 fps and detects each swing automatically.", img: IMG.stepRecord, alt: "SwingView recording a swing at 240 fps" },
-  { n: "02", title: "Measure", body: "Pose tracking runs on every frame. Tempo, hip lead, club path and a dozen more measurements are pulled from the video.", img: IMG.stepMeasure, alt: "Swing analysis with skeleton overlay, tempo, pelvis and chest turn" },
-  { n: "03", title: "Review", body: "Your swing is on screen the second you finish — scrub it, slow it, see the skeleton. Coaching fits in below while you keep hitting.", img: IMG.stepReview, alt: "Swing review with frame scrubber and TYGA coach tip" },
-  { n: "04", title: "Improve", body: "Ask the coach what to work on. It knows this swing and the last fifty, so it can tell you what's actually changing and what isn't.", img: IMG.stepImprove, alt: "TYGA Coach screen with insights and next drill" },
+  { n: "01", title: "Record", body: "Lean your iPhone against your bag and hit balls", img: IMG.stepRecord, alt: "SwingView recording a swing at 240 fps" },
+  { n: "02", title: "Measure", body: "Every swing tracked and measured at 240 fps", img: IMG.stepMeasure, alt: "Swing analysis with skeleton overlay, tempo, pelvis and chest turn" },
+  { n: "03", title: "Review", body: "See your swing on screen the second you finish", img: IMG.stepReview, alt: "Swing review with frame scrubber and TYGA coach tip" },
+  { n: "04", title: "Improve", body: "Ask TYGA what to work on and what's changing", img: IMG.stepImprove, alt: "TYGA Coach screen with insights and next drill" },
 ];
 
+const FAQS = [
+  { q: "What is SwingView?", a: "SwingView is an AI golf swing coach for iPhone. It records every swing at 240 fps, measures what your body did, and gives you TYGA — a coach that remembers all of it — so you can understand your swing and improve faster." },
+  { q: "Do I need special equipment to use SwingView?", a: "No. Lean your iPhone against your bag, face-on or down the line, and hit balls. There's no sensor, no launch monitor and nothing to tap between shots." },
+  { q: "How is SwingView different from a launch monitor?", a: "A launch monitor tells you what happened to the ball. SwingView shows you what your body did to create that result. Together they give you a complete picture of every swing." },
+  { q: "Is SwingView only for low handicappers?", a: "Not at all. SwingView is built for any golfer who wants to understand their swing — from first season to scratch. TYGA explains in plain language and gives you one thing to work on, not a list of ten." },
+  { q: "How accurate is the analysis?", a: "SwingView runs pose tracking on every frame of your 240 fps video to measure tempo, sequencing, turn and a dozen more positions through the swing. It's objective data from your own swing — the same numbers TYGA uses when it coaches you." },
+];
 
 // ── APP ──────────────────────────────────────────────────────────────────────
 export default function App() {
@@ -376,6 +460,8 @@ export default function App() {
   const [yearly, setYearly] = useState(true);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [openFaq, setOpenFaq] = useState(() => new Set());
+  const toggleFaq = (i) => setOpenFaq((prev) => { const n = new Set(prev); n.has(i) ? n.delete(i) : n.add(i); return n; });
 
   const submit = async (e) => {
     e.preventDefault();
@@ -422,7 +508,7 @@ export default function App() {
       </section>
 
       {/* BUILT AROUND */}
-      <section id="features" className="wrap section-xl">
+      <section id="features" className="wrap sub section-xl">
         <div className="two-col">
           <div className="copy">
             <h2 className="h-md">Measurement first,<br />advice second.</h2>
@@ -434,7 +520,7 @@ export default function App() {
       </section>
 
       {/* TABS */}
-      <section className="wrap section-xl">
+      <section className="wrap sub section-xl">
         <div className="center">
           <h2 className="h-lg">The smarter way to improve</h2>
           <p className="lead">A data-driven feedback loop that keeps your practice purposeful and shows you when you’re getting better.</p>
@@ -455,7 +541,7 @@ export default function App() {
       </section>
 
       {/* STEPS */}
-      <section id="how" className="wrap section-lg">
+      <section id="how" className="wrap sub section-lg">
         <div className="center">
           <h2 className="h-lg">Set your phone down. Hit balls.</h2>
           <p className="lead">There's nothing to tap between shots. The whole loop fits inside a normal range session.</p>
@@ -473,7 +559,7 @@ export default function App() {
       </section>
 
       {/* COACH */}
-      <section className="wrap section-lg">
+      <section className="wrap sub section-lg">
         <div className="coach">
           <div className="copy">
             <span className="pill">AI coach</span>
@@ -499,44 +585,68 @@ export default function App() {
       </section>
 
       {/* PRICING */}
-      <section id="pricing" className="wrap section-lg">
-        <div className="center">
-          <h2 className="h-lg">Start free. Upgrade when it earns it.</h2>
-          <p className="lead">Record and review as much as you like for free. Pay only for the analysis and coaching.</p>
+      <section id="pricing" className="wrap sub section-lg">
+        <div className="center pricing-head">
+          <span className="pill">Pricing</span>
+          <h2>Try Free<br />Upgrade When You're Ready</h2>
         </div>
         <div className="toggle-row">
           <button className="txt" style={{ color: yearly ? "var(--faint)" : "#fff" }} onClick={() => setYearly(false)}>Monthly</button>
-          <button className="switch" aria-label="Toggle yearly billing" onClick={() => setYearly((v) => !v)}><span className="knob" style={{ left: yearly ? 35 : 5 }} /></button>
+          <button className="switch" aria-label="Toggle yearly billing" onClick={() => setYearly((v) => !v)}><span className="knob" style={{ left: yearly ? 45 : 5 }} /></button>
           <button className="txt" style={{ color: yearly ? "#fff" : "var(--faint)" }} onClick={() => setYearly(true)}>Yearly</button>
         </div>
         <div className="plans">
           <div className="plan">
-            <div className="plan-name"><span style={{ color: "#4fd1ff" }}>{I.star}</span>Free</div>
+            <div className="plan-name"><span style={{ color: "#4fd1ff" }}>{I.star}</span>Free Plan</div>
             <div className="plan-price">$0<span> /month</span></div>
-            <p>Everything you need to see your swing properly. Great for trying before you commit.</p>
-            <a href="#waitlist" className="btn btn-ghost">Get the app</a>
-            <h5>Features included:</h5>
+            <p>See your swing properly. Great for trying before you commit.</p>
+            <a href="#waitlist" className="btn btn-plan-free">Get the app</a>
+            <h5>Features Included:</h5>
             <ul>
-              {["Unlimited 240 fps recording", "Swing detection and trimming", "Skeleton overlay on replay", "Frame-step and slow motion", "Session history", "3 full analyses a month"].map((x) => <li key={x}><span style={{ color: "#4fd1ff" }}>●</span><b>{x}</b></li>)}
+              {["Unlimited 240 fps recording", "Swing detection and trimming", "Skeleton overlay on replay", "Frame-step and slow motion", "Session history", "3 full analyses a month"].map((x) => <li key={x}><b>{x}</b></li>)}
             </ul>
           </div>
           <div className="plan pro">
-            <span className="badge">Launch price</span>
             <div className="plan-name"><span style={{ color: "#ffb04a" }}>{I.bolt}</span>Pro</div>
-            <div className="plan-price">{yearly ? "$59.99" : "$6.99"}<span> {yearly ? "/year" : "/month"}</span></div>
+            <div className="plan-price">{yearly ? "$7.99" : "$9.99"}<span> /month</span></div>
             <p>Unlimited analysis and a coach that remembers everything.</p>
             <a href="#waitlist" className="btn btn-white">Get the app</a>
-            <h5>Features included:</h5>
+            <h5>Features Included:</h5>
             <ul>
-              {["Everything in Free", "Unlimited full analyses", "Phase timing, tempo and sequencing on every swing", "Coach with full session memory", "Compare against reference swings", "Share cards"].map((x) => <li key={x}><span style={{ color: "#b58cff" }}>●</span><b>{x}</b></li>)}
+              {["Everything in Free", "Unlimited full analyses", "Phase timing, tempo and sequencing on every swing", "Coach with full session memory", "Compare against reference swings", "Share cards"].map((x) => <li key={x}><b>{x}</b></li>)}
             </ul>
           </div>
         </div>
-        <p className="fine">Pro is billed through the App Store and can be cancelled any time.</p>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="wrap sub section-lg">
+        <div className="faq">
+          <div className="faq-glow" />
+          <div className="faq-intro">
+            <span className="pill">FAQs</span>
+            <h2>Frequently<br />Asked Questions</h2>
+            <p className="faq-help">Got a specific question?<a href="mailto:support@swingview.ai">Contact us</a></p>
+          </div>
+          <div className="faq-list">
+            {FAQS.map((f, i) => {
+              const open = openFaq.has(i);
+              return (
+                <div key={f.q} className={"faq-item" + (open ? " open" : "")}>
+                  <button type="button" className="faq-q" onClick={() => toggleFaq(i)} aria-expanded={open} aria-controls={"faq-a-" + i}>
+                    <span>{f.q}</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+                  </button>
+                  <div className="faq-a" id={"faq-a-" + i}><div><p>{f.a}</p></div></div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </section>
 
       {/* WAITLIST */}
-      <section id="waitlist" className="wrap section-lg">
+      <section id="waitlist" className="wrap sub section-lg">
         <div className="waitlist">
           <div className="waitlist-glow" />
           <h2>See what you can't feel.</h2>
