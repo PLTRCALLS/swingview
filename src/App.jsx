@@ -677,7 +677,11 @@ export default function App() {
         </div>
         <div className="foot-bottom">
           <span>© {new Date().getFullYear()} SwingView · Predictive Growth Labs</span>
-          <span>Made in Canada</span>
+          <nav className="foot-links">
+            <a href="/privacy.html">Privacy policy</a>
+            <a href="/terms.html">Terms of use</a>
+            <a href="mailto:support@swingview.ai">Contact</a>
+          </nav>
         </div>
       </footer>
     </>
