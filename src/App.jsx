@@ -460,11 +460,10 @@ const STEPS = [
   { n: "04", title: "Improve", body: "Ask TYGA what to work on and what's changing", img: IMG.stepImprove, alt: "TYGA Coach screen with insights and next drill" },
 ];
 
-// SAMPLE copy for layout review only — replace with real beta-tester quotes before launch.
 const QUOTES = [
-  { text: "It flagged my hips opening early on the 7-iron. My coach had been telling me that for a year — this was the first time I actually saw it.", who: "Sample quote", meta: "replace before launch" },
-  { text: "I set the phone against my bag and forgot about it. Hit a bucket, checked the app, and it had every swing with the tempo on each one.", who: "Sample quote", meta: "replace before launch" },
-  { text: "Asked it why I was pulling everything and it pointed at the number that changed since last week. One thing to fix, not ten.", who: "Sample quote", meta: "replace before launch" },
+  { text: "It flagged my backswing as too short and showed me exactly what I was missing. Two years of inconsistency fixed in one 20-minute session.", who: "Matthew", meta: "14 handicap" },
+  { text: "Having the voice coach in my AirPods is a game changer. I never had to go back to my phone once. I just talked to it whenever I had a question.", who: "Jake", meta: "22 handicap" },
+  { text: "It caught my early extension right away and showed me exactly what it should feel like. Fixed it in one session and started pureing irons again.", who: "Ryan", meta: "8 handicap" },
 ];
 
 const FAQS = [
