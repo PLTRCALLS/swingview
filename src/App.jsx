@@ -527,8 +527,26 @@ export default function App() {
         <div id="tyga"><TygaOrb /></div>
       </section>
 
+      {/* STEPS */}
+      <section id="how" className="wrap sub section-xl">
+        <div className="center">
+          <h2 className="h-lg">Set your phone down. Hit balls.</h2>
+          <p className="lead">There's nothing to tap between shots. The whole loop fits inside a normal range session.</p>
+        </div>
+        <div className="steps">
+          {STEPS.map((s) => (
+            <div key={s.n} className="step">
+              <span className="step-num">{s.n}</span>
+              <h3>{s.title}</h3>
+              <p>{s.body}</p>
+              <div className="step-img"><img src={s.img} alt={s.alt} /></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* BUILT AROUND */}
-      <section id="features" className="wrap sub section-xl">
+      <section id="features" className="wrap sub section-lg">
         <div className="two-col">
           <div className="copy">
             <h2 className="h-md">Measurement first,<br />advice second.</h2>
@@ -558,24 +576,6 @@ export default function App() {
           </div>
         </div>
 
-      </section>
-
-      {/* STEPS */}
-      <section id="how" className="wrap sub section-lg">
-        <div className="center">
-          <h2 className="h-lg">Set your phone down. Hit balls.</h2>
-          <p className="lead">There's nothing to tap between shots. The whole loop fits inside a normal range session.</p>
-        </div>
-        <div className="steps">
-          {STEPS.map((s) => (
-            <div key={s.n} className="step">
-              <span className="step-num">{s.n}</span>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-              <div className="step-img"><img src={s.img} alt={s.alt} /></div>
-            </div>
-          ))}
-        </div>
       </section>
 
       {/* COACH */}
