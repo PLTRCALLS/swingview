@@ -16,6 +16,10 @@ const IMG = {
 };
 
 const FORMSPREE = "https://formspree.io/f/mqeybpyn";
+// Paste the App Store link here on launch day. Until it's set, every "Get the app" button scrolls to the download section.
+const APP_STORE_URL = "";
+const APP_HREF = APP_STORE_URL || "#get";
+const APP_LINK = APP_STORE_URL ? { target: "_blank", rel: "noreferrer" } : {};
 
 // ── STYLES ───────────────────────────────────────────────────────────────────
 const css = `
@@ -488,18 +492,18 @@ export default function App() {
           <nav className="nav-links">
             <a href="#how">How it works</a><a href="#tyga">Caddie</a>
           </nav>
-          <a href="#waitlist" className="btn btn-white btn-sm">Get the app</a>
+          <a href={APP_HREF} {...APP_LINK} className="btn btn-white btn-sm">Get the app</a>
         </div>
       </header></div>
 
       {/* HERO */}
       <section id="top" className="hero wrap">
         <div className="hero-inner">
-          <span className="pill"><span className="dot" />Now in beta on iPhone</span>
+          <span className="pill"><span className="dot" />Free on the App Store</span>
           <h1 className="h-xl">A swing coach that has actually seen your swing.</h1>
           <p className="lead">Every swing, measured. A coach that remembers all of them.</p>
           <div className="hero-cta">
-            <a href="#waitlist" className="btn btn-white">Get the app</a>
+            <a href={APP_HREF} {...APP_LINK} className="btn btn-white">Get the app</a>
             <a href="#how" className="btn btn-ghost">See how it works</a>
           </div>
           <p className="hero-note">iPhone · Free to start · No extra hardware</p>
@@ -601,7 +605,7 @@ export default function App() {
             <div className="plan-name"><span style={{ color: "#4fd1ff" }}>{I.star}</span>Free Plan</div>
             <div className="plan-price">$0<span> /month</span></div>
             <p>See your swing properly. Great for trying before you commit.</p>
-            <a href="#waitlist" className="btn btn-plan-free">Get the app</a>
+            <a href={APP_HREF} {...APP_LINK} className="btn btn-plan-free">Get the app</a>
             <h5>Features Included:</h5>
             <ul>
               {["Unlimited 240 fps recording", "Swing detection and trimming", "Skeleton overlay on replay", "Frame-step and slow motion", "Session history", "3 full analyses a month"].map((x) => <li key={x}><b>{x}</b></li>)}
@@ -611,7 +615,7 @@ export default function App() {
             <div className="plan-name"><span style={{ color: "#ffb04a" }}>{I.bolt}</span>Pro</div>
             <div className="plan-price">{yearly ? "$7.99" : "$9.99"}<span> /month</span></div>
             <p>Unlimited analysis and a coach that remembers everything.</p>
-            <a href="#waitlist" className="btn btn-white">Get the app</a>
+            <a href={APP_HREF} {...APP_LINK} className="btn btn-white">Get the app</a>
             <h5>Features Included:</h5>
             <ul>
               {["Everything in Free", "Unlimited full analyses", "Phase timing, tempo and sequencing on every swing", "Coach with full session memory", "Compare against reference swings", "Share cards"].map((x) => <li key={x}><b>{x}</b></li>)}
@@ -647,18 +651,18 @@ export default function App() {
       </section>
 
       {/* WAITLIST */}
-      <section id="waitlist" className="wrap sub section-lg">
+      <section id="get" className="wrap sub section-lg">
         <div className="waitlist">
           <div className="waitlist-glow" />
           <h2>See what you can't feel.</h2>
-          <p>SwingView is coming to the App Store. Leave your email and we'll let you know the day it's live.</p>
+          <p>SwingView is free on the App Store. Leave your email and we'll send the link to your phone.</p>
           {submitted ? (
-            <p className="thanks">You're on the list — we'll email you on launch day.</p>
+            <p className="thanks">Sent — check your inbox for the link.</p>
           ) : (
             <form onSubmit={submit}>
               <label htmlFor="email" className="sr">Email address</label>
               <input id="email" type="email" required placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <button type="submit" className="btn">Join the waitlist</button>
+              <button type="submit" className="btn">Send me the link</button>
             </form>
           )}
         </div>
