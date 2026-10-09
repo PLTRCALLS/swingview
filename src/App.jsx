@@ -549,9 +549,9 @@ export default function App() {
       <section id="features" className="wrap sub section-lg">
         <div className="two-col">
           <div className="copy">
-            <h2 className="h-md">Measurement first,<br />advice second.</h2>
-            <p className="strong">Golf advice is everywhere. The hard part is knowing what actually works with your swing.</p>
-            <p className="soft">Instead of generic tips, get feedback grounded in your own measurements — every swing at 240 fps, remembered by a coach that has seen them all.</p>
+            <h2 className="h-md">What you feel isn't<br />what you do.</h2>
+            <p className="strong">Every golfer has a swing in their head and a different one on camera. SwingView shows you the real one.</p>
+            <p className="soft">It has seen more golf than any coach alive, but the only swing it cares about is yours — measured at 240 fps, remembered session to session, and explained in plain language.</p>
           </div>
           <img className="square-photo" src={IMG.builtAround} alt="Golfer at the range holding an iPhone showing SwingView's Me screen" />
         </div>
