@@ -58,6 +58,14 @@ const css = `
   .section-lg { padding-top: 160px; }
   .section-xl { padding-top: 160px; }
 
+  .quotes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 40px; }
+  .quote { background: #0e0d14; border: 1px solid var(--line); border-radius: 20px; padding: 28px 28px 24px; display: flex; flex-direction: column; gap: 18px; }
+  .quote p { font-size: 17px; line-height: 1.5; color: #e4e1ee; letter-spacing: -0.01em; }
+  .quote p::before { content: "“"; color: var(--accent); margin-right: 2px; }
+  .quote p::after { content: "”"; color: var(--accent); margin-left: 2px; }
+  .quote cite { font-style: normal; font-size: 13px; color: var(--faint); margin-top: auto; }
+  .quote cite b { color: var(--dim); font-weight: 600; }
+
   .pill {
     display: inline-flex; align-items: center; gap: 8px;
     background: #16151c; border: 1px solid #2b2a33; color: #c9c5d9;
@@ -393,6 +401,7 @@ const css = `
     .wrap { padding-left: 16px; padding-right: 16px; }
     .section { padding-top: 80px; }
     .section-lg { padding-top: 104px; }
+    .quotes { grid-template-columns: 1fr; }
     .section-xl { padding-top: 104px; }
     .nav-links { display: none; }
     .hero { padding-top: 40px; }
@@ -449,6 +458,13 @@ const STEPS = [
   { n: "02", title: "Measure", body: "Every swing tracked and measured at 240 fps", img: IMG.stepMeasure, alt: "Swing analysis with skeleton overlay, tempo, pelvis and chest turn" },
   { n: "03", title: "Review", body: "See your swing on screen the second you finish", img: IMG.stepReview, alt: "Swing review with frame scrubber and TYGA coach tip" },
   { n: "04", title: "Improve", body: "Ask TYGA what to work on and what's changing", img: IMG.stepImprove, alt: "TYGA Coach screen with insights and next drill" },
+];
+
+// SAMPLE copy for layout review only — replace with real beta-tester quotes before launch.
+const QUOTES = [
+  { text: "It flagged my hips opening early on the 7-iron. My coach had been telling me that for a year — this was the first time I actually saw it.", who: "Sample quote", meta: "replace before launch" },
+  { text: "I set the phone against my bag and forgot about it. Hit a bucket, checked the app, and it had every swing with the tempo on each one.", who: "Sample quote", meta: "replace before launch" },
+  { text: "Asked it why I was pulling everything and it pointed at the number that changed since last week. One thing to fix, not ten.", who: "Sample quote", meta: "replace before launch" },
 ];
 
 const FAQS = [
@@ -586,6 +602,22 @@ export default function App() {
               <div className="chat-input"><span>Ask about this swing…</span><span className="chat-send">{I.up}</span></div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* QUOTES */}
+      <section id="quotes" className="wrap sub section-lg">
+        <div className="center">
+          <span className="pill">From the beta</span>
+          <h2 style={{ marginTop: 18 }}>What testers noticed first.</h2>
+        </div>
+        <div className="quotes">
+          {QUOTES.map((q) => (
+            <figure className="quote" key={q.text}>
+              <p>{q.text}</p>
+              <cite><b>{q.who}</b> · {q.meta}</cite>
+            </figure>
+          ))}
         </div>
       </section>
 
